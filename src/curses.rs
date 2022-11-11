@@ -1155,16 +1155,16 @@ pub unsafe extern "C" fn cursor(mut ison: bool) -> bool {
 }
 #[no_mangle]
 pub unsafe extern "C" fn getrc(mut rp: *mut libc::c_int, mut cp: *mut libc::c_int) {
-    *rp = (if !(stdscr as *const libc::c_void).is_null() {
+    *rp = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._cury as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
-    *cp = (if !(stdscr as *const libc::c_void).is_null() {
+    };
+    *cp = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._curx as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
+    };
 }
 #[no_mangle]
 pub unsafe extern "C" fn cur_refresh() {
@@ -1679,16 +1679,16 @@ pub unsafe extern "C" fn wdump() {
     let mut line: libc::c_int = 0;
     let mut c_row: libc::c_int = 0;
     let mut c_col: libc::c_int = 0;
-    c_row = (if !(stdscr as *const libc::c_void).is_null() {
+    c_row = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._cury as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
-    c_col = (if !(stdscr as *const libc::c_void).is_null() {
+    };
+    c_col = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._curx as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
+    };
     line = 0 as libc::c_int;
     while line < LINES {
         if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {
@@ -1705,16 +1705,16 @@ pub unsafe extern "C" fn wrestor() {
     let mut line: libc::c_int = 0;
     let mut c_row: libc::c_int = 0;
     let mut c_col: libc::c_int = 0;
-    c_row = (if !(stdscr as *const libc::c_void).is_null() {
+    c_row = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._cury as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
-    c_col = (if !(stdscr as *const libc::c_void).is_null() {
+    };
+    c_col = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._curx as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
+    };
     line = 0 as libc::c_int;
     while line < LINES {
         if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {
@@ -1900,16 +1900,16 @@ pub unsafe extern "C" fn cur_printw(mut msg: *const libc::c_char, mut args: ...)
 pub unsafe extern "C" fn repchr(mut chr: byte, mut cnt: libc::c_int) {
     let mut c_row: libc::c_int = 0;
     let mut c_col: libc::c_int = 0;
-    c_row = (if !(stdscr as *const libc::c_void).is_null() {
+    c_row = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._cury as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
-    c_col = (if !(stdscr as *const libc::c_void).is_null() {
+    };
+    c_col = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._curx as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
+    };
     cur_line(chr, cnt, 1 as libc::c_int != 0);
     wmove(stdscr, c_row, c_col + cnt);
 }
@@ -2024,16 +2024,16 @@ pub unsafe extern "C" fn raise_curtain() {
     let mut c_row: libc::c_int = 0;
     let mut c_col: libc::c_int = 0;
     let mut delay: libc::c_int = 1500 as libc::c_int / LINES;
-    c_row = (if !(stdscr as *const libc::c_void).is_null() {
+    c_row = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._cury as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
-    c_col = (if !(stdscr as *const libc::c_void).is_null() {
+    };
+    c_col = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._curx as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
+    };
     wdump();
     line = 0 as libc::c_int;
     while line < LINES {
@@ -2159,16 +2159,16 @@ pub unsafe extern "C" fn getinfo(mut str: *mut libc::c_char, mut size: libc::c_i
 pub unsafe extern "C" fn backspace() {
     let mut r: libc::c_int = 0;
     let mut c: libc::c_int = 0;
-    r = (if !(stdscr as *const libc::c_void).is_null() {
+    r = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._cury as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
-    c = (if !(stdscr as *const libc::c_void).is_null() {
+    };
+    c = if !(stdscr as *const libc::c_void).is_null() {
         (*stdscr)._curx as libc::c_int
     } else {
         -(1 as libc::c_int)
-    });
+    };
     if c > 0 as libc::c_int {
         wmove(stdscr, r, c - 1 as libc::c_int);
     }

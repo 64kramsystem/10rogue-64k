@@ -119,8 +119,8 @@ static mut msaveid: *mut libc::c_char =
     b"AI Design\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
 pub unsafe extern "C" fn save_game() {
-    let mut retcode: libc::c_int = 0;
-    let mut savename: [libc::c_char; 20] = [0; 20];
+    let mut _retcode: libc::c_int = 0;
+    let mut _savename: [libc::c_char; 20] = [0; 20];
     cur_printw(
         b"Sorry, saving games is disabled. Patches are welcome!\0" as *const u8
             as *const libc::c_char,

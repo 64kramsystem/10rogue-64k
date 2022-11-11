@@ -1,3 +1,19 @@
+/*
+ * ###   ###   ###  #   # #####
+ * #  # #   # #   # #   # #
+ * #  # #   # #   # #   # #
+ * ###  #   # #     #   # ###
+ * #  # #   # #  ## #   # #
+ * #  # #   # #   # #   # #
+ * #  #  ###   ###   ###  #####
+ *
+ * Exploring the Dungeons of Doom
+ * Copyright (C) 1981 by Michael Toy, Ken Arnold, and Glenn Wichman
+ * main.c	1.4 (A.I. Design) 11/28/84
+ * All rights reserved
+ * Copyright (C) 1983 by Mel Sibony, Jon Lane (AI Design update for the IBMPC)
+ */
+
 #![allow(
     dead_code,
     mutable_transmutes,
@@ -7,10 +23,13 @@
     unused_assignments,
     unused_mut
 )]
+#![allow(clippy::missing_safety_doc)]
 
 // Rust port: Watch out! Clippy removes this, which causes the build to fail.
 #[allow(unused_imports)]
 use ::c2rust_out::*;
+
+use std::process;
 
 extern "C" {
     fn strncmp(_: *const libc::c_char, _: *const libc::c_char, _: libc::c_ulong) -> libc::c_int;
@@ -151,100 +170,96 @@ pub struct C2RustUnnamed_0 {
 pub type THING = thing;
 #[no_mangle]
 pub static mut bwflag: libc::c_int = 0 as libc::c_int;
-unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> libc::c_int {
-    let mut curarg: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
-    let mut savfile: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
-    setlocale(6 as libc::c_int, b"\0" as *const u8 as *const libc::c_char);
-    epyx_yeah(b"rogue.pic\0" as *const u8 as *const libc::c_char);
-    init_ds();
-    setenv_from_file(b"rogue.opt\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
-    protect(find_drive());
-    if strncmp(
-        s_screen.as_mut_ptr(),
-        b"bw\0" as *const u8 as *const libc::c_char,
-        2 as libc::c_int as libc::c_ulong,
-    ) == 0 as libc::c_int
-    {
-        bwflag = 1 as libc::c_int;
+fn main() {
+    let mut args = Vec::new();
+    for arg in ::std::env::args() {
+        args.push(
+            (::std::ffi::CString::new(arg))
+                .expect("Failed to convert argument into CString.")
+                .into_raw(),
+        );
     }
-    dnum = 0 as libc::c_int;
-    loop {
-        argc -= 1;
-        if !(argc != 0 && goodchk == 0xd0d as libc::c_int) {
-            break;
+    args.push(::core::ptr::null_mut());
+
+    let mut argc = args.len() - 1;
+    let mut argv = args.as_mut_ptr() as *mut *mut libc::c_char;
+
+    unsafe {
+        let mut curarg = std::ptr::null_mut::<libc::c_char>();
+        let mut savfile = std::ptr::null_mut::<libc::c_char>();
+        setlocale(6, b"\0" as *const u8 as *const libc::c_char);
+        epyx_yeah(b"rogue.pic\0" as *const u8 as *const libc::c_char);
+        init_ds();
+        setenv_from_file(b"rogue.opt\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
+        protect(find_drive());
+        if strncmp(
+            s_screen.as_mut_ptr(),
+            b"bw\0" as *const u8 as *const libc::c_char,
+            2,
+        ) == 0
+        {
+            bwflag = 1;
         }
-        argv = argv.offset(1);
-        curarg = *argv;
-        if *curarg as libc::c_int == '-' as i32 || *curarg as libc::c_int == '/' as i32 {
-            match *curarg.offset(1 as libc::c_int as isize) as libc::c_int {
-                82 | 114 => {
-                    savfile = s_save.as_mut_ptr();
-                }
-                115 | 83 => {
-                    winit();
-                    noscore = 1 as libc::c_int != 0;
-                    is_saved = 1 as libc::c_int;
-                    score(
-                        0 as libc::c_int,
-                        0 as libc::c_int,
-                        0 as libc::c_int as libc::c_char,
-                    );
-                    fatal(b"\0" as *const u8 as *const libc::c_char);
-                }
-                _ => {}
+        dnum = 0;
+        loop {
+            argc -= 1;
+            if !(argc != 0 && goodchk == 0xd0d as libc::c_int) {
+                break;
             }
-        } else if savfile.is_null() {
-            savfile = curarg;
+            argv = argv.offset(1);
+            curarg = *argv;
+            if *curarg as libc::c_int == '-' as i32 || *curarg as libc::c_int == '/' as i32 {
+                match *curarg.offset(1) as libc::c_int {
+                    82 | 114 => {
+                        savfile = s_save.as_mut_ptr();
+                    }
+                    115 | 83 => {
+                        winit();
+                        noscore = 1 != 0;
+                        is_saved = 1;
+                        score(0, 0, 0);
+                        fatal(b"\0" as *const u8 as *const libc::c_char);
+                    }
+                    _ => {}
+                }
+            } else if savfile.is_null() {
+                savfile = curarg;
+            }
         }
-    }
-    if savfile.is_null() {
-        savfile = std::ptr::null_mut::<libc::c_char>();
-        winit();
-        credits();
-        if dnum == 0 as libc::c_int {
-            dnum = md_srand();
+        if savfile.is_null() {
+            savfile = std::ptr::null_mut::<libc::c_char>();
+            winit();
+            credits();
+            if dnum == 0 {
+                dnum = md_srand();
+            }
+            seed = dnum as libc::c_long;
+            init_player();
+            init_things();
+            init_names();
+            init_colors();
+            init_stones();
+            init_materials();
+            setup();
+            drop_curtain();
+            new_level();
+            start_daemon(Some(doctor as unsafe extern "C" fn() -> ()));
+            fuse(Some(swander as unsafe extern "C" fn() -> ()), spread(70));
+            start_daemon(Some(stomach as unsafe extern "C" fn() -> ()));
+            start_daemon(Some(runners as unsafe extern "C" fn() -> ()));
+            msg(
+                b"Hello %s%s.\0" as *const u8 as *const libc::c_char,
+                whoami.as_mut_ptr(),
+                noterse(
+                    b".  Welcome to the Dungeons of Doom\0" as *const u8 as *const libc::c_char
+                        as *mut libc::c_char,
+                ),
+            );
+            raise_curtain();
         }
-        seed = dnum as libc::c_long;
-        init_player();
-        init_things();
-        init_names();
-        init_colors();
-        init_stones();
-        init_materials();
-        setup();
-        drop_curtain();
-        new_level();
-        start_daemon(::core::mem::transmute::<
-            Option<unsafe extern "C" fn() -> ()>,
-            Option<unsafe extern "C" fn() -> ()>,
-        >(Some(doctor as unsafe extern "C" fn() -> ())));
-        fuse(
-            ::core::mem::transmute::<
-                Option<unsafe extern "C" fn() -> ()>,
-                Option<unsafe extern "C" fn() -> ()>,
-            >(Some(swander as unsafe extern "C" fn() -> ())),
-            spread(70 as libc::c_int),
-        );
-        start_daemon(::core::mem::transmute::<
-            Option<unsafe extern "C" fn() -> ()>,
-            Option<unsafe extern "C" fn() -> ()>,
-        >(Some(stomach as unsafe extern "C" fn() -> ())));
-        start_daemon(::core::mem::transmute::<
-            Option<unsafe extern "C" fn() -> ()>,
-            Option<unsafe extern "C" fn() -> ()>,
-        >(Some(runners as unsafe extern "C" fn() -> ())));
-        msg(
-            b"Hello %s%s.\0" as *const u8 as *const libc::c_char,
-            whoami.as_mut_ptr(),
-            noterse(
-                b".  Welcome to the Dungeons of Doom\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
-            ),
-        );
-        raise_curtain();
+        playit(savfile);
     }
-    playit(savfile);
-    0 as libc::c_int
+    process::exit(0);
 }
 #[no_mangle]
 pub unsafe extern "C" fn endit() {
@@ -348,21 +363,4 @@ pub unsafe extern "C" fn leave() {
     cur_clrtoeol();
     cur_move(LINES - 2 as libc::c_int, 0 as libc::c_int);
     fatal(b"Ok, if you want to leave that badly\n\0" as *const u8 as *const libc::c_char);
-}
-pub fn main() {
-    let mut args: Vec<*mut libc::c_char> = Vec::new();
-    for arg in ::std::env::args() {
-        args.push(
-            (::std::ffi::CString::new(arg))
-                .expect("Failed to convert argument into CString.")
-                .into_raw(),
-        );
-    }
-    args.push(::core::ptr::null_mut());
-    unsafe {
-        ::std::process::exit(main_0(
-            (args.len() - 1) as libc::c_int,
-            args.as_mut_ptr() as *mut *mut libc::c_char,
-        ) as i32)
-    }
 }

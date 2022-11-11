@@ -546,11 +546,11 @@ pub unsafe extern "C" fn init_names() {
     i = 0 as libc::c_int;
     while i < 15 as libc::c_int {
         cp = prbuf;
-        nwords = rnd((if terse as libc::c_int != 0 {
+        nwords = rnd(if terse as libc::c_int != 0 {
             3 as libc::c_int
         } else {
             4 as libc::c_int
-        })) + 2 as libc::c_int;
+        }) + 2 as libc::c_int;
         loop {
             let fresh3 = nwords;
             nwords = nwords - 1;
