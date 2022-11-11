@@ -1,3 +1,19 @@
+/*
+ * ###   ###   ###  #   # #####
+ * #  # #   # #   # #   # #
+ * #  # #   # #   # #   # #
+ * ###  #   # #     #   # ###
+ * #  # #   # #  ## #   # #
+ * #  # #   # #   # #   # #
+ * #  #  ###   ###   ###  #####
+ *
+ * Exploring the Dungeons of Doom
+ * Copyright (C) 1981 by Michael Toy, Ken Arnold, and Glenn Wichman
+ * main.c	1.4 (A.I. Design) 11/28/84
+ * All rights reserved
+ * Copyright (C) 1983 by Mel Sibony, Jon Lane (AI Design update for the IBMPC)
+ */
+
 #![allow(
     dead_code,
     mutable_transmutes,
