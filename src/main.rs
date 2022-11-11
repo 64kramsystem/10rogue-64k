@@ -7,7 +7,11 @@
     unused_assignments,
     unused_mut
 )]
+
+// Rust port: Watch out! Clippy removes this, which causes the build to fail.
+#[allow(unused_imports)]
 use ::c2rust_out::*;
+
 extern "C" {
     fn strncmp(_: *const libc::c_char, _: *const libc::c_char, _: libc::c_ulong) -> libc::c_int;
     fn setlocale(__category: libc::c_int, __locale: *const libc::c_char) -> *mut libc::c_char;
@@ -148,8 +152,8 @@ pub type THING = thing;
 #[no_mangle]
 pub static mut bwflag: libc::c_int = 0 as libc::c_int;
 unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> libc::c_int {
-    let mut curarg: *mut libc::c_char = 0 as *mut libc::c_char;
-    let mut savfile: *mut libc::c_char = 0 as *mut libc::c_char;
+    let mut curarg: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
+    let mut savfile: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
     setlocale(6 as libc::c_int, b"\0" as *const u8 as *const libc::c_char);
     epyx_yeah(b"rogue.pic\0" as *const u8 as *const libc::c_char);
     init_ds();
@@ -194,7 +198,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
         }
     }
     if savfile.is_null() {
-        savfile = 0 as *mut libc::c_char;
+        savfile = std::ptr::null_mut::<libc::c_char>();
         winit();
         credits();
         if dnum == 0 as libc::c_int {
@@ -240,7 +244,7 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
         raise_curtain();
     }
     playit(savfile);
-    return 0 as libc::c_int;
+    0 as libc::c_int
 }
 #[no_mangle]
 pub unsafe extern "C" fn endit() {
@@ -253,28 +257,28 @@ pub unsafe extern "C" fn endit() {
 pub unsafe extern "C" fn ran() -> libc::c_long {
     seed *= 125 as libc::c_int as libc::c_long;
     seed -= seed / 2796203 as libc::c_int as libc::c_long * 2796203 as libc::c_int as libc::c_long;
-    return seed;
+    seed
 }
 #[no_mangle]
 pub unsafe extern "C" fn rnd(mut range: libc::c_int) -> libc::c_int {
-    return (if range < 1 as libc::c_int {
+    (if range < 1 as libc::c_int {
         0 as libc::c_int as libc::c_long
     } else {
-        (ran() + ran() & 0x7fffffff as libc::c_long) % range as libc::c_long
-    }) as libc::c_int;
+        ((ran() + ran()) & 0x7fffffff as libc::c_long) % range as libc::c_long
+    }) as libc::c_int
 }
 #[no_mangle]
 pub unsafe extern "C" fn roll(mut number: libc::c_int, mut sides: libc::c_int) -> libc::c_int {
     let mut dtotal: libc::c_int = 0 as libc::c_int;
     loop {
         let fresh0 = number;
-        number = number - 1;
-        if !(fresh0 != 0) {
+        number -= 1;
+        if fresh0 == 0 {
             break;
         }
         dtotal += rnd(sides) + 1 as libc::c_int;
     }
-    return dtotal;
+    dtotal
 }
 #[no_mangle]
 pub unsafe extern "C" fn playit(mut sname: *mut libc::c_char) {
