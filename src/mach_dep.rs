@@ -252,32 +252,32 @@ pub unsafe extern "C" fn csum() -> libc::c_int {
     return -(1632 as libc::c_int);
 }
 #[no_mangle]
-pub unsafe extern "C" fn pokeb(mut offset: libc::c_int, mut segment: libc::c_int, mut value: byte) {
+pub unsafe extern "C" fn pokeb(mut _offset: libc::c_int, mut _segment: libc::c_int, mut _value: byte) {
 }
 #[no_mangle]
-pub unsafe extern "C" fn peekb(mut offset: libc::c_int, mut segment: libc::c_int) -> byte {
+pub unsafe extern "C" fn peekb(mut _offset: libc::c_int, mut _segment: libc::c_int) -> byte {
     return 0 as libc::c_int as byte;
 }
 #[no_mangle]
-pub unsafe extern "C" fn out(mut port: libc::c_int, mut value: byte) {}
+pub unsafe extern "C" fn out(mut _port: libc::c_int, mut _value: byte) {}
 #[export_name = "in"]
-pub unsafe extern "C" fn in_0(mut port: libc::c_int) -> byte {
+pub unsafe extern "C" fn in_0(mut _port: libc::c_int) -> byte {
     return 0 as libc::c_int as byte;
 }
 #[no_mangle]
 pub unsafe extern "C" fn dmaout(
-    mut data: *mut libc::c_void,
-    mut wordlength: libc::c_uint,
-    mut segment: libc::c_uint,
-    mut offset: libc::c_uint,
+    mut _data: *mut libc::c_void,
+    mut _wordlength: libc::c_uint,
+    mut _segment: libc::c_uint,
+    mut _offset: libc::c_uint,
 ) {
 }
 #[no_mangle]
 pub unsafe extern "C" fn dmain(
-    mut buffer: *mut libc::c_void,
-    mut wordlength: libc::c_uint,
-    mut segment: libc::c_uint,
-    mut offset: libc::c_uint,
+    mut _buffer: *mut libc::c_void,
+    mut _wordlength: libc::c_uint,
+    mut _segment: libc::c_uint,
+    mut _offset: libc::c_uint,
 ) {
 }
 #[no_mangle]
@@ -562,7 +562,7 @@ pub unsafe extern "C" fn swint(mut intno: libc::c_int, mut rp: *mut sw_regs) -> 
 }
 #[no_mangle]
 pub unsafe extern "C" fn sysint(
-    mut intno: libc::c_int,
+    mut _intno: libc::c_int,
     mut inregs: *mut sw_regs,
     mut outregs: *mut sw_regs,
 ) -> libc::c_int {
