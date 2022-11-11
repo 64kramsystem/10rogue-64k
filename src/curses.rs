@@ -18,7 +18,8 @@ extern "C" {
         j: libc::c_uint,
         width: libc::c_uint,
     ) -> byte;
-    fn swint() -> libc::c_int;
+    // Rust port: Fixed missing parameters.
+    fn swint(p0: libc::c_int, p1: &mut sw_regs) -> libc::c_int;
     fn setenv(
         __name: *const libc::c_char,
         __value: *const libc::c_char,

@@ -499,7 +499,8 @@ pub unsafe extern "C" fn execcom() {
             }
             20 => {
                 after = 0 as libc::c_int != 0;
-                expert = (expert as libc::c_int ^ 1 as libc::c_int) as bool;
+                // Rust port: Fixed weakly typed conversion
+                expert ^= true;
                 msg(
                     if expert as libc::c_int != 0 {
                         b"Ok, I'll be brief\0" as *const u8 as *const libc::c_char

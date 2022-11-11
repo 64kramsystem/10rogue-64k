@@ -18,10 +18,14 @@ extern "C" {
     ) -> libc::c_int;
     fn malloc(_: libc::c_ulong) -> *mut libc::c_void;
     fn free(_: *mut libc::c_void);
-    fn peekb() -> byte;
-    fn pokeb();
-    fn out();
-    fn dmaout();
+    // Rust port: Fixed missing parameters
+    fn peekb(p0: libc::c_int, p1: libc::c_int) -> byte;
+    // Rust port: Fixed missing parameters
+    fn pokeb(p0: libc::c_int, p1: libc::c_int, p2: i32);
+    // Rust port: Fixed missing parameters
+    fn out(p0: libc::c_int, p1: i32);
+    // Rust port: Fixed missing parameters
+    fn dmaout(p0: *mut i8, p1: u32, p2: u32, p3: u32);
     static mut current_drive: libc::c_int;
     static mut s_drive: [libc::c_char; 0];
     fn is_alpha(ch: libc::c_char) -> bool;

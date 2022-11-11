@@ -300,9 +300,8 @@ pub unsafe extern "C" fn do_zap() {
                     let ref mut fresh0 = *ws_know
                         .as_mut_ptr()
                         .offset(5 as libc::c_int as isize);
-                    *fresh0 = (*fresh0 as libc::c_int
-                        | (monster as libc::c_int != omonst as libc::c_int)
-                            as libc::c_int) as bool;
+                    // Rust port: Fix weakly typed booleans
+                    *fresh0 = *fresh0 | (monster != omonst);
                 } else if which_one == 13 as libc::c_int {
                     (*tp)
                         ._t

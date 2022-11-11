@@ -20,7 +20,8 @@ extern "C" {
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;
     fn msg(fmt: *const libc::c_char, _: ...);
     fn enter_room(cp: *mut coord);
-    fn ring_eat() -> libc::c_int;
+    // Rust port: Fixed missing parameter
+    fn ring_eat(p0: libc::c_int) -> libc::c_int;
     fn noterse(str: *mut libc::c_char) -> *mut libc::c_char;
     fn death(monst: libc::c_char);
     fn cur_mvaddch(r: libc::c_int, c: libc::c_int, chr: byte);

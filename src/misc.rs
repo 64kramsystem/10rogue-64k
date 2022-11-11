@@ -959,16 +959,8 @@ pub unsafe extern "C" fn search() {
             if !(y == player._t._t_pos.y && x == player._t._t_pos.x
                 || offmap(y, x) as libc::c_int != 0)
             {
-                fp = &mut *_flags
-                    .offset(
-                        ::core::mem::transmute::<
-                            unsafe extern "C" fn(
-                                libc::c_int,
-                                libc::c_int,
-                            ) -> libc::c_int,
-                            unsafe extern "C" fn() -> libc::c_int,
-                        >(INDEX)(y, x) as isize,
-                    ) as *mut byte;
+                // Rust port: Fixed likely C2Rust confusion about the macro
+                fp = &mut *_flags.offset(INDEX(y, x) as isize) as *mut byte;
                 if *fp as libc::c_int & 0x10 as libc::c_int == 0 {
                     match *_level.offset(INDEX(y, x) as isize) as libc::c_int {
                         186 | 205 | 201 | 187 | 200 | 188 => {
