@@ -162,8 +162,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"magic mapping\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"magic mapping\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 150 as libc::c_int as libc::c_short,
         };
@@ -171,8 +170,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"hold monster\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"hold monster\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 3 as libc::c_int,
             mi_worth: 180 as libc::c_int as libc::c_short,
         };
@@ -188,8 +186,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"enchant armor\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"enchant armor\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 8 as libc::c_int,
             mi_worth: 160 as libc::c_int as libc::c_short,
         };
@@ -197,8 +194,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"identify\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"identify\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 27 as libc::c_int,
             mi_worth: 100 as libc::c_int as libc::c_short,
         };
@@ -206,8 +202,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"scare monster\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"scare monster\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 4 as libc::c_int,
             mi_worth: 200 as libc::c_int as libc::c_short,
         };
@@ -215,8 +210,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"food detection\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"food detection\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 4 as libc::c_int,
             mi_worth: 50 as libc::c_int as libc::c_short,
         };
@@ -224,8 +218,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"teleportation\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"teleportation\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 7 as libc::c_int,
             mi_worth: 165 as libc::c_int as libc::c_short,
         };
@@ -233,8 +226,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"enchant weapon\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"enchant weapon\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 10 as libc::c_int,
             mi_worth: 150 as libc::c_int as libc::c_short,
         };
@@ -242,8 +234,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"create monster\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"create monster\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 75 as libc::c_int as libc::c_short,
         };
@@ -251,8 +242,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"remove curse\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"remove curse\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 8 as libc::c_int,
             mi_worth: 105 as libc::c_int as libc::c_short,
         };
@@ -269,8 +259,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"blank paper\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"blank paper\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 1 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -278,8 +267,7 @@ pub static mut s_magic: [magic_item; 15] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"vorpalize weapon\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"vorpalize weapon\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 1 as libc::c_int,
             mi_worth: 300 as libc::c_int as libc::c_short,
         };
@@ -290,8 +278,7 @@ pub static mut s_magic: [magic_item; 15] = [
 pub static mut p_magic: [magic_item; 14] = [
     {
         let mut init = magic_item {
-            mi_name: b"confusion\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"confusion\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 8 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -299,8 +286,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"paralysis\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"paralysis\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 10 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -308,8 +294,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"poison\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"poison\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 8 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -317,8 +302,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"gain strength\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"gain strength\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 15 as libc::c_int,
             mi_worth: 150 as libc::c_int as libc::c_short,
         };
@@ -326,8 +310,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"see invisible\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"see invisible\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 2 as libc::c_int,
             mi_worth: 100 as libc::c_int as libc::c_short,
         };
@@ -335,8 +318,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"healing\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"healing\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 15 as libc::c_int,
             mi_worth: 130 as libc::c_int as libc::c_short,
         };
@@ -353,8 +335,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"magic detection\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"magic detection\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 6 as libc::c_int,
             mi_worth: 105 as libc::c_int as libc::c_short,
         };
@@ -362,8 +343,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"raise level\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"raise level\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 2 as libc::c_int,
             mi_worth: 250 as libc::c_int as libc::c_short,
         };
@@ -371,8 +351,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"extra healing\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"extra healing\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 200 as libc::c_int as libc::c_short,
         };
@@ -380,8 +359,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"haste self\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"haste self\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 4 as libc::c_int,
             mi_worth: 190 as libc::c_int as libc::c_short,
         };
@@ -389,8 +367,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"restore strength\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"restore strength\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 14 as libc::c_int,
             mi_worth: 130 as libc::c_int as libc::c_short,
         };
@@ -398,8 +375,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"blindness\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"blindness\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 4 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -407,8 +383,7 @@ pub static mut p_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"thirst quenching\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"thirst quenching\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 1 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -419,8 +394,7 @@ pub static mut p_magic: [magic_item; 14] = [
 pub static mut r_magic: [magic_item; 14] = [
     {
         let mut init = magic_item {
-            mi_name: b"protection\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"protection\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 9 as libc::c_int,
             mi_worth: 400 as libc::c_int as libc::c_short,
         };
@@ -428,8 +402,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"add strength\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"add strength\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 9 as libc::c_int,
             mi_worth: 400 as libc::c_int as libc::c_short,
         };
@@ -437,8 +410,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"sustain strength\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"sustain strength\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 280 as libc::c_int as libc::c_short,
         };
@@ -446,8 +418,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"searching\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"searching\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 10 as libc::c_int,
             mi_worth: 420 as libc::c_int as libc::c_short,
         };
@@ -455,8 +426,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"see invisible\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"see invisible\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 10 as libc::c_int,
             mi_worth: 310 as libc::c_int as libc::c_short,
         };
@@ -464,8 +434,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"adornment\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"adornment\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 1 as libc::c_int,
             mi_worth: 10 as libc::c_int as libc::c_short,
         };
@@ -482,8 +451,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"dexterity\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"dexterity\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 8 as libc::c_int,
             mi_worth: 440 as libc::c_int as libc::c_short,
         };
@@ -491,8 +459,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"increase damage\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"increase damage\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 8 as libc::c_int,
             mi_worth: 400 as libc::c_int as libc::c_short,
         };
@@ -500,8 +467,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"regeneration\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"regeneration\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 4 as libc::c_int,
             mi_worth: 460 as libc::c_int as libc::c_short,
         };
@@ -509,8 +475,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"slow digestion\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"slow digestion\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 9 as libc::c_int,
             mi_worth: 240 as libc::c_int as libc::c_short,
         };
@@ -518,8 +483,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"teleportation\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"teleportation\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 30 as libc::c_int as libc::c_short,
         };
@@ -527,8 +491,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"stealth\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"stealth\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 7 as libc::c_int,
             mi_worth: 470 as libc::c_int as libc::c_short,
         };
@@ -536,8 +499,7 @@ pub static mut r_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"maintain armor\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"maintain armor\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 380 as libc::c_int as libc::c_short,
         };
@@ -556,8 +518,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"striking\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"striking\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 9 as libc::c_int,
             mi_worth: 75 as libc::c_int as libc::c_short,
         };
@@ -565,8 +526,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"lightning\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"lightning\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 3 as libc::c_int,
             mi_worth: 330 as libc::c_int as libc::c_short,
         };
@@ -590,8 +550,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"polymorph\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"polymorph\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 15 as libc::c_int,
             mi_worth: 310 as libc::c_int as libc::c_short,
         };
@@ -599,8 +558,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"magic missile\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"magic missile\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 10 as libc::c_int,
             mi_worth: 170 as libc::c_int as libc::c_short,
         };
@@ -608,8 +566,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"haste monster\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"haste monster\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 9 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -617,8 +574,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"slow monster\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"slow monster\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 11 as libc::c_int,
             mi_worth: 350 as libc::c_int as libc::c_short,
         };
@@ -626,8 +582,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"drain life\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"drain life\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 9 as libc::c_int,
             mi_worth: 300 as libc::c_int as libc::c_short,
         };
@@ -635,8 +590,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"nothing\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"nothing\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 1 as libc::c_int,
             mi_worth: 5 as libc::c_int as libc::c_short,
         };
@@ -644,8 +598,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"teleport away\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"teleport away\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 340 as libc::c_int as libc::c_short,
         };
@@ -653,8 +606,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"teleport to\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"teleport to\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 50 as libc::c_int as libc::c_short,
         };
@@ -662,8 +614,7 @@ pub static mut ws_magic: [magic_item; 14] = [
     },
     {
         let mut init = magic_item {
-            mi_name: b"cancellation\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            mi_name: b"cancellation\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             mi_prob: 5 as libc::c_int,
             mi_worth: 280 as libc::c_int as libc::c_short,
         };
@@ -675,10 +626,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
     [
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F1     list of commands\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -686,10 +634,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F2     list of symbols\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -697,10 +642,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F3     repeat command\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -708,10 +650,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F4     repeat message\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -719,10 +658,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F5     rename something\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -730,10 +666,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F6     recall what's been discovered\0" as *const u8
                     as *const libc::c_char as *mut libc::c_char,
             };
@@ -741,10 +674,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"F7     inventory of your possessions\0" as *const u8
                     as *const libc::c_char as *mut libc::c_char,
             };
@@ -752,76 +682,55 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"F8     <dir> identify trap type\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"F8     <dir> identify trap type\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"F9     The Any Key (definable)\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"F9     The Any Key (definable)\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"Alt F9 defines the Any Key\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"Alt F9 defines the Any Key\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"F10    Supervisor Key (fake dos)\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"F10    Supervisor Key (fake dos)\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"Space  Clear -More- message\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"Space  Clear -More- message\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"\x11\xD9     the Enter Key\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"\x11\xD9     the Enter Key\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"\x1B      left\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -829,10 +738,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"\x19      down\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -840,21 +746,14 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"\x18      up\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"\x18      up\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"\x1A      right\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -862,10 +761,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"Home   up & left\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -873,10 +769,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"PgUp   up & right\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -884,10 +777,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"End    down & left\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -895,10 +785,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"PgDn   down & right\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -906,10 +793,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"Scroll Fast Play mode\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -917,32 +801,22 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b".      rest\0" as *const u8 as *const libc::c_char
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b".      rest\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+            };
+            init
+        },
+        {
+            let mut init = h_list {
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b">      go down a staircase\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b">      go down a staircase\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
-            };
-            init
-        },
-        {
-            let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"<      go up a staircase\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -950,10 +824,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"Esc    cancel command\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -961,10 +832,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"d      drop object\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -972,10 +840,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"e      eat food\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -983,21 +848,15 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"f      <dir> find something\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"f      <dir> find something\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"q      quaff potion\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1005,10 +864,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"r      read paper\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1016,32 +872,23 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"s      search for trap/secret door\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"s      search for trap/secret door\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"t      <dir> throw something\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"t      <dir> throw something\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"w      wield a weapon\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1049,21 +896,15 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"z      <dir> zap with a wand\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"z      <dir> zap with a wand\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"B      run down & left\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1071,10 +912,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"H      run left\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1082,10 +920,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"J      run down\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1093,21 +928,14 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"K      run up\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"K      run up\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"L      run right\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1115,10 +943,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"N      run down & right\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1126,10 +951,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"U      run up & right\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1137,10 +959,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"Y      run up & left\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1148,10 +967,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"W      wear armor\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1159,10 +975,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"T      take armor off\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1170,10 +983,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"P      put on ring\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1181,21 +991,14 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"Q      quit\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"Q      quit\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"R      remove ring\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1203,10 +1006,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"S      save game\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1214,10 +1014,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"^      identify trap\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1225,65 +1022,43 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"?      help\0" as *const u8 as *const libc::c_char
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"?      help\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+            };
+            init
+        },
+        {
+            let mut init = h_list {
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"/      key\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+            };
+            init
+        },
+        {
+            let mut init = h_list {
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"+      throw\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+            };
+            init
+        },
+        {
+            let mut init = h_list {
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"-      zap\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+            };
+            init
+        },
+        {
+            let mut init = h_list {
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"Ctrl t terse message format\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"/      key\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
-            };
-            init
-        },
-        {
-            let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"+      throw\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
-            };
-            init
-        },
-        {
-            let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"-      zap\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
-            };
-            init
-        },
-        {
-            let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"Ctrl t terse message format\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
-            };
-            init
-        },
-        {
-            let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"Ctrl r repeat message\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1291,32 +1066,23 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"Del    search for something hidden\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"Del    search for something hidden\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"Ins    <dir> find something\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"Ins    <dir> find something\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"a      repeat command\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1324,10 +1090,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"c      rename something\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1335,10 +1098,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"i      inventory\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1346,10 +1106,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"v      version number\0" as *const u8 as *const libc::c_char
                     as *mut libc::c_char,
             };
@@ -1357,21 +1114,15 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
-                h_desc: b"!      Supervisor Key (fake DOS)\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
+                h_desc: b"!      Supervisor Key (fake DOS)\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             };
             init
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"D      list what has been discovered\0" as *const u8
                     as *const libc::c_char as *mut libc::c_char,
             };
@@ -1379,10 +1130,7 @@ pub static mut helpcoms: [h_list; 65] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
@@ -1402,8 +1150,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"the floor\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"the floor\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1417,8 +1164,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"the hero\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"the hero\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1432,8 +1178,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"some food\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"some food\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1462,8 +1207,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a scroll\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a scroll\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1477,8 +1221,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a weapon\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a weapon\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1507,8 +1250,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"some gold\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"some gold\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1522,8 +1264,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a magic staff\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a magic staff\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1537,8 +1278,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a potion\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a potion\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1552,8 +1292,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a magic ring\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a magic ring\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1567,8 +1306,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a passage\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a passage\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1582,8 +1320,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a door\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a door\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1612,8 +1349,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a trap\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a trap\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1702,8 +1438,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
                     0,
                     0,
                 ],
-                h_desc: b"a stair case\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                h_desc: b"a stair case\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
         },
@@ -1739,10 +1474,7 @@ pub static mut helpobjs: [h_list; 24] = unsafe {
         },
         {
             let mut init = h_list {
-                h_chstr: *::core::mem::transmute::<
-                    &[u8; 6],
-                    &mut [byte; 6],
-                >(b"\0\0\0\0\0\0"),
+                h_chstr: *::core::mem::transmute::<&[u8; 6], &mut [byte; 6]>(b"\0\0\0\0\0\0"),
                 h_desc: b"\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             };
             init
@@ -1824,35 +1556,35 @@ pub static mut runch: libc::c_char = 0;
 #[no_mangle]
 pub static mut s_names: [array; 15] = [array { storage: [0; 21] }; 15];
 #[no_mangle]
-pub static mut p_colors: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut p_colors: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
-pub static mut r_stones: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut r_stones: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
-pub static mut ws_made: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut ws_made: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
 pub static mut huh: [libc::c_char; 128] = [0; 128];
 #[no_mangle]
-pub static mut s_guess: [*mut libc::c_char; 15] = [0 as *const libc::c_char
-    as *mut libc::c_char; 15];
+pub static mut s_guess: [*mut libc::c_char; 15] =
+    [0 as *const libc::c_char as *mut libc::c_char; 15];
 #[no_mangle]
-pub static mut p_guess: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut p_guess: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
-pub static mut r_guess: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut r_guess: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
-pub static mut ws_guess: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut ws_guess: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
 pub static mut _guesses: [array; 57] = [array { storage: [0; 21] }; 57];
 #[no_mangle]
 pub static mut iguess: libc::c_int = 0 as libc::c_int;
 #[no_mangle]
-pub static mut ws_type: [*mut libc::c_char; 14] = [0 as *const libc::c_char
-    as *mut libc::c_char; 14];
+pub static mut ws_type: [*mut libc::c_char; 14] =
+    [0 as *const libc::c_char as *mut libc::c_char; 14];
 #[no_mangle]
 pub static mut maxrow: libc::c_int = 0;
 #[no_mangle]
@@ -1898,14 +1630,13 @@ pub static mut hit_mul: libc::c_int = 6 as libc::c_int;
 #[no_mangle]
 pub static mut goodchk: libc::c_int = 1 as libc::c_int;
 #[no_mangle]
-pub static mut your_na: *mut libc::c_char = b"Software Pirate\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut your_na: *mut libc::c_char =
+    b"Software Pirate\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut kild_by: *mut libc::c_char = b"Copy Protection Mafia\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut kild_by: *mut libc::c_char =
+    b"Copy Protection Mafia\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut _whoami: *mut libc::c_char = 0 as *const libc::c_char
-    as *mut libc::c_char;
+pub static mut _whoami: *mut libc::c_char = 0 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
 pub static mut oldpos: coord = coord { x: 0, y: 0 };
 #[no_mangle]
@@ -3366,8 +3097,7 @@ pub static mut mlist: *mut THING = 0 as *const THING as *mut THING;
 pub static mut monsters: [monster; 26] = [
     {
         let mut init = monster {
-            m_name: b"aquator\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"aquator\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x20 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3377,8 +3107,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 5 as libc::c_int,
                     s_arm: 2 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"0d0/0d0\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"0d0/0d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3398,8 +3127,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 1 as libc::c_int,
                     s_arm: 3 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3409,8 +3137,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"centaur\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"centaur\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 15 as libc::c_int,
             m_flags: 0 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3420,8 +3147,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 4 as libc::c_int,
                     s_arm: 4 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d6/1d6\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d6/1d6\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3462,8 +3188,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 1 as libc::c_int,
                     s_arm: 7 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3473,8 +3198,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"venus flytrap\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"venus flytrap\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x20 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3484,8 +3208,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 8 as libc::c_int,
                     s_arm: 3 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"%%%d0\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"%%%d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3495,8 +3218,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"griffin\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"griffin\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 20 as libc::c_int,
             m_flags: (0x20 as libc::c_int | 0x8000 as libc::c_int | 0x200 as libc::c_int)
                 as libc::c_ushort,
@@ -3518,8 +3240,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"hobgoblin\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"hobgoblin\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x20 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3529,8 +3250,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 1 as libc::c_int,
                     s_arm: 5 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d8\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3540,8 +3260,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"ice monster\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"ice monster\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x20 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3551,8 +3270,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 1 as libc::c_int,
                     s_arm: 9 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3562,8 +3280,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"jabberwock\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"jabberwock\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 70 as libc::c_int,
             m_flags: 0 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3573,8 +3290,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 15 as libc::c_int,
                     s_arm: 6 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"2d12/2d4\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"2d12/2d4\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3584,8 +3300,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"kestral\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"kestral\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: (0x20 as libc::c_int | 0x8000 as libc::c_int) as libc::c_ushort,
             m_stats: {
@@ -3595,8 +3310,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 1 as libc::c_int,
                     s_arm: 7 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d4\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d4\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3606,8 +3320,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"leprechaun\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"leprechaun\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0x40 as libc::c_int,
             m_flags: 0 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3617,8 +3330,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 3 as libc::c_int,
                     s_arm: 8 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d2\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3659,8 +3371,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 3 as libc::c_int,
                     s_arm: 9 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"0d0\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"0d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3680,8 +3391,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 1 as libc::c_int,
                     s_arm: 6 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d8\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3691,8 +3401,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"phantom\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"phantom\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x10 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3702,8 +3411,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 8 as libc::c_int,
                     s_arm: 3 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"4d4\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"4d4\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3734,8 +3442,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"rattlesnake\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"rattlesnake\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x20 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3745,8 +3452,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 2 as libc::c_int,
                     s_arm: 3 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d6\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d6\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3766,8 +3472,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 2 as libc::c_int,
                     s_arm: 8 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d3\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d3\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3798,8 +3503,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"ur-vile\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"ur-vile\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 0 as libc::c_int,
             m_flags: 0x20 as libc::c_int as libc::c_ushort,
             m_stats: {
@@ -3820,8 +3524,7 @@ pub static mut monsters: [monster; 26] = [
     },
     {
         let mut init = monster {
-            m_name: b"vampire\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            m_name: b"vampire\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             m_carry: 20 as libc::c_int,
             m_flags: (0x200 as libc::c_int | 0x20 as libc::c_int) as libc::c_ushort,
             m_stats: {
@@ -3831,8 +3534,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 8 as libc::c_int,
                     s_arm: 1 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d10\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d10\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3852,8 +3554,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 5 as libc::c_int,
                     s_arm: 4 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d6\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d6\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3873,8 +3574,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 7 as libc::c_int,
                     s_arm: 7 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"3d4\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"3d4\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3894,8 +3594,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 4 as libc::c_int,
                     s_arm: 6 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d6/1d6\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d6/1d6\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3915,8 +3614,7 @@ pub static mut monsters: [monster; 26] = [
                     s_lvl: 2 as libc::c_int,
                     s_arm: 8 as libc::c_int,
                     s_hpt: 1 as libc::c_int,
-                    s_dmg: b"1d8\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    s_dmg: b"1d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     s_maxhp: 1 as libc::c_int,
                 };
                 init
@@ -3987,23 +3685,22 @@ pub static mut things: [magic_item; 7] = [
     },
 ];
 #[no_mangle]
-pub static mut nullstr: [libc::c_char; 1] = unsafe {
-    *::core::mem::transmute::<&[u8; 1], &mut [libc::c_char; 1]>(b"\0")
-};
+pub static mut nullstr: [libc::c_char; 1] =
+    unsafe { *::core::mem::transmute::<&[u8; 1], &mut [libc::c_char; 1]>(b"\0") };
 #[no_mangle]
 pub static mut typebuf: *mut libc::c_char = unsafe { nullstr.as_ptr() as *mut _ };
 #[no_mangle]
-pub static mut intense: *mut libc::c_char = b" of intense white light\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut intense: *mut libc::c_char =
+    b" of intense white light\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut flashmsg: *mut libc::c_char = b"your %s gives off a flash%s\0"
-    as *const u8 as *const libc::c_char as *mut libc::c_char;
+pub static mut flashmsg: *mut libc::c_char =
+    b"your %s gives off a flash%s\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut it: *mut libc::c_char = b"it\0" as *const u8 as *const libc::c_char
-    as *mut libc::c_char;
+pub static mut it: *mut libc::c_char =
+    b"it\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut you: *mut libc::c_char = b"you\0" as *const u8 as *const libc::c_char
-    as *mut libc::c_char;
+pub static mut you: *mut libc::c_char =
+    b"you\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut no_mem: *mut libc::c_char = b"Not enough Memory\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut no_mem: *mut libc::c_char =
+    b"Not enough Memory\0" as *const u8 as *const libc::c_char as *mut libc::c_char;

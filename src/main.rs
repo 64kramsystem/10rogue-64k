@@ -1,15 +1,16 @@
-#![allow(dead_code, mutable_transmutes, non_camel_case_types, non_snake_case, non_upper_case_globals, unused_assignments, unused_mut)]
+#![allow(
+    dead_code,
+    mutable_transmutes,
+    non_camel_case_types,
+    non_snake_case,
+    non_upper_case_globals,
+    unused_assignments,
+    unused_mut
+)]
 use ::c2rust_out::*;
 extern "C" {
-    fn strncmp(
-        _: *const libc::c_char,
-        _: *const libc::c_char,
-        _: libc::c_ulong,
-    ) -> libc::c_int;
-    fn setlocale(
-        __category: libc::c_int,
-        __locale: *const libc::c_char,
-    ) -> *mut libc::c_char;
+    fn strncmp(_: *const libc::c_char, _: *const libc::c_char, _: libc::c_ulong) -> libc::c_int;
+    fn setlocale(__category: libc::c_int, __locale: *const libc::c_char) -> *mut libc::c_char;
     fn md_srand() -> libc::c_int;
     fn setup();
     fn credits();
@@ -33,8 +34,8 @@ extern "C" {
     fn runners();
     fn roomin(cp: *mut coord) -> *mut room;
     fn command();
-    fn start_daemon(func: Option::<unsafe extern "C" fn() -> ()>);
-    fn fuse(func: Option::<unsafe extern "C" fn() -> ()>, time: libc::c_int);
+    fn start_daemon(func: Option<unsafe extern "C" fn() -> ()>);
+    fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
     fn doctor();
     fn swander();
     fn stomach();
@@ -146,18 +147,13 @@ pub struct C2RustUnnamed_0 {
 pub type THING = thing;
 #[no_mangle]
 pub static mut bwflag: libc::c_int = 0 as libc::c_int;
-unsafe fn main_0(
-    mut argc: libc::c_int,
-    mut argv: *mut *mut libc::c_char,
-) -> libc::c_int {
+unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> libc::c_int {
     let mut curarg: *mut libc::c_char = 0 as *mut libc::c_char;
     let mut savfile: *mut libc::c_char = 0 as *mut libc::c_char;
     setlocale(6 as libc::c_int, b"\0" as *const u8 as *const libc::c_char);
     epyx_yeah(b"rogue.pic\0" as *const u8 as *const libc::c_char);
     init_ds();
-    setenv_from_file(
-        b"rogue.opt\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-    );
+    setenv_from_file(b"rogue.opt\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
     protect(find_drive());
     if strncmp(
         s_screen.as_mut_ptr(),
@@ -214,37 +210,31 @@ unsafe fn main_0(
         setup();
         drop_curtain();
         new_level();
-        start_daemon(
-            ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
-            >(Some(doctor as unsafe extern "C" fn() -> ())),
-        );
+        start_daemon(::core::mem::transmute::<
+            Option<unsafe extern "C" fn() -> ()>,
+            Option<unsafe extern "C" fn() -> ()>,
+        >(Some(doctor as unsafe extern "C" fn() -> ())));
         fuse(
             ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
             >(Some(swander as unsafe extern "C" fn() -> ())),
             spread(70 as libc::c_int),
         );
-        start_daemon(
-            ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
-            >(Some(stomach as unsafe extern "C" fn() -> ())),
-        );
-        start_daemon(
-            ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
-            >(Some(runners as unsafe extern "C" fn() -> ())),
-        );
+        start_daemon(::core::mem::transmute::<
+            Option<unsafe extern "C" fn() -> ()>,
+            Option<unsafe extern "C" fn() -> ()>,
+        >(Some(stomach as unsafe extern "C" fn() -> ())));
+        start_daemon(::core::mem::transmute::<
+            Option<unsafe extern "C" fn() -> ()>,
+            Option<unsafe extern "C" fn() -> ()>,
+        >(Some(runners as unsafe extern "C" fn() -> ())));
         msg(
             b"Hello %s%s.\0" as *const u8 as *const libc::c_char,
             whoami.as_mut_ptr(),
             noterse(
-                b".  Welcome to the Dungeons of Doom\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                b".  Welcome to the Dungeons of Doom\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             ),
         );
         raise_curtain();
@@ -262,9 +252,7 @@ pub unsafe extern "C" fn endit() {
 #[no_mangle]
 pub unsafe extern "C" fn ran() -> libc::c_long {
     seed *= 125 as libc::c_int as libc::c_long;
-    seed
-        -= seed / 2796203 as libc::c_int as libc::c_long
-            * 2796203 as libc::c_int as libc::c_long;
+    seed -= seed / 2796203 as libc::c_int as libc::c_long * 2796203 as libc::c_int as libc::c_long;
     return seed;
 }
 #[no_mangle]
@@ -276,10 +264,7 @@ pub unsafe extern "C" fn rnd(mut range: libc::c_int) -> libc::c_int {
     }) as libc::c_int;
 }
 #[no_mangle]
-pub unsafe extern "C" fn roll(
-    mut number: libc::c_int,
-    mut sides: libc::c_int,
-) -> libc::c_int {
+pub unsafe extern "C" fn roll(mut number: libc::c_int, mut sides: libc::c_int) -> libc::c_int {
     let mut dtotal: libc::c_int = 0 as libc::c_int;
     loop {
         let fresh0 = number;
@@ -323,9 +308,7 @@ pub unsafe extern "C" fn quit() {
     cur_clrtoeol();
     cur_move(0 as libc::c_int, 0 as libc::c_int);
     if !terse {
-        cur_addstr(
-            b"Do you wish to \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-        );
+        cur_addstr(b"Do you wish to \0" as *const u8 as *const libc::c_char as *mut libc::c_char);
     }
     str_attr(
         b"end your quest now (%Yes/%No) ?\0" as *const u8 as *const libc::c_char
@@ -360,12 +343,10 @@ pub unsafe extern "C" fn leave() {
     cur_move(LINES - 2 as libc::c_int, 0 as libc::c_int);
     cur_clrtoeol();
     cur_move(LINES - 2 as libc::c_int, 0 as libc::c_int);
-    fatal(
-        b"Ok, if you want to leave that badly\n\0" as *const u8 as *const libc::c_char,
-    );
+    fatal(b"Ok, if you want to leave that badly\n\0" as *const u8 as *const libc::c_char);
 }
 pub fn main() {
-    let mut args: Vec::<*mut libc::c_char> = Vec::new();
+    let mut args: Vec<*mut libc::c_char> = Vec::new();
     for arg in ::std::env::args() {
         args.push(
             (::std::ffi::CString::new(arg))
@@ -375,11 +356,9 @@ pub fn main() {
     }
     args.push(::core::ptr::null_mut());
     unsafe {
-        ::std::process::exit(
-            main_0(
-                (args.len() - 1) as libc::c_int,
-                args.as_mut_ptr() as *mut *mut libc::c_char,
-            ) as i32,
-        )
+        ::std::process::exit(main_0(
+            (args.len() - 1) as libc::c_int,
+            args.as_mut_ptr() as *mut *mut libc::c_char,
+        ) as i32)
     }
 }

@@ -2,11 +2,8 @@ use ::libc;
 extern "C" {
     fn __ctype_tolower_loc() -> *mut *const __int32_t;
     fn __ctype_toupper_loc() -> *mut *const __int32_t;
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
     fn strcpy(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
     fn strcat(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
     fn strlen(_: *const libc::c_char) -> libc::c_ulong;
@@ -58,7 +55,7 @@ extern "C" {
     static mut prbuf: *mut libc::c_char;
     static mut _level: *mut byte;
     fn waste_time();
-    fn extinguish(func: Option::<unsafe extern "C" fn() -> ()>);
+    fn extinguish(func: Option<unsafe extern "C" fn() -> ()>);
     fn unsee();
     fn msg(fmt: *const libc::c_char, _: ...);
     fn noterse(str: *mut libc::c_char) -> *mut libc::c_char;
@@ -204,10 +201,7 @@ unsafe extern "C" fn toupper(mut __c: libc::c_int) -> libc::c_int {
     };
 }
 #[no_mangle]
-pub unsafe extern "C" fn inv_name(
-    mut obj: *mut THING,
-    mut drop_1: bool,
-) -> *mut libc::c_char {
+pub unsafe extern "C" fn inv_name(mut obj: *mut THING, mut drop_1: bool) -> *mut libc::c_char {
     let mut which: libc::c_int = (*obj)._o._o_which;
     let mut pb: *mut libc::c_char = 0 as *mut libc::c_char;
     pb = prbuf;
@@ -222,13 +216,10 @@ pub unsafe extern "C" fn inv_name(
                     b"%d scrolls \0" as *const u8 as *const libc::c_char,
                     (*obj)._o._o_count,
                 );
-                pb = &mut *prbuf
-                    .offset(
-                        (strlen
-                            as unsafe extern "C" fn(
-                                *const libc::c_char,
-                            ) -> libc::c_ulong)(prbuf) as isize,
-                    ) as *mut libc::c_char;
+                pb = &mut *prbuf.offset((strlen
+                    as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(
+                    prbuf
+                ) as isize) as *mut libc::c_char;
             }
             if *s_know.as_mut_ptr().offset(which as isize) {
                 sprintf(
@@ -245,10 +236,8 @@ pub unsafe extern "C" fn inv_name(
             } else {
                 chopmsg(
                     pb,
-                    b"titled '%.17s'\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
-                    b"titled '%s'\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"titled '%.17s'\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+                    b"titled '%s'\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     &mut *s_names.as_mut_ptr().offset(which as isize) as *mut array,
                 );
             }
@@ -263,30 +252,24 @@ pub unsafe extern "C" fn inv_name(
                     b"%d potions \0" as *const u8 as *const libc::c_char,
                     (*obj)._o._o_count,
                 );
-                pb = &mut *pb
-                    .offset(
-                        (strlen
-                            as unsafe extern "C" fn(
-                                *const libc::c_char,
-                            ) -> libc::c_ulong)(prbuf) as isize,
-                    ) as *mut libc::c_char;
+                pb = &mut *pb.offset((strlen
+                    as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(
+                    prbuf
+                ) as isize) as *mut libc::c_char;
             }
             if *p_know.as_mut_ptr().offset(which as isize) {
                 chopmsg(
                     pb,
                     b"of %s\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-                    b"of %s(%s)\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"of %s(%s)\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     (*p_magic.as_mut_ptr().offset(which as isize)).mi_name,
                     *p_colors.as_mut_ptr().offset(which as isize),
                 );
             } else if **p_guess.as_mut_ptr().offset(which as isize) != 0 {
                 chopmsg(
                     pb,
-                    b"called %s\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
-                    b"called %s(%s)\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"called %s\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+                    b"called %s(%s)\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     *p_guess.as_mut_ptr().offset(which as isize),
                     *p_colors.as_mut_ptr().offset(which as isize),
                 );
@@ -347,13 +330,10 @@ pub unsafe extern "C" fn inv_name(
                     vowelstr(*w_names.as_mut_ptr().offset(which as isize)),
                 );
             }
-            pb = &mut *prbuf
-                .offset(
-                    (strlen
-                        as unsafe extern "C" fn(
-                            *const libc::c_char,
-                        ) -> libc::c_ulong)(prbuf) as isize,
-                ) as *mut libc::c_char;
+            pb = &mut *prbuf.offset((strlen
+                as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(
+                prbuf
+            ) as isize) as *mut libc::c_char;
             if (*obj)._o._o_flags as libc::c_int & 0x2 as libc::c_int != 0 {
                 sprintf(
                     pb,
@@ -383,10 +363,8 @@ pub unsafe extern "C" fn inv_name(
                     pb,
                     (*monsters
                         .as_mut_ptr()
-                        .offset(
-                            ((*obj)._o._o_enemy as libc::c_int - 'A' as i32) as isize,
-                        ))
-                        .m_name,
+                        .offset(((*obj)._o._o_enemy as libc::c_int - 'A' as i32) as isize))
+                    .m_name,
                 );
                 strcat(pb, b" slaying\0" as *const u8 as *const libc::c_char);
             }
@@ -416,7 +394,10 @@ pub unsafe extern "C" fn inv_name(
             }
         }
         12 => {
-            strcpy(pb, b"The Amulet of Yendor\0" as *const u8 as *const libc::c_char);
+            strcpy(
+                pb,
+                b"The Amulet of Yendor\0" as *const u8 as *const libc::c_char,
+            );
         }
         231 => {
             sprintf(
@@ -425,20 +406,15 @@ pub unsafe extern "C" fn inv_name(
                 vowelstr(*ws_type.as_mut_ptr().offset(which as isize)),
                 *ws_type.as_mut_ptr().offset(which as isize),
             );
-            pb = &mut *prbuf
-                .offset(
-                    (strlen
-                        as unsafe extern "C" fn(
-                            *const libc::c_char,
-                        ) -> libc::c_ulong)(prbuf) as isize,
-                ) as *mut libc::c_char;
+            pb = &mut *prbuf.offset((strlen
+                as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(
+                prbuf
+            ) as isize) as *mut libc::c_char;
             if *ws_know.as_mut_ptr().offset(which as isize) {
                 chopmsg(
                     pb,
-                    b"of %s%s\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
-                    b"of %s%s(%s)\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"of %s%s\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+                    b"of %s%s(%s)\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     (*ws_magic.as_mut_ptr().offset(which as isize)).mi_name,
                     charge_str(obj),
                     *ws_made.as_mut_ptr().offset(which as isize),
@@ -446,10 +422,8 @@ pub unsafe extern "C" fn inv_name(
             } else if **ws_guess.as_mut_ptr().offset(which as isize) != 0 {
                 chopmsg(
                     pb,
-                    b"called %s\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
-                    b"called %s(%s)\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"called %s\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
+                    b"called %s(%s)\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     *ws_guess.as_mut_ptr().offset(which as isize),
                     *ws_made.as_mut_ptr().offset(which as isize),
                 );
@@ -467,8 +441,7 @@ pub unsafe extern "C" fn inv_name(
             if *r_know.as_mut_ptr().offset(which as isize) {
                 chopmsg(
                     pb,
-                    b"A%s ring of %s\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"A%s ring of %s\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     b"A%s ring of %s(%s)\0" as *const u8 as *const libc::c_char
                         as *mut libc::c_char,
                     ring_num(obj),
@@ -478,8 +451,7 @@ pub unsafe extern "C" fn inv_name(
             } else if **r_guess.as_mut_ptr().offset(which as isize) != 0 {
                 chopmsg(
                     pb,
-                    b"A ring called %s\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"A ring called %s\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     b"A ring called %s(%s)\0" as *const u8 as *const libc::c_char
                         as *mut libc::c_char,
                     *r_guess.as_mut_ptr().offset(which as isize),
@@ -500,43 +472,42 @@ pub unsafe extern "C" fn inv_name(
         strcat(pb, b" (being worn)\0" as *const u8 as *const libc::c_char);
     }
     if obj == cur_weapon {
-        strcat(pb, b" (weapon in hand)\0" as *const u8 as *const libc::c_char);
+        strcat(
+            pb,
+            b" (weapon in hand)\0" as *const u8 as *const libc::c_char,
+        );
     }
     if obj == *cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize) {
         strcat(pb, b" (on left hand)\0" as *const u8 as *const libc::c_char);
     } else if obj == *cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize) {
-        strcat(pb, b" (on right hand)\0" as *const u8 as *const libc::c_char);
+        strcat(
+            pb,
+            b" (on right hand)\0" as *const u8 as *const libc::c_char,
+        );
     }
     if drop_1 as libc::c_int != 0
         && (*prbuf.offset(0 as libc::c_int as isize) as libc::c_int >= 'A' as i32
             && *prbuf.offset(0 as libc::c_int as isize) as libc::c_int <= 'Z' as i32)
     {
-        *prbuf
-            .offset(
-                0 as libc::c_int as isize,
-            ) = ({
+        *prbuf.offset(0 as libc::c_int as isize) = ({
             let mut __res: libc::c_int = 0;
             if ::core::mem::size_of::<libc::c_char>() as libc::c_ulong
                 > 1 as libc::c_int as libc::c_ulong
             {
                 if 0 != 0 {
-                    let mut __c: libc::c_int = *prbuf.offset(0 as libc::c_int as isize)
-                        as libc::c_int;
+                    let mut __c: libc::c_int =
+                        *prbuf.offset(0 as libc::c_int as isize) as libc::c_int;
                     __res = if __c < -(128 as libc::c_int) || __c > 255 as libc::c_int {
                         __c
                     } else {
                         *(*__ctype_tolower_loc()).offset(__c as isize)
                     };
                 } else {
-                    __res = tolower(
-                        *prbuf.offset(0 as libc::c_int as isize) as libc::c_int,
-                    );
+                    __res = tolower(*prbuf.offset(0 as libc::c_int as isize) as libc::c_int);
                 }
             } else {
                 __res = *(*__ctype_tolower_loc())
-                    .offset(
-                        *prbuf.offset(0 as libc::c_int as isize) as libc::c_int as isize,
-                    );
+                    .offset(*prbuf.offset(0 as libc::c_int as isize) as libc::c_int as isize);
             }
             __res
         }) as libc::c_char;
@@ -589,9 +560,7 @@ pub unsafe extern "C" fn drop_0() {
     let mut nobj: *mut THING = 0 as *mut THING;
     let mut op: *mut THING = 0 as *mut THING;
     ch = *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize);
-    if ch as libc::c_int != 0xfa as libc::c_int
-        && ch as libc::c_int != 0xb1 as libc::c_int
-    {
+    if ch as libc::c_int != 0xfa as libc::c_int && ch as libc::c_int != 0xb1 as libc::c_int {
         msg(b"there is something there already\0" as *const u8 as *const libc::c_char);
         return;
     }
@@ -609,11 +578,9 @@ pub unsafe extern "C" fn drop_0() {
         nobj = new_item();
         if nobj.is_null() {
             msg(
-                b"%sit appears to be stuck in your pack!\0" as *const u8
-                    as *const libc::c_char,
+                b"%sit appears to be stuck in your pack!\0" as *const u8 as *const libc::c_char,
                 noterse(
-                    b"can't drop it, \0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"can't drop it, \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                 ),
             );
             return;
@@ -634,10 +601,8 @@ pub unsafe extern "C" fn drop_0() {
     }
     inpack -= 1;
     list_attach(&mut lvl_obj, op);
-    *_level
-        .offset(
-            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-        ) = (*op)._o._o_type as byte;
+    *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) =
+        (*op)._o._o_type as byte;
     memmove(
         &mut (*op)._o._o_pos as *mut coord as *mut libc::c_void,
         &mut player._t._t_pos as *mut coord as *const libc::c_void,
@@ -656,16 +621,15 @@ pub unsafe extern "C" fn can_drop(mut op: *mut THING) -> bool {
     if op.is_null() {
         return 1 as libc::c_int != 0;
     }
-    if op != cur_armor && op != cur_weapon
+    if op != cur_armor
+        && op != cur_weapon
         && op != *cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)
         && op != *cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)
     {
         return 1 as libc::c_int != 0;
     }
     if (*op)._o._o_flags as libc::c_int & 0x1 as libc::c_int != 0 {
-        msg(
-            b"you can't.  It appears to be cursed\0" as *const u8 as *const libc::c_char,
-        );
+        msg(b"you can't.  It appears to be cursed\0" as *const u8 as *const libc::c_char);
         return 0 as libc::c_int != 0;
     }
     if op == cur_weapon {
@@ -690,12 +654,12 @@ pub unsafe extern "C" fn can_drop(mut op: *mut THING) -> bool {
             }
             4 => {
                 unsee();
-                extinguish(
-                    ::core::mem::transmute::<
-                        Option::<unsafe extern "C" fn() -> ()>,
-                        Option::<unsafe extern "C" fn() -> ()>,
-                    >(Some(unsee as unsafe extern "C" fn() -> ())),
-                );
+                extinguish(::core::mem::transmute::<
+                    Option<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
+                >(Some(
+                    unsee as unsafe extern "C" fn() -> (),
+                )));
             }
             _ => {}
         }
@@ -713,9 +677,7 @@ pub unsafe extern "C" fn new_thing() -> *mut THING {
     }
     (*cur)._o._o_dplus = 0 as libc::c_int;
     (*cur)._o._o_hplus = (*cur)._o._o_dplus;
-    (*cur)
-        ._o
-        ._o_hurldmg = b"0d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
+    (*cur)._o._o_hurldmg = b"0d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     (*cur)._o._o_damage = (*cur)._o._o_hurldmg;
     (*cur)._o._o_ac = 11 as libc::c_int as libc::c_short;
     (*cur)._o._o_count = 1 as libc::c_int;
@@ -750,10 +712,8 @@ pub unsafe extern "C" fn new_thing() -> *mut THING {
             init_weapon(cur, (*cur)._o._o_which as byte);
             k = rnd(100 as libc::c_int);
             if k < 10 as libc::c_int {
-                (*cur)
-                    ._o
-                    ._o_flags = ((*cur)._o._o_flags as libc::c_int | 0x1 as libc::c_int)
-                    as libc::c_short;
+                (*cur)._o._o_flags =
+                    ((*cur)._o._o_flags as libc::c_int | 0x1 as libc::c_int) as libc::c_short;
                 (*cur)._o._o_hplus -= rnd(3 as libc::c_int) + 1 as libc::c_int;
             } else if k < 15 as libc::c_int {
                 (*cur)._o._o_hplus += rnd(3 as libc::c_int) + 1 as libc::c_int;
@@ -773,19 +733,15 @@ pub unsafe extern "C" fn new_thing() -> *mut THING {
             (*cur)._o._o_ac = *a_class.as_mut_ptr().offset(j as isize) as libc::c_short;
             k = rnd(100 as libc::c_int);
             if k < 20 as libc::c_int {
-                (*cur)
-                    ._o
-                    ._o_flags = ((*cur)._o._o_flags as libc::c_int | 0x1 as libc::c_int)
+                (*cur)._o._o_flags =
+                    ((*cur)._o._o_flags as libc::c_int | 0x1 as libc::c_int) as libc::c_short;
+                (*cur)._o._o_ac = ((*cur)._o._o_ac as libc::c_int
+                    + (rnd(3 as libc::c_int) + 1 as libc::c_int))
                     as libc::c_short;
-                (*cur)
-                    ._o
-                    ._o_ac = ((*cur)._o._o_ac as libc::c_int
-                    + (rnd(3 as libc::c_int) + 1 as libc::c_int)) as libc::c_short;
             } else if k < 28 as libc::c_int {
-                (*cur)
-                    ._o
-                    ._o_ac = ((*cur)._o._o_ac as libc::c_int
-                    - (rnd(3 as libc::c_int) + 1 as libc::c_int)) as libc::c_short;
+                (*cur)._o._o_ac = ((*cur)._o._o_ac as libc::c_int
+                    - (rnd(3 as libc::c_int) + 1 as libc::c_int))
+                    as libc::c_short;
             }
         }
         5 => {
@@ -796,17 +752,14 @@ pub unsafe extern "C" fn new_thing() -> *mut THING {
                     (*cur)._o._o_ac = rnd(3 as libc::c_int) as libc::c_short;
                     if (*cur)._o._o_ac as libc::c_int == 0 as libc::c_int {
                         (*cur)._o._o_ac = -(1 as libc::c_int) as libc::c_short;
-                        (*cur)
-                            ._o
-                            ._o_flags = ((*cur)._o._o_flags as libc::c_int
-                            | 0x1 as libc::c_int) as libc::c_short;
+                        (*cur)._o._o_flags = ((*cur)._o._o_flags as libc::c_int
+                            | 0x1 as libc::c_int)
+                            as libc::c_short;
                     }
                 }
                 6 | 11 => {
-                    (*cur)
-                        ._o
-                        ._o_flags = ((*cur)._o._o_flags as libc::c_int
-                        | 0x1 as libc::c_int) as libc::c_short;
+                    (*cur)._o._o_flags =
+                        ((*cur)._o._o_flags as libc::c_int | 0x1 as libc::c_int) as libc::c_short;
                 }
                 _ => {}
             }
@@ -820,10 +773,7 @@ pub unsafe extern "C" fn new_thing() -> *mut THING {
     }
     return cur;
 }
-unsafe extern "C" fn pick_one(
-    mut magic: *mut magic_item,
-    mut nitems: libc::c_int,
-) -> libc::c_int {
+unsafe extern "C" fn pick_one(mut magic: *mut magic_item, mut nitems: libc::c_int) -> libc::c_int {
     let mut end: *mut magic_item = 0 as *mut magic_item;
     let mut i: libc::c_int = 0;
     let mut start: *mut magic_item = 0 as *mut magic_item;
@@ -950,10 +900,7 @@ unsafe extern "C" fn print_disc(mut type_0: byte) {
         );
     }
 }
-unsafe extern "C" fn set_order(
-    mut order: *mut libc::c_short,
-    mut numthings: libc::c_int,
-) {
+unsafe extern "C" fn set_order(mut order: *mut libc::c_short, mut numthings: libc::c_int) {
     let mut i: libc::c_int = 0;
     let mut r: libc::c_int = 0;
     let mut t: libc::c_int = 0;
@@ -988,8 +935,7 @@ pub unsafe extern "C" fn add_line(
         cur_move(LINES - 1 as libc::c_int, 0 as libc::c_int);
         if *use_0 != 0 {
             cur_printw(
-                b"-Select item to %s. Esc to cancel-\0" as *const u8
-                    as *const libc::c_char,
+                b"-Select item to %s. Esc to cancel-\0" as *const u8 as *const libc::c_char,
                 use_0,
             );
         } else {
@@ -1011,9 +957,7 @@ pub unsafe extern "C" fn add_line(
         newpage = 1 as libc::c_int != 0;
         line_cnt = 0 as libc::c_int;
     }
-    if !fmt.is_null()
-        && !(line_cnt == 0 as libc::c_int && *fmt as libc::c_int == '\0' as i32)
-    {
+    if !fmt.is_null() && !(line_cnt == 0 as libc::c_int && *fmt as libc::c_int == '\0' as i32) {
         cur_move(line_cnt, 0 as libc::c_int);
         cur_printw(fmt, arg);
         getrc(&mut x, &mut y);
@@ -1041,15 +985,16 @@ pub unsafe extern "C" fn end_line(mut use_0: *mut libc::c_char) -> byte {
 unsafe extern "C" fn nothing(mut type_0: byte) -> *mut libc::c_char {
     let mut sp: *mut libc::c_char = 0 as *mut libc::c_char;
     let mut tystr: *mut libc::c_char = 0 as *mut libc::c_char;
-    sprintf(prbuf, b"Haven't discovered anything\0" as *const u8 as *const libc::c_char);
+    sprintf(
+        prbuf,
+        b"Haven't discovered anything\0" as *const u8 as *const libc::c_char,
+    );
     if terse {
         sprintf(prbuf, b"Nothing\0" as *const u8 as *const libc::c_char);
     }
-    sp = &mut *prbuf
-        .offset(
-            (strlen as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(prbuf)
-                as isize,
-        ) as *mut libc::c_char;
+    sp = &mut *prbuf.offset(
+        (strlen as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(prbuf) as isize,
+    ) as *mut libc::c_char;
     match type_0 as libc::c_int {
         173 => {
             tystr = b"potion\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
@@ -1067,6 +1012,10 @@ unsafe extern "C" fn nothing(mut type_0: byte) -> *mut libc::c_char {
             tystr = b"item\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
     }
-    sprintf(sp, b" about any %ss\0" as *const u8 as *const libc::c_char, tystr);
+    sprintf(
+        sp,
+        b" about any %ss\0" as *const u8 as *const libc::c_char,
+        tystr,
+    );
     return prbuf;
 }

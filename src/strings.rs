@@ -30,37 +30,43 @@ unsafe extern "C" fn tolower(mut __c: libc::c_int) -> libc::c_int {
 pub unsafe extern "C" fn is_alpha(mut ch: libc::c_char) -> bool {
     return ch as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
         && *(*__ctype_b_loc()).offset(ch as libc::c_int as isize) as libc::c_int
-            & _ISalpha as libc::c_int as libc::c_ushort as libc::c_int != 0;
+            & _ISalpha as libc::c_int as libc::c_ushort as libc::c_int
+            != 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn is_upper(mut ch: libc::c_char) -> bool {
     return ch as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
         && *(*__ctype_b_loc()).offset(ch as libc::c_int as isize) as libc::c_int
-            & _ISupper as libc::c_int as libc::c_ushort as libc::c_int != 0;
+            & _ISupper as libc::c_int as libc::c_ushort as libc::c_int
+            != 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn is_lower(mut ch: libc::c_char) -> bool {
     return ch as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
         && *(*__ctype_b_loc()).offset(ch as libc::c_int as isize) as libc::c_int
-            & _ISlower as libc::c_int as libc::c_ushort as libc::c_int != 0;
+            & _ISlower as libc::c_int as libc::c_ushort as libc::c_int
+            != 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn is_digit(mut ch: libc::c_char) -> bool {
     return ch as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
         && *(*__ctype_b_loc()).offset(ch as libc::c_int as isize) as libc::c_int
-            & _ISdigit as libc::c_int as libc::c_ushort as libc::c_int != 0;
+            & _ISdigit as libc::c_int as libc::c_ushort as libc::c_int
+            != 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn is_space(mut ch: libc::c_char) -> bool {
     return ch as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
         && *(*__ctype_b_loc()).offset(ch as libc::c_int as isize) as libc::c_int
-            & _ISspace as libc::c_int as libc::c_ushort as libc::c_int != 0;
+            & _ISspace as libc::c_int as libc::c_ushort as libc::c_int
+            != 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn is_print(mut ch: libc::c_char) -> bool {
     return ch as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
         && *(*__ctype_b_loc()).offset(ch as libc::c_int as isize) as libc::c_int
-            & _ISprint as libc::c_int as libc::c_ushort as libc::c_int != 0;
+            & _ISprint as libc::c_int as libc::c_ushort as libc::c_int
+            != 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn stccpy(
@@ -94,12 +100,10 @@ pub unsafe extern "C" fn stpblk(mut str: *mut libc::c_char) -> *mut libc::c_char
 pub unsafe extern "C" fn endblk(mut str: *mut libc::c_char) -> *mut libc::c_char {
     let mut backup: *mut libc::c_char = 0 as *mut libc::c_char;
     backup = str.offset(strlen(str) as isize);
-    while backup != str
-        && {
-            backup = backup.offset(-1);
-            is_space(*backup) as libc::c_int != 0
-        }
-    {
+    while backup != str && {
+        backup = backup.offset(-1);
+        is_space(*backup) as libc::c_int != 0
+    } {
         *backup = 0 as libc::c_int as libc::c_char;
     }
     return str;
@@ -131,5 +135,5 @@ pub unsafe extern "C" fn lcase(mut str: *mut libc::c_char) {
             break;
         }
         str = str.offset(1);
-    };
+    }
 }

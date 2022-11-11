@@ -10,8 +10,8 @@ extern "C" {
     static mut mlist: *mut THING;
     static mut player: THING;
     fn see_monst(mp: *mut THING) -> bool;
-    fn fuse(func: Option::<unsafe extern "C" fn() -> ()>, time: libc::c_int);
-    fn lengthen(func: Option::<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
+    fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
+    fn lengthen(func: Option<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
     fn unconfuse();
     fn unsee();
     fn sight();
@@ -138,10 +138,7 @@ pub unsafe extern "C" fn quaff() {
         return;
     }
     if (*obj)._o._o_type != 0xad as libc::c_int {
-        msg(
-            b"yuk! Why would you want to drink that?\0" as *const u8
-                as *const libc::c_char,
-        );
+        msg(b"yuk! Why would you want to drink that?\0" as *const u8 as *const libc::c_char);
         return;
     }
     if obj == cur_weapon {
@@ -150,55 +147,44 @@ pub unsafe extern "C" fn quaff() {
     let mut current_block_106: u64;
     match (*obj)._o._o_which {
         0 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(0 as libc::c_int as isize) = 1 as libc::c_int != 0;
-            if !(player._t._t_flags as libc::c_int & 0x100 as libc::c_int
-                != 0 as libc::c_int)
-            {
-                if player._t._t_flags as libc::c_int & 0x100 as libc::c_int
-                    != 0 as libc::c_int
-                {
+            *p_know.as_mut_ptr().offset(0 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            if !(player._t._t_flags as libc::c_int & 0x100 as libc::c_int != 0 as libc::c_int) {
+                if player._t._t_flags as libc::c_int & 0x100 as libc::c_int != 0 as libc::c_int {
                     lengthen(
                         ::core::mem::transmute::<
-                            Option::<unsafe extern "C" fn() -> ()>,
-                            Option::<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
                         >(Some(unconfuse as unsafe extern "C" fn() -> ())),
                         rnd(8 as libc::c_int) + spread(20 as libc::c_int),
                     );
                 } else {
                     fuse(
                         ::core::mem::transmute::<
-                            Option::<unsafe extern "C" fn() -> ()>,
-                            Option::<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
                         >(Some(unconfuse as unsafe extern "C" fn() -> ())),
                         rnd(8 as libc::c_int) + spread(20 as libc::c_int),
                     );
                 }
-                player
-                    ._t
-                    ._t_flags = (player._t._t_flags as libc::c_int
-                    | 0x100 as libc::c_int) as libc::c_short;
-                msg(
-                    b"wait, what's going on? Huh? What? Who?\0" as *const u8
-                        as *const libc::c_char,
-                );
+                player._t._t_flags =
+                    (player._t._t_flags as libc::c_int | 0x100 as libc::c_int) as libc::c_short;
+                msg(b"wait, what's going on? Huh? What? Who?\0" as *const u8 as *const libc::c_char);
             }
         }
         2 => {
-            let mut sick: *mut libc::c_char = b"you feel %s sick.\0" as *const u8
-                as *const libc::c_char as *mut libc::c_char;
-            *p_know
-                .as_mut_ptr()
-                .offset(2 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            let mut sick: *mut libc::c_char =
+                b"you feel %s sick.\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
+            *p_know.as_mut_ptr().offset(2 as libc::c_int as isize) = 1 as libc::c_int != 0;
             if !(!(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                     ._o
-                    ._o_which == 2 as libc::c_int
+                    ._o_which
+                    == 2 as libc::c_int
                 || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                     && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                         ._o
-                        ._o_which == 2 as libc::c_int)
+                        ._o_which
+                        == 2 as libc::c_int)
             {
                 chg_str(-(rnd(3 as libc::c_int) + 1 as libc::c_int));
                 msg(sick, b"very\0" as *const u8 as *const libc::c_char);
@@ -207,9 +193,7 @@ pub unsafe extern "C" fn quaff() {
             }
         }
         5 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(5 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *p_know.as_mut_ptr().offset(5 as libc::c_int as isize) = 1 as libc::c_int != 0;
             player._t._t_stats.s_hpt += roll(player._t._t_stats.s_lvl, 4 as libc::c_int);
             if player._t._t_stats.s_hpt > player._t._t_stats.s_maxhp {
                 player._t._t_stats.s_maxhp += 1;
@@ -219,37 +203,28 @@ pub unsafe extern "C" fn quaff() {
             msg(b"you begin to feel better\0" as *const u8 as *const libc::c_char);
         }
         3 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(3 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *p_know.as_mut_ptr().offset(3 as libc::c_int as isize) = 1 as libc::c_int != 0;
             chg_str(1 as libc::c_int);
-            msg(
-                b"you feel stronger. What bulging muscles!\0" as *const u8
-                    as *const libc::c_char,
-            );
+            msg(b"you feel stronger. What bulging muscles!\0" as *const u8 as *const libc::c_char);
         }
         6 => {
             fuse(
                 ::core::mem::transmute::<
-                    Option::<unsafe extern "C" fn() -> ()>,
-                    Option::<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
                 >(Some(turn_see_off as unsafe extern "C" fn() -> ())),
                 spread(20 as libc::c_int),
             );
             if mlist.is_null() {
                 msg(
-                    b"you have a strange feeling%s.\0" as *const u8
-                        as *const libc::c_char,
+                    b"you have a strange feeling%s.\0" as *const u8 as *const libc::c_char,
                     noterse(
-                        b" for a moment\0" as *const u8 as *const libc::c_char
-                            as *mut libc::c_char,
+                        b" for a moment\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                     ),
                 );
             } else {
                 if turn_see(0 as libc::c_int != 0) {
-                    *p_know
-                        .as_mut_ptr()
-                        .offset(6 as libc::c_int as isize) = 1 as libc::c_int != 0;
+                    *p_know.as_mut_ptr().offset(6 as libc::c_int as isize) = 1 as libc::c_int != 0;
                 }
                 msg(b"\0" as *const u8 as *const libc::c_char);
             }
@@ -263,14 +238,9 @@ pub unsafe extern "C" fn quaff() {
                 while !tp.is_null() {
                     if is_magic(tp) {
                         show = 1 as libc::c_int != 0;
-                        cur_mvaddch(
-                            (*tp)._o._o_pos.y,
-                            (*tp)._o._o_pos.x,
-                            goodch(tp) as byte,
-                        );
-                        *p_know
-                            .as_mut_ptr()
-                            .offset(7 as libc::c_int as isize) = 1 as libc::c_int != 0;
+                        cur_mvaddch((*tp)._o._o_pos.y, (*tp)._o._o_pos.x, goodch(tp) as byte);
+                        *p_know.as_mut_ptr().offset(7 as libc::c_int as isize) =
+                            1 as libc::c_int != 0;
                     }
                     tp = (*tp)._t._l_next;
                 }
@@ -280,24 +250,16 @@ pub unsafe extern "C" fn quaff() {
                     while !tp.is_null() {
                         if is_magic(tp) {
                             show = 1 as libc::c_int != 0;
-                            cur_mvaddch(
-                                (*th)._t._t_pos.y,
-                                (*th)._t._t_pos.x,
-                                '$' as i32 as byte,
-                            );
-                            *p_know
-                                .as_mut_ptr()
-                                .offset(7 as libc::c_int as isize) = 1 as libc::c_int != 0;
+                            cur_mvaddch((*th)._t._t_pos.y, (*th)._t._t_pos.x, '$' as i32 as byte);
+                            *p_know.as_mut_ptr().offset(7 as libc::c_int as isize) =
+                                1 as libc::c_int != 0;
                         }
                         tp = (*tp)._t._l_next;
                     }
                     th = (*th)._t._l_next;
                 }
                 if show {
-                    msg(
-                        b"You sense the presence of magic.\0" as *const u8
-                            as *const libc::c_char,
-                    );
+                    msg(b"You sense the presence of magic.\0" as *const u8 as *const libc::c_char);
                     current_block_106 = 14141370668937312244;
                 } else {
                     current_block_106 = 12829669402821218572;
@@ -320,24 +282,18 @@ pub unsafe extern "C" fn quaff() {
             }
         }
         1 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(1 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *p_know.as_mut_ptr().offset(1 as libc::c_int as isize) = 1 as libc::c_int != 0;
             no_command = spread(2 as libc::c_int);
-            player
-                ._t
-                ._t_flags = (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int))
-                as libc::c_short;
+            player._t._t_flags =
+                (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int)) as libc::c_short;
             msg(b"you can't move\0" as *const u8 as *const libc::c_char);
         }
         4 => {
-            if !(player._t._t_flags as libc::c_int & 0x800 as libc::c_int
-                != 0 as libc::c_int)
-            {
+            if !(player._t._t_flags as libc::c_int & 0x800 as libc::c_int != 0 as libc::c_int) {
                 fuse(
                     ::core::mem::transmute::<
-                        Option::<unsafe extern "C" fn() -> ()>,
-                        Option::<unsafe extern "C" fn() -> ()>,
+                        Option<unsafe extern "C" fn() -> ()>,
+                        Option<unsafe extern "C" fn() -> ()>,
                     >(Some(unsee as unsafe extern "C" fn() -> ())),
                     spread(300 as libc::c_int),
                 );
@@ -346,30 +302,21 @@ pub unsafe extern "C" fn quaff() {
             }
             sight();
             msg(
-                b"this potion tastes like %s juice\0" as *const u8
-                    as *const libc::c_char,
+                b"this potion tastes like %s juice\0" as *const u8 as *const libc::c_char,
                 fruit.as_mut_ptr(),
             );
         }
         8 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(8 as libc::c_int as isize) = 1 as libc::c_int != 0;
-            msg(
-                b"you suddenly feel much more skillful\0" as *const u8
-                    as *const libc::c_char,
-            );
+            *p_know.as_mut_ptr().offset(8 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            msg(b"you suddenly feel much more skillful\0" as *const u8 as *const libc::c_char);
             raise_level();
         }
         9 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(9 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *p_know.as_mut_ptr().offset(9 as libc::c_int as isize) = 1 as libc::c_int != 0;
             player._t._t_stats.s_hpt += roll(player._t._t_stats.s_lvl, 8 as libc::c_int);
             if player._t._t_stats.s_hpt > player._t._t_stats.s_maxhp {
                 if player._t._t_stats.s_hpt
-                    > player._t._t_stats.s_maxhp + player._t._t_stats.s_lvl
-                        + 1 as libc::c_int
+                    > player._t._t_stats.s_maxhp + player._t._t_stats.s_lvl + 1 as libc::c_int
                 {
                     player._t._t_stats.s_maxhp += 1;
                 }
@@ -380,21 +327,17 @@ pub unsafe extern "C" fn quaff() {
             msg(b"you begin to feel much better\0" as *const u8 as *const libc::c_char);
         }
         10 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(10 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *p_know.as_mut_ptr().offset(10 as libc::c_int as isize) = 1 as libc::c_int != 0;
             if add_haste(1 as libc::c_int != 0) {
-                msg(
-                    b"you feel yourself moving much faster\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"you feel yourself moving much faster\0" as *const u8 as *const libc::c_char);
             }
         }
         11 => {
             if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                     ._o
-                    ._o_which == 1 as libc::c_int
+                    ._o_which
+                    == 1 as libc::c_int
             {
                 add_str(
                     &mut player._t._t_stats.s_str,
@@ -406,7 +349,8 @@ pub unsafe extern "C" fn quaff() {
             if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                     ._o
-                    ._o_which == 1 as libc::c_int
+                    ._o_which
+                    == 1 as libc::c_int
             {
                 add_str(
                     &mut player._t._t_stats.s_str,
@@ -421,63 +365,55 @@ pub unsafe extern "C" fn quaff() {
             if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                     ._o
-                    ._o_which == 1 as libc::c_int
+                    ._o_which
+                    == 1 as libc::c_int
             {
                 add_str(
                     &mut player._t._t_stats.s_str,
-                    (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_ac
-                        as libc::c_int,
+                    (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                        ._o
+                        ._o_ac as libc::c_int,
                 );
             }
             if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                     ._o
-                    ._o_which == 1 as libc::c_int
+                    ._o_which
+                    == 1 as libc::c_int
             {
                 add_str(
                     &mut player._t._t_stats.s_str,
-                    (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_ac
-                        as libc::c_int,
+                    (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                        ._o
+                        ._o_ac as libc::c_int,
                 );
             }
             msg(
                 b"%syou feel warm all over\0" as *const u8 as *const libc::c_char,
                 noterse(
-                    b"hey, this tastes great.  It makes \0" as *const u8
-                        as *const libc::c_char as *mut libc::c_char,
+                    b"hey, this tastes great.  It makes \0" as *const u8 as *const libc::c_char
+                        as *mut libc::c_char,
                 ),
             );
         }
         12 => {
-            *p_know
-                .as_mut_ptr()
-                .offset(12 as libc::c_int as isize) = 1 as libc::c_int != 0;
-            if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int
-                != 0 as libc::c_int)
-            {
-                player
-                    ._t
-                    ._t_flags = (player._t._t_flags as libc::c_int | 0x1 as libc::c_int)
-                    as libc::c_short;
+            *p_know.as_mut_ptr().offset(12 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int) {
+                player._t._t_flags =
+                    (player._t._t_flags as libc::c_int | 0x1 as libc::c_int) as libc::c_short;
                 fuse(
                     ::core::mem::transmute::<
-                        Option::<unsafe extern "C" fn() -> ()>,
-                        Option::<unsafe extern "C" fn() -> ()>,
+                        Option<unsafe extern "C" fn() -> ()>,
+                        Option<unsafe extern "C" fn() -> ()>,
                     >(Some(sight as unsafe extern "C" fn() -> ())),
                     spread(300 as libc::c_int),
                 );
                 look(0 as libc::c_int != 0);
             }
-            msg(
-                b"a cloak of darkness falls around you\0" as *const u8
-                    as *const libc::c_char,
-            );
+            msg(b"a cloak of darkness falls around you\0" as *const u8 as *const libc::c_char);
         }
         13 => {
-            msg(
-                b"this potion tastes extremely dull\0" as *const u8
-                    as *const libc::c_char,
-            );
+            msg(b"this potion tastes extremely dull\0" as *const u8 as *const libc::c_char);
         }
         _ => {
             msg(b"what an odd tasting potion!\0" as *const u8 as *const libc::c_char);
@@ -503,10 +439,8 @@ pub unsafe extern "C" fn quaff() {
 #[no_mangle]
 pub unsafe extern "C" fn invis_on() {
     let mut th: *mut THING = 0 as *mut THING;
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int | 0x800 as libc::c_int)
-        as libc::c_short;
+    player._t._t_flags =
+        (player._t._t_flags as libc::c_int | 0x800 as libc::c_int) as libc::c_short;
     th = mlist;
     while !th.is_null() {
         if (*th)._t._t_flags as libc::c_int & 0x10 as libc::c_int != 0 as libc::c_int
@@ -527,11 +461,10 @@ pub unsafe extern "C" fn turn_see(mut turn_off: bool) -> bool {
     mp = mlist;
     while !mp.is_null() {
         cur_move((*mp)._t._t_pos.y, (*mp)._t._t_pos.x);
-        can_see = see_monst(mp) as libc::c_int != 0
-            || {
-                was_there = cur_inch();
-                was_there as libc::c_int == (*mp)._t._t_type as libc::c_int
-            };
+        can_see = see_monst(mp) as libc::c_int != 0 || {
+            was_there = cur_inch();
+            was_there as libc::c_int == (*mp)._t._t_type as libc::c_int
+        };
         if turn_off {
             if !see_monst(mp) && (*mp)._t._t_oldch as libc::c_int != '@' as i32 {
                 cur_addch((*mp)._t._t_oldch);
@@ -549,15 +482,10 @@ pub unsafe extern "C" fn turn_see(mut turn_off: bool) -> bool {
         }
         mp = (*mp)._t._l_next;
     }
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int | 0x2 as libc::c_int)
-        as libc::c_short;
+    player._t._t_flags = (player._t._t_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
     if turn_off {
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int & !(0x2 as libc::c_int))
-            as libc::c_short;
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int & !(0x2 as libc::c_int)) as libc::c_short;
     }
     return add_new;
 }
@@ -565,27 +493,21 @@ pub unsafe extern "C" fn turn_see(mut turn_off: bool) -> bool {
 pub unsafe extern "C" fn th_effect(mut obj: *mut THING, mut tp: *mut THING) {
     match (*obj)._o._o_which {
         0 | 12 => {
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x100 as libc::c_int)
-                as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int | 0x100 as libc::c_int) as libc::c_short;
             msg(
                 b"the %s appears confused\0" as *const u8 as *const libc::c_char,
                 (*monsters
                     .as_mut_ptr()
                     .offset(((*tp)._t._t_type as libc::c_int - 'A' as i32) as isize))
-                    .m_name,
+                .m_name,
             );
         }
         1 => {
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int & !(0x4 as libc::c_int))
-                as libc::c_short;
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x80 as libc::c_int)
-                as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int & !(0x4 as libc::c_int)) as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int | 0x80 as libc::c_int) as libc::c_short;
         }
         5 | 9 => {
             (*tp)._t._t_stats.s_hpt += rnd(8 as libc::c_int);
@@ -600,10 +522,8 @@ pub unsafe extern "C" fn th_effect(mut obj: *mut THING, mut tp: *mut THING) {
             (*tp)._t._t_stats.s_lvl += 1;
         }
         10 => {
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x4000 as libc::c_int)
-                as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int | 0x4000 as libc::c_int) as libc::c_short;
         }
         _ => {}
     }

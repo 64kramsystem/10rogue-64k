@@ -1,15 +1,8 @@
 use ::libc;
 extern "C" {
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
-    fn memset(
-        _: *mut libc::c_void,
-        _: libc::c_int,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
+    fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong) -> *mut libc::c_void;
     fn md_srand() -> libc::c_int;
     fn one_tick();
     fn csum() -> libc::c_int;
@@ -133,10 +126,8 @@ pub unsafe extern "C" fn new_level() {
     let mut fp: *mut byte = 0 as *mut byte;
     let mut index: libc::c_int = 0;
     let mut stairs: coord = coord { x: 0, y: 0 };
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int & !(0x80 as libc::c_int))
-        as libc::c_short;
+    player._t._t_flags =
+        (player._t._t_flags as libc::c_int & !(0x80 as libc::c_int)) as libc::c_short;
     if level > max_level {
         max_level = level;
     }
@@ -205,8 +196,7 @@ pub unsafe extern "C" fn new_level() {
                 rnd_pos(&mut *rooms.as_mut_ptr().offset(rm as isize), &mut stairs);
                 index = INDEX(stairs.y, stairs.x);
                 if *_level.offset(index as isize) as libc::c_int == 0xfa as libc::c_int
-                    || *_level.offset(index as isize) as libc::c_int
-                        == 0xb1 as libc::c_int
+                    || *_level.offset(index as isize) as libc::c_int == 0xb1 as libc::c_int
                 {
                     break;
                 }
@@ -218,7 +208,10 @@ pub unsafe extern "C" fn new_level() {
     }
     loop {
         rm = rnd_room();
-        rnd_pos(&mut *rooms.as_mut_ptr().offset(rm as isize), &mut player._t._t_pos);
+        rnd_pos(
+            &mut *rooms.as_mut_ptr().offset(rm as isize),
+            &mut player._t._t_pos,
+        );
         index = INDEX(player._t._t_pos.y, player._t._t_pos.x);
         if (*_level.offset(index as isize) as libc::c_int == 0xfa as libc::c_int
             || *_level.offset(index as isize) as libc::c_int == 0xb1 as libc::c_int)
@@ -230,7 +223,11 @@ pub unsafe extern "C" fn new_level() {
     }
     mpos = 0 as libc::c_int;
     enter_room(&mut player._t._t_pos);
-    cur_mvaddch(player._t._t_pos.y, player._t._t_pos.x, 0x1 as libc::c_int as byte);
+    cur_mvaddch(
+        player._t._t_pos.y,
+        player._t._t_pos.x,
+        0x1 as libc::c_int as byte,
+    );
     memmove(
         &mut oldpos as *mut coord as *mut libc::c_void,
         &mut player._t._t_pos as *mut coord as *const libc::c_void,
@@ -246,10 +243,10 @@ pub unsafe extern "C" fn rnd_room() -> libc::c_int {
     let mut rm: libc::c_int = 0;
     loop {
         rm = rnd(9 as libc::c_int);
-        if (*rooms.as_mut_ptr().offset(rm as isize)).r_flags as libc::c_int
-            & 0x2 as libc::c_int == 0 as libc::c_int
-            || (*rooms.as_mut_ptr().offset(rm as isize)).r_flags as libc::c_int
-                & 0x4 as libc::c_int != 0
+        if (*rooms.as_mut_ptr().offset(rm as isize)).r_flags as libc::c_int & 0x2 as libc::c_int
+            == 0 as libc::c_int
+            || (*rooms.as_mut_ptr().offset(rm as isize)).r_flags as libc::c_int & 0x4 as libc::c_int
+                != 0
         {
             break;
         }
@@ -271,10 +268,8 @@ pub unsafe extern "C" fn put_things() {
                 list_attach(&mut lvl_obj, cur);
                 (*cur)._o._o_dplus = 0 as libc::c_int;
                 (*cur)._o._o_hplus = (*cur)._o._o_dplus;
-                (*cur)
-                    ._o
-                    ._o_hurldmg = b"0d0\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char;
+                (*cur)._o._o_hurldmg =
+                    b"0d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
                 (*cur)._o._o_damage = (*cur)._o._o_hurldmg;
                 (*cur)._o._o_ac = 11 as libc::c_int as libc::c_short;
                 (*cur)._o._o_type = 0xc as libc::c_int;
@@ -306,8 +301,7 @@ pub unsafe extern "C" fn put_things() {
             loop {
                 rm = rnd_room();
                 rnd_pos(&mut *rooms.as_mut_ptr().offset(rm as isize), &mut tp);
-                if *_level.offset(INDEX(tp.y, tp.x) as isize) as libc::c_int
-                    == 0xfa as libc::c_int
+                if *_level.offset(INDEX(tp.y, tp.x) as isize) as libc::c_int == 0xfa as libc::c_int
                     || *_level.offset(INDEX(tp.y, tp.x) as isize) as libc::c_int
                         == 0xb1 as libc::c_int
                 {
@@ -336,8 +330,8 @@ unsafe extern "C" fn treas_room() {
         .as_mut_ptr()
         .offset((rnd_room as unsafe extern "C" fn() -> libc::c_int)() as isize)
         as *mut room;
-    spots = ((*rp).r_max.y - 2 as libc::c_int) * ((*rp).r_max.x - 2 as libc::c_int)
-        - 2 as libc::c_int;
+    spots =
+        ((*rp).r_max.y - 2 as libc::c_int) * ((*rp).r_max.x - 2 as libc::c_int) - 2 as libc::c_int;
     if spots > 10 as libc::c_int - 2 as libc::c_int {
         spots = 10 as libc::c_int - 2 as libc::c_int;
     }
@@ -398,10 +392,8 @@ unsafe extern "C" fn treas_room() {
             tp = new_item();
             if !tp.is_null() {
                 new_monster(tp, randmonster(0 as libc::c_int != 0) as byte, &mut mp);
-                (*tp)
-                    ._t
-                    ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x20 as libc::c_int)
-                    as libc::c_short;
+                (*tp)._t._t_flags =
+                    ((*tp)._t._t_flags as libc::c_int | 0x20 as libc::c_int) as libc::c_short;
                 give_pack(tp);
             }
         }

@@ -1,10 +1,7 @@
 use ::libc;
 extern "C" {
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
     fn strcpy(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
     fn strlen(_: *const libc::c_char) -> libc::c_ulong;
     static mut f_damage: [libc::c_char; 0];
@@ -14,8 +11,8 @@ extern "C" {
     static mut monsters: [monster; 0];
     fn start_run(runner: *mut coord);
     fn roomin(cp: *mut coord) -> *mut room;
-    fn fuse(func: Option::<unsafe extern "C" fn() -> ()>, time: libc::c_int);
-    fn lengthen(func: Option::<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
+    fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
+    fn lengthen(func: Option<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
     fn unconfuse();
     fn save(which: libc::c_int) -> bool;
     static mut total: libc::c_int;
@@ -28,12 +25,7 @@ extern "C" {
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;
     fn step_ok(ch: byte) -> bool;
     fn winat(y: libc::c_int, x: libc::c_int) -> byte;
-    fn DISTANCE(
-        y1: libc::c_int,
-        x1: libc::c_int,
-        y2: libc::c_int,
-        x2: libc::c_int,
-    ) -> libc::c_int;
+    fn DISTANCE(y1: libc::c_int, x1: libc::c_int, y2: libc::c_int, x2: libc::c_int) -> libc::c_int;
     fn spread(nm: libc::c_int) -> libc::c_int;
     fn rnd_pos(rp: *mut room, cp: *mut coord);
     fn rnd_room() -> libc::c_int;
@@ -121,17 +113,21 @@ pub struct monster {
     pub m_flags: libc::c_ushort,
     pub m_stats: stats,
 }
-static mut vorp_mons: *mut libc::c_char = b"KEBHISORZLCAQNYTWFPUGMXVJD\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
-static mut lvl_mons: *mut libc::c_char = b"K BHISOR LCA NYTWFP GMXVJD\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
-static mut wand_mons: *mut libc::c_char = b"KEBHISORZ CAQ YTW PUGM VJ \0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+static mut vorp_mons: *mut libc::c_char =
+    b"KEBHISORZLCAQNYTWFPUGMXVJD\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
+static mut lvl_mons: *mut libc::c_char =
+    b"K BHISOR LCA NYTWFP GMXVJD\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
+static mut wand_mons: *mut libc::c_char =
+    b"KEBHISORZ CAQ YTW PUGM VJ \0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
 pub unsafe extern "C" fn randmonster(mut wander: bool) -> libc::c_char {
     let mut d: libc::c_int = 0;
     let mut mons: *mut libc::c_char = 0 as *mut libc::c_char;
-    mons = if wander as libc::c_int != 0 { wand_mons } else { lvl_mons };
+    mons = if wander as libc::c_int != 0 {
+        wand_mons
+    } else {
+        lvl_mons
+    };
     loop {
         let mut r10: libc::c_int = rnd(5 as libc::c_int) + rnd(6 as libc::c_int);
         d = level + (r10 - 5 as libc::c_int);
@@ -149,11 +145,7 @@ pub unsafe extern "C" fn randmonster(mut wander: bool) -> libc::c_char {
     return *mons.offset(d as isize);
 }
 #[no_mangle]
-pub unsafe extern "C" fn new_monster(
-    mut tp: *mut THING,
-    mut type_0: byte,
-    mut cp: *mut coord,
-) {
+pub unsafe extern "C" fn new_monster(mut tp: *mut THING, mut type_0: byte, mut cp: *mut coord) {
     let mut mp: *mut monster = 0 as *mut monster;
     let mut lev_add: libc::c_int = 0;
     lev_add = level - 26 as libc::c_int;
@@ -179,19 +171,21 @@ pub unsafe extern "C" fn new_monster(
     (*tp)._t._t_stats.s_arm = (*mp).m_stats.s_arm - lev_add;
     (*tp)._t._t_stats.s_dmg = (*mp).m_stats.s_dmg;
     (*tp)._t._t_stats.s_str = (*mp).m_stats.s_str;
-    (*tp)
-        ._t
-        ._t_stats
-        .s_exp = (*mp).m_stats.s_exp + (lev_add * 10 as libc::c_int) as libc::c_long
+    (*tp)._t._t_stats.s_exp = (*mp).m_stats.s_exp
+        + (lev_add * 10 as libc::c_int) as libc::c_long
         + exp_add(tp) as libc::c_long;
     (*tp)._t._t_flags = (*mp).m_flags as libc::c_short;
     (*tp)._t._t_turn = 1 as libc::c_int as libc::c_char;
     (*tp)._t._t_pack = 0 as *mut thing;
     if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-        && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+        && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+            ._o
+            ._o_which
             == 6 as libc::c_int
         || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 6 as libc::c_int
     {
         start_run(cp);
@@ -200,9 +194,11 @@ pub unsafe extern "C" fn new_monster(
         (*tp)._t._t_stats.s_dmg = f_damage.as_mut_ptr();
     }
     if type_0 as libc::c_int == 'X' as i32 {
-        match rnd(
-            if level > 25 as libc::c_int { 9 as libc::c_int } else { 8 as libc::c_int },
-        ) {
+        match rnd(if level > 25 as libc::c_int {
+            9 as libc::c_int
+        } else {
+            8 as libc::c_int
+        }) {
             0 => {
                 (*tp)._t._t_disguise = 0xf as libc::c_int as byte;
             }
@@ -280,10 +276,7 @@ pub unsafe extern "C" fn wanderer() {
     start_run(&mut (*tp)._t._t_pos);
 }
 #[no_mangle]
-pub unsafe extern "C" fn wake_monster(
-    mut y: libc::c_int,
-    mut x: libc::c_int,
-) -> *mut THING {
+pub unsafe extern "C" fn wake_monster(mut y: libc::c_int, mut x: libc::c_int) -> *mut THING {
     let mut tp: *mut THING = 0 as *mut THING;
     let mut rp: *mut room = 0 as *mut room;
     let mut ch: byte = 0;
@@ -298,24 +291,24 @@ pub unsafe extern "C" fn wake_monster(
         && (*tp)._t._t_flags as libc::c_int & 0x20 as libc::c_int != 0 as libc::c_int
         && !((*tp)._t._t_flags as libc::c_int & 0x80 as libc::c_int != 0 as libc::c_int)
         && !(!(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 12 as libc::c_int
             || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                     ._o
-                    ._o_which == 12 as libc::c_int)
+                    ._o_which
+                    == 12 as libc::c_int)
     {
         (*tp)._t._t_dest = &mut player._t._t_pos;
-        (*tp)
-            ._t
-            ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int)
-            as libc::c_short;
+        (*tp)._t._t_flags =
+            ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int) as libc::c_short;
     }
     if ch as libc::c_int == 'M' as i32
         && !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int)
         && !((*tp)._t._t_flags as libc::c_int & 0x8 as libc::c_int != 0 as libc::c_int)
-        && !((*tp)._t._t_flags as libc::c_int & 0x1000 as libc::c_int
-            != 0 as libc::c_int)
+        && !((*tp)._t._t_flags as libc::c_int & 0x1000 as libc::c_int != 0 as libc::c_int)
         && (*tp)._t._t_flags as libc::c_int & 0x4 as libc::c_int != 0 as libc::c_int
     {
         rp = player._t._t_room;
@@ -323,48 +316,37 @@ pub unsafe extern "C" fn wake_monster(
         if !rp.is_null() && (*rp).r_flags as libc::c_int & 0x1 as libc::c_int == 0
             || dst < 3 as libc::c_int
         {
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x8 as libc::c_int)
-                as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int | 0x8 as libc::c_int) as libc::c_short;
             if !save(0o3 as libc::c_int) {
-                if player._t._t_flags as libc::c_int & 0x100 as libc::c_int
-                    != 0 as libc::c_int
-                {
+                if player._t._t_flags as libc::c_int & 0x100 as libc::c_int != 0 as libc::c_int {
                     lengthen(
                         ::core::mem::transmute::<
-                            Option::<unsafe extern "C" fn() -> ()>,
-                            Option::<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
                         >(Some(unconfuse as unsafe extern "C" fn() -> ())),
                         rnd(20 as libc::c_int) + spread(20 as libc::c_int),
                     );
                 } else {
                     fuse(
                         ::core::mem::transmute::<
-                            Option::<unsafe extern "C" fn() -> ()>,
-                            Option::<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
+                            Option<unsafe extern "C" fn() -> ()>,
                         >(Some(unconfuse as unsafe extern "C" fn() -> ())),
                         rnd(20 as libc::c_int) + spread(20 as libc::c_int),
                     );
                 }
-                player
-                    ._t
-                    ._t_flags = (player._t._t_flags as libc::c_int
-                    | 0x100 as libc::c_int) as libc::c_short;
-                msg(
-                    b"the medusa's gaze has confused you\0" as *const u8
-                        as *const libc::c_char,
-                );
+                player._t._t_flags =
+                    (player._t._t_flags as libc::c_int | 0x100 as libc::c_int) as libc::c_short;
+                msg(b"the medusa's gaze has confused you\0" as *const u8 as *const libc::c_char);
             }
         }
     }
     if (*tp)._t._t_flags as libc::c_int & 0x40 as libc::c_int != 0 as libc::c_int
         && !((*tp)._t._t_flags as libc::c_int & 0x4 as libc::c_int != 0 as libc::c_int)
     {
-        (*tp)
-            ._t
-            ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int)
-            as libc::c_short;
+        (*tp)._t._t_flags =
+            ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int) as libc::c_short;
         if (*player._t._t_room).r_goldval != 0 {
             (*tp)._t._t_dest = &mut (*player._t._t_room).r_gold;
         } else {
@@ -380,7 +362,7 @@ pub unsafe extern "C" fn give_pack(mut tp: *mut THING) {
             < (*monsters
                 .as_mut_ptr()
                 .offset(((*tp)._t._t_type as libc::c_int - 'A' as i32) as isize))
-                .m_carry
+            .m_carry
     {
         list_attach(&mut (*tp)._t._t_pack, new_thing());
     }

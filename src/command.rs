@@ -210,7 +210,10 @@ pub unsafe extern "C" fn command() {
         ntimes = 0 as libc::c_int;
         while ntimes <= 1 as libc::c_int {
             if !(*cur_ring.as_mut_ptr().offset(ntimes as isize)).is_null() {
-                match (**cur_ring.as_mut_ptr().offset(ntimes as isize))._o._o_which {
+                match (**cur_ring.as_mut_ptr().offset(ntimes as isize))
+                    ._o
+                    ._o_which
+                {
                     3 => {
                         search();
                     }
@@ -224,7 +227,7 @@ pub unsafe extern "C" fn command() {
             }
             ntimes += 1;
         }
-    };
+    }
 }
 #[no_mangle]
 pub unsafe extern "C" fn com_char() -> byte {
@@ -323,9 +326,7 @@ pub unsafe extern "C" fn get_prefix() -> byte {
     match retch as libc::c_int {
         104 | 106 | 107 | 108 | 121 | 117 | 98 | 110 => {
             if fastmode as libc::c_int != 0 && !running {
-                if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int
-                    != 0 as libc::c_int)
-                {
+                if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int) {
                     door_stop = 1 as libc::c_int != 0;
                     firstmove = 1 as libc::c_int != 0;
                 }
@@ -336,9 +337,7 @@ pub unsafe extern "C" fn get_prefix() -> byte {
                     {
                         if 0 != 0 {
                             let mut __c: libc::c_int = retch as libc::c_int;
-                            __res = if __c < -(128 as libc::c_int)
-                                || __c > 255 as libc::c_int
-                            {
+                            __res = if __c < -(128 as libc::c_int) || __c > 255 as libc::c_int {
                                 __c
                             } else {
                                 *(*__ctype_toupper_loc()).offset(__c as isize)
@@ -347,8 +346,7 @@ pub unsafe extern "C" fn get_prefix() -> byte {
                             __res = toupper(retch as libc::c_int);
                         }
                     } else {
-                        __res = *(*__ctype_toupper_loc())
-                            .offset(retch as libc::c_int as isize);
+                        __res = *(*__ctype_toupper_loc()).offset(retch as libc::c_int as isize);
                     }
                     __res
                 }) as byte;
@@ -396,9 +394,7 @@ pub unsafe extern "C" fn execcom() {
                         {
                             if 0 != 0 {
                                 let mut __c: libc::c_int = ch;
-                                __res = if __c < -(128 as libc::c_int)
-                                    || __c > 255 as libc::c_int
-                                {
+                                __res = if __c < -(128 as libc::c_int) || __c > 255 as libc::c_int {
                                     __c
                                 } else {
                                     *(*__ctype_tolower_loc()).offset(__c as isize)
@@ -501,14 +497,11 @@ pub unsafe extern "C" fn execcom() {
                 after = 0 as libc::c_int != 0;
                 // Rust port: Fixed weakly typed conversion
                 expert ^= true;
-                msg(
-                    if expert as libc::c_int != 0 {
-                        b"Ok, I'll be brief\0" as *const u8 as *const libc::c_char
-                    } else {
-                        b"Goodie, I can use big words again!\0" as *const u8
-                            as *const libc::c_char
-                    },
-                );
+                msg(if expert as libc::c_int != 0 {
+                    b"Ok, I'll be brief\0" as *const u8 as *const libc::c_char
+                } else {
+                    b"Goodie, I can use big words again!\0" as *const u8 as *const libc::c_char
+                });
             }
             70 => {
                 after = 0 as libc::c_int != 0;
@@ -559,8 +552,8 @@ pub unsafe extern "C" fn execcom() {
                         msg(
                             b"you found %s\0" as *const u8 as *const libc::c_char,
                             tr_name(
-                                (*_flags.offset(INDEX(lookat.y, lookat.x) as isize)
-                                    as libc::c_int & 0x7 as libc::c_int) as byte,
+                                (*_flags.offset(INDEX(lookat.y, lookat.x) as isize) as libc::c_int
+                                    & 0x7 as libc::c_int) as byte,
                             ),
                         );
                     }
@@ -568,17 +561,12 @@ pub unsafe extern "C" fn execcom() {
             }
             111 => {
                 after = 0 as libc::c_int != 0;
-                msg(
-                    b"i don't have any options, oh my!\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"i don't have any options, oh my!\0" as *const u8 as *const libc::c_char);
             }
             12 => {
                 after = 0 as libc::c_int != 0;
-                msg(
-                    b"the screen looks fine to me (jll was here)\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"the screen looks fine to me (jll was here)\0" as *const u8
+                    as *const libc::c_char);
             }
             _ => {
                 after = 0 as libc::c_int != 0;
@@ -601,5 +589,5 @@ pub unsafe extern "C" fn execcom() {
         if !(after as libc::c_int == 0 as libc::c_int) {
             break;
         }
-    };
+    }
 }

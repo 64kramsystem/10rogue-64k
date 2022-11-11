@@ -55,12 +55,7 @@ extern "C" {
     fn cur_mvaddstr(r: libc::c_int, c: libc::c_int, s: *mut libc::c_char);
     fn cur_addstr(s: *mut libc::c_char);
     fn set_attr(bute: libc::c_int);
-    fn cur_box(
-        ul_r: libc::c_int,
-        ul_c: libc::c_int,
-        lr_r: libc::c_int,
-        lr_c: libc::c_int,
-    );
+    fn cur_box(ul_r: libc::c_int, ul_c: libc::c_int, lr_r: libc::c_int, lr_c: libc::c_int);
     fn center(row: libc::c_int, string: *mut libc::c_char);
     fn cur_printw(msg: *const libc::c_char, _: ...);
     fn drop_curtain();
@@ -245,7 +240,10 @@ pub unsafe extern "C" fn score(
         wait_msg(b"see rankings\0" as *const u8 as *const libc::c_char);
     }
     loop {
-        file = fopen(s_score.as_mut_ptr(), b"r\0" as *const u8 as *const libc::c_char);
+        file = fopen(
+            s_score.as_mut_ptr(),
+            b"r\0" as *const u8 as *const libc::c_char,
+        );
         if !file.is_null() {
             break;
         }
@@ -261,12 +259,10 @@ pub unsafe extern "C" fn score(
             response = readchar() as libc::c_char;
             match response as libc::c_int {
                 99 | 67 => {
-                    fclose(
-                        fopen(
-                            s_score.as_mut_ptr(),
-                            b"w\0" as *const u8 as *const libc::c_char,
-                        ),
-                    );
+                    fclose(fopen(
+                        s_score.as_mut_ptr(),
+                        b"w\0" as *const u8 as *const libc::c_char,
+                    ));
                     break;
                 }
                 114 | 82 => {
@@ -282,14 +278,21 @@ pub unsafe extern "C" fn score(
     if noscore as libc::c_int != 1 as libc::c_int {
         strcpy((his_score.sc_name).as_mut_ptr(), whoami.as_mut_ptr());
         his_score.sc_gold = amount;
-        his_score.sc_fate = if flags != 0 { flags } else { monst as libc::c_int };
+        his_score.sc_fate = if flags != 0 {
+            flags
+        } else {
+            monst as libc::c_int
+        };
         his_score.sc_level = max_level;
         his_score.sc_rank = player._t._t_stats.s_lvl;
         rank = add_scores(&mut his_score, top_ten.as_mut_ptr());
     }
     fclose(file);
     if rank > 0 as libc::c_int {
-        file = fopen(s_score.as_mut_ptr(), b"w\0" as *const u8 as *const libc::c_char);
+        file = fopen(
+            s_score.as_mut_ptr(),
+            b"w\0" as *const u8 as *const libc::c_char,
+        );
         if !file.is_null() {
             put_scores(top_ten.as_mut_ptr());
             fclose(file);
@@ -349,8 +352,7 @@ unsafe extern "C" fn pr_scores(mut newrank: libc::c_int, mut top10: *mut sc_ent)
     cur_mvaddstr(
         0 as libc::c_int,
         0 as libc::c_int,
-        b"Guildmaster's Hall Of Fame:\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char,
+        b"Guildmaster's Hall Of Fame:\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
     );
     set_attr(0 as libc::c_int);
     set_attr(11 as libc::c_int);
@@ -374,9 +376,16 @@ unsafe extern "C" fn pr_scores(mut newrank: libc::c_int, mut top10: *mut sc_ent)
             break;
         }
         curl = 4 as libc::c_int
-            + (if COLS == 40 as libc::c_int { i * 2 as libc::c_int } else { i });
+            + (if COLS == 40 as libc::c_int {
+                i * 2 as libc::c_int
+            } else {
+                i
+            });
         cur_move(curl, 0 as libc::c_int);
-        cur_printw(b"%d \0" as *const u8 as *const libc::c_char, (*top10).sc_gold);
+        cur_printw(
+            b"%d \0" as *const u8 as *const libc::c_char,
+            (*top10).sc_gold,
+        );
         cur_move(curl, 6 as libc::c_int);
         if newrank - 1 as libc::c_int != i {
             set_attr(3 as libc::c_int);
@@ -389,8 +398,8 @@ unsafe extern "C" fn pr_scores(mut newrank: libc::c_int, mut top10: *mut sc_ent)
             set_attr(5 as libc::c_int);
         }
         if (*top10).sc_level >= 26 as libc::c_int {
-            altmsg = b" Honored by the Guild\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            altmsg =
+                b" Honored by the Guild\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         if is_alpha((*top10).sc_fate as libc::c_char) {
             sprintf(
@@ -431,17 +440,14 @@ unsafe extern "C" fn pr_scores(mut newrank: libc::c_int, mut top10: *mut sc_ent)
         }
         if ((strlen(((*top10).sc_name).as_mut_ptr()))
             .wrapping_add(10 as libc::c_int as libc::c_ulong)
-            .wrapping_add(
-                strlen(
-                    *he_man
-                        .as_mut_ptr()
-                        .offset(((*top10).sc_rank - 1 as libc::c_int) as isize),
-                ),
-            ) as libc::c_int) < COLS
+            .wrapping_add(strlen(
+                *he_man
+                    .as_mut_ptr()
+                    .offset(((*top10).sc_rank - 1 as libc::c_int) as isize),
+            )) as libc::c_int)
+            < COLS
         {
-            if (*top10).sc_rank > 1 as libc::c_int
-                && strlen(((*top10).sc_name).as_mut_ptr()) != 0
-            {
+            if (*top10).sc_rank > 1 as libc::c_int && strlen(((*top10).sc_name).as_mut_ptr()) != 0 {
                 cur_printw(
                     b" \"%s\"\0" as *const u8 as *const libc::c_char,
                     *he_man
@@ -467,9 +473,7 @@ unsafe extern "C" fn pr_scores(mut newrank: libc::c_int, mut top10: *mut sc_ent)
     }
     set_attr(0 as libc::c_int);
     if COLS == 80 as libc::c_int {
-        cur_addstr(
-            b"\n\n\n\n\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-        );
+        cur_addstr(b"\n\n\n\n\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
     }
 }
 unsafe extern "C" fn add_scores(
@@ -479,8 +483,7 @@ unsafe extern "C" fn add_scores(
     let mut sentry: *mut sc_ent = 0 as *mut sc_ent;
     let mut insert: *mut sc_ent = 0 as *mut sc_ent;
     let mut retcode: libc::c_int = 10 as libc::c_int + 1 as libc::c_int;
-    sentry = &mut *oldlist.offset((10 as libc::c_int - 1 as libc::c_int) as isize)
-        as *mut sc_ent;
+    sentry = &mut *oldlist.offset((10 as libc::c_int - 1 as libc::c_int) as isize) as *mut sc_ent;
     while sentry >= oldlist {
         if !((*newscore).sc_gold as libc::c_uint > (*sentry).sc_gold as libc::c_uint) {
             break;
@@ -488,8 +491,8 @@ unsafe extern "C" fn add_scores(
         insert = sentry;
         retcode -= 1;
         if insert
-            < &mut *oldlist.offset((10 as libc::c_int - 1 as libc::c_int) as isize)
-                as *mut sc_ent && (*sentry).sc_gold != 0
+            < &mut *oldlist.offset((10 as libc::c_int - 1 as libc::c_int) as isize) as *mut sc_ent
+            && (*sentry).sc_gold != 0
         {
             *sentry.offset(1 as libc::c_int as isize) = *sentry;
         }
@@ -511,7 +514,11 @@ pub unsafe extern "C" fn death(mut monst: libc::c_char) {
         set_attr(5 as libc::c_int);
     }
     cur_box(
-        if COLS == 40 as libc::c_int { 1 as libc::c_int } else { 7 as libc::c_int },
+        if COLS == 40 as libc::c_int {
+            1 as libc::c_int
+        } else {
+            7 as libc::c_int
+        },
         (COLS - 28 as libc::c_int) / 2 as libc::c_int,
         22 as libc::c_int,
         (COLS + 28 as libc::c_int) / 2 as libc::c_int,
@@ -537,8 +544,8 @@ pub unsafe extern "C" fn death(mut monst: libc::c_char) {
     set_attr(1 as libc::c_int);
     center(
         22 as libc::c_int,
-        b"___\\/(\\/)/(\\/ \\\\(//)\\)\\/(//)\\\\)//(\\__\0" as *const u8
-            as *const libc::c_char as *mut libc::c_char,
+        b"___\\/(\\/)/(\\/ \\\\(//)\\)\\/(//)\\\\)//(\\__\0" as *const u8 as *const libc::c_char
+            as *mut libc::c_char,
     );
     set_attr(0 as libc::c_int);
     if scr_type == 7 as libc::c_int {
@@ -547,13 +554,24 @@ pub unsafe extern "C" fn death(mut monst: libc::c_char) {
     center(14 as libc::c_int, your_na);
     set_attr(0 as libc::c_int);
     killname(monst as byte, 1 as libc::c_int != 0);
-    strcpy(buf.as_mut_ptr(), b"killed by\0" as *const u8 as *const libc::c_char);
+    strcpy(
+        buf.as_mut_ptr(),
+        b"killed by\0" as *const u8 as *const libc::c_char,
+    );
     center(15 as libc::c_int, buf.as_mut_ptr());
     center(16 as libc::c_int, kild_by);
-    sprintf(buf.as_mut_ptr(), b"%u Au\0" as *const u8 as *const libc::c_char, purse);
+    sprintf(
+        buf.as_mut_ptr(),
+        b"%u Au\0" as *const u8 as *const libc::c_char,
+        purse,
+    );
     center(18 as libc::c_int, buf.as_mut_ptr());
     year = (*md_localtime()).year;
-    sprintf(buf.as_mut_ptr(), b"%u\0" as *const u8 as *const libc::c_char, year);
+    sprintf(
+        buf.as_mut_ptr(),
+        b"%u\0" as *const u8 as *const libc::c_char,
+        year,
+    );
     center(19 as libc::c_int, buf.as_mut_ptr());
     raise_curtain();
     cur_move(LINES - 1 as libc::c_int, 0 as libc::c_int);
@@ -570,54 +588,54 @@ pub unsafe extern "C" fn total_winner() {
     if !terse {
         set_attr(14 as libc::c_int);
         cur_printw(
-            b"                                                               \n\0"
-                as *const u8 as *const libc::c_char,
+            b"                                                               \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"  @   @               @   @           @          @@@  @     @  \n\0"
-                as *const u8 as *const libc::c_char,
+            b"  @   @               @   @           @          @@@  @     @  \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"  @   @               @@ @@           @           @   @     @  \n\0"
-                as *const u8 as *const libc::c_char,
+            b"  @   @               @@ @@           @           @   @     @  \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"  @   @  @@@  @   @   @ @ @  @@@   @@@@  @@@      @  @@@    @  \n\0"
-                as *const u8 as *const libc::c_char,
+            b"  @   @  @@@  @   @   @ @ @  @@@   @@@@  @@@      @  @@@    @  \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"   @@@@ @   @ @   @   @   @     @ @   @ @   @     @   @     @  \n\0"
-                as *const u8 as *const libc::c_char,
+            b"   @@@@ @   @ @   @   @   @     @ @   @ @   @     @   @     @  \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"      @ @   @ @   @   @   @  @@@@ @   @ @@@@@     @   @     @  \n\0"
-                as *const u8 as *const libc::c_char,
+            b"      @ @   @ @   @   @   @  @@@@ @   @ @@@@@     @   @     @  \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"  @   @ @   @ @  @@   @   @ @   @ @   @ @         @   @  @     \n\0"
-                as *const u8 as *const libc::c_char,
+            b"  @   @ @   @ @  @@   @   @ @   @ @   @ @         @   @  @     \n\0" as *const u8
+                as *const libc::c_char,
         );
         cur_printw(
-            b"   @@@   @@@   @@ @   @   @  @@@@  @@@@  @@@     @@@   @@   @  \n\0"
-                as *const u8 as *const libc::c_char,
+            b"   @@@   @@@   @@ @   @   @  @@@@  @@@@  @@@     @@@   @@   @  \n\0" as *const u8
+                as *const libc::c_char,
         );
     }
     cur_printw(
-        b"                                                               \n\0"
-            as *const u8 as *const libc::c_char,
+        b"                                                               \n\0" as *const u8
+            as *const libc::c_char,
     );
     cur_printw(
-        b"     Congratulations, you have made it to the light of day!    \n\0"
-            as *const u8 as *const libc::c_char,
+        b"     Congratulations, you have made it to the light of day!    \n\0" as *const u8
+            as *const libc::c_char,
     );
     set_attr(0 as libc::c_int);
     cur_printw(
-        b"\nYou have joined the elite ranks of those who have escaped the\n\0"
-            as *const u8 as *const libc::c_char,
+        b"\nYou have joined the elite ranks of those who have escaped the\n\0" as *const u8
+            as *const libc::c_char,
     );
     cur_printw(
-        b"Dungeons of Doom alive.  You journey home and sell all your loot at\n\0"
-            as *const u8 as *const libc::c_char,
+        b"Dungeons of Doom alive.  You journey home and sell all your loot at\n\0" as *const u8
+            as *const libc::c_char,
     );
     cur_printw(
         b"a great profit and are admitted to the fighters guild.\n\0" as *const u8
@@ -626,8 +644,7 @@ pub unsafe extern "C" fn total_winner() {
     cur_mvaddstr(
         LINES - 1 as libc::c_int,
         0 as libc::c_int,
-        b"--Press space to continue--\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char,
+        b"--Press space to continue--\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
     );
     wait_for(' ' as i32 as byte);
     cur_clear();
@@ -678,13 +695,10 @@ pub unsafe extern "C" fn total_winner() {
                     }
                     _ => {}
                 }
-                worth
-                    *= 3 as libc::c_int * ((*obj)._o._o_hplus + (*obj)._o._o_dplus)
-                        + (*obj)._o._o_count;
-                (*obj)
-                    ._o
-                    ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                    as libc::c_short;
+                worth *= 3 as libc::c_int * ((*obj)._o._o_hplus + (*obj)._o._o_dplus)
+                    + (*obj)._o._o_count;
+                (*obj)._o._o_flags =
+                    ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
             }
             8 => {
                 match (*obj)._o._o_which {
@@ -714,43 +728,34 @@ pub unsafe extern "C" fn total_winner() {
                     }
                     _ => {}
                 }
-                worth
-                    += (9 as libc::c_int - (*obj)._o._o_ac as libc::c_int)
-                        * 100 as libc::c_int;
-                worth
-                    += 10 as libc::c_int
-                        * (*a_class.as_mut_ptr().offset((*obj)._o._o_which as isize)
-                            - (*obj)._o._o_ac as libc::c_int);
-                (*obj)
-                    ._o
-                    ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                    as libc::c_short;
+                worth += (9 as libc::c_int - (*obj)._o._o_ac as libc::c_int) * 100 as libc::c_int;
+                worth += 10 as libc::c_int
+                    * (*a_class.as_mut_ptr().offset((*obj)._o._o_which as isize)
+                        - (*obj)._o._o_ac as libc::c_int);
+                (*obj)._o._o_flags =
+                    ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
             }
             13 => {
-                worth = (*s_magic.as_mut_ptr().offset((*obj)._o._o_which as isize))
-                    .mi_worth as libc::c_int;
+                worth = (*s_magic.as_mut_ptr().offset((*obj)._o._o_which as isize)).mi_worth
+                    as libc::c_int;
                 worth *= (*obj)._o._o_count;
                 if !*s_know.as_mut_ptr().offset((*obj)._o._o_which as isize) {
                     worth /= 2 as libc::c_int;
                 }
-                *s_know
-                    .as_mut_ptr()
-                    .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+                *s_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
             }
             173 => {
-                worth = (*p_magic.as_mut_ptr().offset((*obj)._o._o_which as isize))
-                    .mi_worth as libc::c_int;
+                worth = (*p_magic.as_mut_ptr().offset((*obj)._o._o_which as isize)).mi_worth
+                    as libc::c_int;
                 worth *= (*obj)._o._o_count;
                 if !*p_know.as_mut_ptr().offset((*obj)._o._o_which as isize) {
                     worth /= 2 as libc::c_int;
                 }
-                *p_know
-                    .as_mut_ptr()
-                    .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+                *p_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
             }
             9 => {
-                worth = (*r_magic.as_mut_ptr().offset((*obj)._o._o_which as isize))
-                    .mi_worth as libc::c_int;
+                worth = (*r_magic.as_mut_ptr().offset((*obj)._o._o_which as isize)).mi_worth
+                    as libc::c_int;
                 if (*obj)._o._o_which == 1 as libc::c_int
                     || (*obj)._o._o_which == 8 as libc::c_int
                     || (*obj)._o._o_which == 0 as libc::c_int
@@ -765,28 +770,20 @@ pub unsafe extern "C" fn total_winner() {
                 if (*obj)._o._o_flags as libc::c_int & 0x2 as libc::c_int == 0 {
                     worth /= 2 as libc::c_int;
                 }
-                (*obj)
-                    ._o
-                    ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                    as libc::c_short;
-                *r_know
-                    .as_mut_ptr()
-                    .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+                (*obj)._o._o_flags =
+                    ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
+                *r_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
             }
             231 => {
-                worth = (*ws_magic.as_mut_ptr().offset((*obj)._o._o_which as isize))
-                    .mi_worth as libc::c_int;
+                worth = (*ws_magic.as_mut_ptr().offset((*obj)._o._o_which as isize)).mi_worth
+                    as libc::c_int;
                 worth += 20 as libc::c_int * (*obj)._o._o_ac as libc::c_int;
                 if (*obj)._o._o_flags as libc::c_int & 0x2 as libc::c_int == 0 {
                     worth /= 2 as libc::c_int;
                 }
-                (*obj)
-                    ._o
-                    ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                    as libc::c_short;
-                *ws_know
-                    .as_mut_ptr()
-                    .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+                (*obj)._o._o_flags =
+                    ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
+                *ws_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
             }
             12 => {
                 worth = 1000 as libc::c_int;
@@ -796,7 +793,10 @@ pub unsafe extern "C" fn total_winner() {
         if worth < 0 as libc::c_int {
             worth = 0 as libc::c_int;
         }
-        cur_move(c as libc::c_int - 'a' as i32 + 1 as libc::c_int, 0 as libc::c_int);
+        cur_move(
+            c as libc::c_int - 'a' as i32 + 1 as libc::c_int,
+            0 as libc::c_int,
+        );
         cur_printw(
             b"%c) %5d  %s\0" as *const u8 as *const libc::c_char,
             c as libc::c_int,
@@ -807,7 +807,10 @@ pub unsafe extern "C" fn total_winner() {
         c = c.wrapping_add(1);
         obj = (*obj)._t._l_next;
     }
-    cur_move(c as libc::c_int - 'a' as i32 + 1 as libc::c_int, 0 as libc::c_int);
+    cur_move(
+        c as libc::c_int - 'a' as i32 + 1 as libc::c_int,
+        0 as libc::c_int,
+    );
     cur_printw(
         b"   %5u  Gold Pieces          \0" as *const u8 as *const libc::c_char,
         oldpurse,
@@ -816,10 +819,7 @@ pub unsafe extern "C" fn total_winner() {
     md_exit(0 as libc::c_int);
 }
 #[no_mangle]
-pub unsafe extern "C" fn killname(
-    mut monst: byte,
-    mut doart: bool,
-) -> *mut libc::c_char {
+pub unsafe extern "C" fn killname(mut monst: byte, mut doart: bool) -> *mut libc::c_char {
     let mut sp: *mut libc::c_char = 0 as *mut libc::c_char;
     let mut article: bool = false;
     sp = prbuf;
@@ -835,8 +835,7 @@ pub unsafe extern "C" fn killname(
             sp = b"dart\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         115 => {
-            sp = b"starvation\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            sp = b"starvation\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
             article = 0 as libc::c_int != 0;
         }
         102 => {
@@ -847,7 +846,7 @@ pub unsafe extern "C" fn killname(
                 sp = (*monsters
                     .as_mut_ptr()
                     .offset((monst as libc::c_int - 'A' as i32) as isize))
-                    .m_name;
+                .m_name;
             } else {
                 sp = b"God\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
                 article = 0 as libc::c_int != 0;
@@ -855,7 +854,11 @@ pub unsafe extern "C" fn killname(
         }
     }
     if doart as libc::c_int != 0 && article as libc::c_int != 0 {
-        sprintf(prbuf, b"a%s \0" as *const u8 as *const libc::c_char, vowelstr(sp));
+        sprintf(
+            prbuf,
+            b"a%s \0" as *const u8 as *const libc::c_char,
+            vowelstr(sp),
+        );
     } else {
         *prbuf.offset(0 as libc::c_int as isize) = '\0' as i32 as libc::c_char;
     }

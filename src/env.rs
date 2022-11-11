@@ -68,79 +68,57 @@ pub struct environment {
     pub e_string: *mut libc::c_char,
     pub strlen: libc::c_int,
 }
-static mut l_name: [libc::c_char; 5] = unsafe {
-    *::core::mem::transmute::<&[u8; 5], &mut [libc::c_char; 5]>(b"name\0")
-};
-static mut l_save: [libc::c_char; 9] = unsafe {
-    *::core::mem::transmute::<&[u8; 9], &mut [libc::c_char; 9]>(b"savefile\0")
-};
-static mut l_score: [libc::c_char; 10] = unsafe {
-    *::core::mem::transmute::<&[u8; 10], &mut [libc::c_char; 10]>(b"scorefile\0")
-};
-static mut l_macro: [libc::c_char; 6] = unsafe {
-    *::core::mem::transmute::<&[u8; 6], &mut [libc::c_char; 6]>(b"macro\0")
-};
-static mut l_fruit: [libc::c_char; 6] = unsafe {
-    *::core::mem::transmute::<&[u8; 6], &mut [libc::c_char; 6]>(b"fruit\0")
-};
-static mut l_drive: [libc::c_char; 6] = unsafe {
-    *::core::mem::transmute::<&[u8; 6], &mut [libc::c_char; 6]>(b"drive\0")
-};
-static mut l_menu: [libc::c_char; 5] = unsafe {
-    *::core::mem::transmute::<&[u8; 5], &mut [libc::c_char; 5]>(b"menu\0")
-};
-static mut l_screen: [libc::c_char; 7] = unsafe {
-    *::core::mem::transmute::<&[u8; 7], &mut [libc::c_char; 7]>(b"screen\0")
-};
+static mut l_name: [libc::c_char; 5] =
+    unsafe { *::core::mem::transmute::<&[u8; 5], &mut [libc::c_char; 5]>(b"name\0") };
+static mut l_save: [libc::c_char; 9] =
+    unsafe { *::core::mem::transmute::<&[u8; 9], &mut [libc::c_char; 9]>(b"savefile\0") };
+static mut l_score: [libc::c_char; 10] =
+    unsafe { *::core::mem::transmute::<&[u8; 10], &mut [libc::c_char; 10]>(b"scorefile\0") };
+static mut l_macro: [libc::c_char; 6] =
+    unsafe { *::core::mem::transmute::<&[u8; 6], &mut [libc::c_char; 6]>(b"macro\0") };
+static mut l_fruit: [libc::c_char; 6] =
+    unsafe { *::core::mem::transmute::<&[u8; 6], &mut [libc::c_char; 6]>(b"fruit\0") };
+static mut l_drive: [libc::c_char; 6] =
+    unsafe { *::core::mem::transmute::<&[u8; 6], &mut [libc::c_char; 6]>(b"drive\0") };
+static mut l_menu: [libc::c_char; 5] =
+    unsafe { *::core::mem::transmute::<&[u8; 5], &mut [libc::c_char; 5]>(b"menu\0") };
+static mut l_screen: [libc::c_char; 7] =
+    unsafe { *::core::mem::transmute::<&[u8; 7], &mut [libc::c_char; 7]>(b"screen\0") };
 #[no_mangle]
 pub static mut whoami: [libc::c_char; 24] = unsafe {
-    *::core::mem::transmute::<
-        &[u8; 24],
-        &mut [libc::c_char; 24],
-    >(b"Rodney\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0")
+    *::core::mem::transmute::<&[u8; 24], &mut [libc::c_char; 24]>(
+        b"Rodney\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+    )
 };
 #[no_mangle]
 pub static mut s_score: [libc::c_char; 15] = unsafe {
-    *::core::mem::transmute::<
-        &[u8; 15],
-        &mut [libc::c_char; 15],
-    >(b"rogue.scr\0\0\0\0\0\0")
+    *::core::mem::transmute::<&[u8; 15], &mut [libc::c_char; 15]>(b"rogue.scr\0\0\0\0\0\0")
 };
 #[no_mangle]
 pub static mut s_save: [libc::c_char; 15] = unsafe {
-    *::core::mem::transmute::<
-        &[u8; 15],
-        &mut [libc::c_char; 15],
-    >(b"rogue.sav\0\0\0\0\0\0")
+    *::core::mem::transmute::<&[u8; 15], &mut [libc::c_char; 15]>(b"rogue.sav\0\0\0\0\0\0")
 };
 #[export_name = "macro"]
 pub static mut macro_0: [libc::c_char; 42] = unsafe {
-    *::core::mem::transmute::<
-        &[u8; 42],
-        &mut [libc::c_char; 42],
-    >(
+    *::core::mem::transmute::<&[u8; 42], &mut [libc::c_char; 42]>(
         b"v\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
     )
 };
 #[no_mangle]
 pub static mut fruit: [libc::c_char; 24] = unsafe {
-    *::core::mem::transmute::<
-        &[u8; 24],
-        &mut [libc::c_char; 24],
-    >(b"Slime Mold\0\0\0\0\0\0\0\0\0\0\0\0\0\0")
+    *::core::mem::transmute::<&[u8; 24], &mut [libc::c_char; 24]>(
+        b"Slime Mold\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
+    )
 };
 #[no_mangle]
-pub static mut s_drive: [libc::c_char; 2] = unsafe {
-    *::core::mem::transmute::<&[u8; 2], &mut [libc::c_char; 2]>(b"?\0")
-};
+pub static mut s_drive: [libc::c_char; 2] =
+    unsafe { *::core::mem::transmute::<&[u8; 2], &mut [libc::c_char; 2]>(b"?\0") };
 #[no_mangle]
-pub static mut s_menu: [libc::c_char; 4] = unsafe {
-    *::core::mem::transmute::<&[u8; 4], &mut [libc::c_char; 4]>(b"on\0\0")
-};
+pub static mut s_menu: [libc::c_char; 4] =
+    unsafe { *::core::mem::transmute::<&[u8; 4], &mut [libc::c_char; 4]>(b"on\0\0") };
 #[no_mangle]
-pub static mut s_screen: [libc::c_char; 8] = unsafe {
-    *::core::mem::transmute::<&[u8; 8], &mut [libc::c_char; 8]>(b"\0w fast\0")
-};
+pub static mut s_screen: [libc::c_char; 8] =
+    unsafe { *::core::mem::transmute::<&[u8; 8], &mut [libc::c_char; 8]>(b"\0w fast\0") };
 static mut element: [environment; 8] = unsafe {
     [
         {
@@ -241,8 +219,7 @@ pub unsafe extern "C" fn setenv_from_file(mut envfile: *mut libc::c_char) -> boo
             *plabel = ch as libc::c_char;
             loop {
                 pc = peekc() as libc::c_char;
-                if !(pc as libc::c_int != '=' as i32 && pc as libc::c_int != '-' as i32)
-                {
+                if !(pc as libc::c_int != '=' as i32 && pc as libc::c_int != '-' as i32) {
                     break;
                 }
                 if !is_space(*plabel) || !is_space(ch as libc::c_char) {
@@ -270,52 +247,46 @@ pub unsafe extern "C" fn setenv_from_file(mut envfile: *mut libc::c_char) -> boo
             lcase(blabel.as_mut_ptr());
             putenv_struct(blabel.as_mut_ptr(), bstring.as_mut_ptr());
         }
-    };
+    }
 }
 unsafe extern "C" fn peekc() -> byte {
     ch = 0 as libc::c_int as byte;
-    if plabel
-        > &mut *blabel.as_mut_ptr().offset(10 as libc::c_int as isize)
-            as *mut libc::c_char
-    {
-        plabel = &mut *blabel.as_mut_ptr().offset(10 as libc::c_int as isize)
-            as *mut libc::c_char;
+    if plabel > &mut *blabel.as_mut_ptr().offset(10 as libc::c_int as isize) as *mut libc::c_char {
+        plabel = &mut *blabel.as_mut_ptr().offset(10 as libc::c_int as isize) as *mut libc::c_char;
     }
-    if pstring
-        > &mut *bstring.as_mut_ptr().offset(24 as libc::c_int as isize)
-            as *mut libc::c_char
+    if pstring > &mut *bstring.as_mut_ptr().offset(24 as libc::c_int as isize) as *mut libc::c_char
     {
-        pstring = &mut *bstring.as_mut_ptr().offset(24 as libc::c_int as isize)
-            as *mut libc::c_char;
+        pstring =
+            &mut *bstring.as_mut_ptr().offset(24 as libc::c_int as isize) as *mut libc::c_char;
     }
     if fread(
         &mut ch as *mut byte as *mut libc::c_void,
         1 as libc::c_int as libc::c_ulong,
         1 as libc::c_int as libc::c_ulong,
         file,
-    ) == 0 && pstate != 0 as libc::c_int
+    ) == 0
+        && pstate != 0 as libc::c_int
     {
         if pstate >= 2 as libc::c_int {
             return '\n' as i32 as byte;
         }
-        fatal(
-            b"rogue.opt: incorrect file format\n\0" as *const u8 as *const libc::c_char,
-        );
+        fatal(b"rogue.opt: incorrect file format\n\0" as *const u8 as *const libc::c_char);
     }
     if ch as libc::c_int == 26 as libc::c_int {
         ch = '\n' as i32 as byte;
     }
     return ch;
 }
-unsafe extern "C" fn putenv_struct(
-    mut label: *mut libc::c_char,
-    mut string: *mut libc::c_char,
-) {
+unsafe extern "C" fn putenv_struct(mut label: *mut libc::c_char, mut string: *mut libc::c_char) {
     let mut i: libc::c_int = 0;
     i = 0 as libc::c_int;
     while i < 8 as libc::c_int {
         if strcmp(label, element[i as usize].e_label) == 0 as libc::c_int {
-            stccpy(element[i as usize].e_string, string, element[i as usize].strlen);
+            stccpy(
+                element[i as usize].e_string,
+                string,
+                element[i as usize].strlen,
+            );
         }
         i += 1;
     }

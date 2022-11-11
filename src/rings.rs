@@ -103,10 +103,7 @@ pub unsafe extern "C" fn ring_on() {
     );
     if !obj.is_null() {
         if (*obj)._o._o_type != 0x9 as libc::c_int {
-            msg(
-                b"you can't put that on your finger\0" as *const u8
-                    as *const libc::c_char,
-            );
+            msg(b"you can't put that on your finger\0" as *const u8 as *const libc::c_char);
         } else if !is_current(obj) {
             if (*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null() {
                 ring = 0 as libc::c_int;
@@ -130,14 +127,10 @@ pub unsafe extern "C" fn ring_on() {
                 16077025435993566754 => {}
                 _ => {
                     if ring < 0 as libc::c_int {
-                        msg(
-                            b"you already have a ring on each hand\0" as *const u8
-                                as *const libc::c_char,
-                        );
+                        msg(b"you already have a ring on each hand\0" as *const u8
+                            as *const libc::c_char);
                     } else {
-                        let ref mut fresh0 = *cur_ring
-                            .as_mut_ptr()
-                            .offset(ring as isize);
+                        let ref mut fresh0 = *cur_ring.as_mut_ptr().offset(ring as isize);
                         *fresh0 = obj;
                         match (*obj)._o._o_which {
                             1 => {
@@ -218,14 +211,14 @@ unsafe extern "C" fn gethand() -> libc::c_int {
         }
         mpos = 0 as libc::c_int;
         if c == 'l' as i32 || c == 'L' as i32 {
-            return 0 as libc::c_int
+            return 0 as libc::c_int;
         } else {
             if c == 'r' as i32 || c == 'R' as i32 {
                 return 1 as libc::c_int;
             }
         }
         msg(b"please type L or R\0" as *const u8 as *const libc::c_char);
-    };
+    }
 }
 #[no_mangle]
 pub unsafe extern "C" fn ring_eat(mut hand: libc::c_int) -> libc::c_int {

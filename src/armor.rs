@@ -92,8 +92,8 @@ pub unsafe extern "C" fn wear() {
         msg(
             b"you are already wearing some%s.\0" as *const u8 as *const libc::c_char,
             noterse(
-                b".  You'll have to take it off first\0" as *const u8
-                    as *const libc::c_char as *mut libc::c_char,
+                b".  You'll have to take it off first\0" as *const u8 as *const libc::c_char
+                    as *mut libc::c_char,
             ),
         );
         after = 0 as libc::c_int != 0;
@@ -111,13 +111,13 @@ pub unsafe extern "C" fn wear() {
         return;
     }
     waste_time();
-    (*obj)
-        ._o
-        ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-        as libc::c_short;
+    (*obj)._o._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
     sp = inv_name(obj, 1 as libc::c_int != 0);
     cur_armor = obj;
-    msg(b"you are now wearing %s\0" as *const u8 as *const libc::c_char, sp);
+    msg(
+        b"you are now wearing %s\0" as *const u8 as *const libc::c_char,
+        sp,
+    );
 }
 #[no_mangle]
 pub unsafe extern "C" fn take_off() {

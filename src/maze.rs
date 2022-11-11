@@ -101,21 +101,19 @@ pub unsafe extern "C" fn draw_maze(mut rp: *mut room) {
         psgcnt = 0 as libc::c_int;
         cp = ld.as_mut_ptr();
         sh = 1 as libc::c_int;
-        while cp < &mut *ld.as_mut_ptr().offset(4 as libc::c_int as isize) as *mut coord
-        {
+        while cp < &mut *ld.as_mut_ptr().offset(4 as libc::c_int as isize) as *mut coord {
             y = (*cp).y + spos.y;
             x = (*cp).x + spos.x;
             if !offmap(y, x)
-                && *_level.offset(INDEX(y, x) as isize) as libc::c_int
-                    == 0xb1 as libc::c_int
+                && *_level.offset(INDEX(y, x) as isize) as libc::c_int == 0xb1 as libc::c_int
             {
                 psgcnt += sh;
             }
             sh <<= 1 as libc::c_int;
             cp = cp.offset(1);
         }
-        if !(*_level.offset(INDEX(spos.y, spos.x) as isize) as libc::c_int
-            == 0xb1 as libc::c_int || psgcnt % 5 as libc::c_int != 0)
+        if !(*_level.offset(INDEX(spos.y, spos.x) as isize) as libc::c_int == 0xb1 as libc::c_int
+            || psgcnt % 5 as libc::c_int != 0)
         {
             break;
         }
@@ -212,10 +210,7 @@ pub unsafe extern "C" fn maze_at(mut y: libc::c_int, mut x: libc::c_int) -> bool
 #[no_mangle]
 pub unsafe extern "C" fn splat(mut y: libc::c_int, mut x: libc::c_int) {
     *_level.offset(INDEX(y, x) as isize) = 0xb1 as libc::c_int as byte;
-    *_flags
-        .offset(
-            INDEX(y, x) as isize,
-        ) = (0x20 as libc::c_int | 0x10 as libc::c_int) as byte;
+    *_flags.offset(INDEX(y, x) as isize) = (0x20 as libc::c_int | 0x10 as libc::c_int) as byte;
     if x > maxx {
         maxx = x;
     }
@@ -225,6 +220,8 @@ pub unsafe extern "C" fn splat(mut y: libc::c_int, mut x: libc::c_int) {
 }
 #[no_mangle]
 pub unsafe extern "C" fn inrange(mut y: libc::c_int, mut x: libc::c_int) -> bool {
-    return y >= topy && y < topy + (maxrow + 1 as libc::c_int) / 3 as libc::c_int
-        && x >= topx && x < topx + COLS / 3 as libc::c_int;
+    return y >= topy
+        && y < topy + (maxrow + 1 as libc::c_int) / 3 as libc::c_int
+        && x >= topx
+        && x < topx + COLS / 3 as libc::c_int;
 }

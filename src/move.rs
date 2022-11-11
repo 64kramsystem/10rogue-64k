@@ -1,10 +1,7 @@
 use ::libc;
 extern "C" {
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
     fn flush_type();
     static mut maxrow: libc::c_int;
     static mut bailout: bool;
@@ -147,9 +144,7 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
     }
     if no_move != 0 {
         no_move -= 1;
-        msg(
-            b"you are still stuck in the bear trap\0" as *const u8 as *const libc::c_char,
-        );
+        msg(b"you are still stuck in the bear trap\0" as *const u8 as *const libc::c_char);
         return;
     }
     if player._t._t_flags as libc::c_int & 0x100 as libc::c_int != 0 as libc::c_int
@@ -182,22 +177,21 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                     }
                     fl = *_flags.offset(INDEX(nh.y, nh.x) as isize) as libc::c_int;
                     ch = winat(nh.y, nh.x);
-                    if *_level
-                        .offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
-                        as libc::c_int == 0xce as libc::c_int
+                    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
+                        as libc::c_int
+                        == 0xce as libc::c_int
                         && ch as libc::c_int == 0xfa as libc::c_int
                     {
                         running = 0 as libc::c_int != 0;
                     }
-                    if fl & 0x10 as libc::c_int == 0
-                        && ch as libc::c_int == 0xfa as libc::c_int
-                    {
+                    if fl & 0x10 as libc::c_int == 0 && ch as libc::c_int == 0xfa as libc::c_int {
                         ch = 0x4 as libc::c_int as byte;
                         *_level.offset(INDEX(nh.y, nh.x) as isize) = ch;
                         let ref mut fresh0 = *_flags.offset(INDEX(nh.y, nh.x) as isize);
                         *fresh0 = (*fresh0 as libc::c_int | 0x10 as libc::c_int) as byte;
                     } else if player._t._t_flags as libc::c_int & 0x80 as libc::c_int
-                        != 0 as libc::c_int && ch as libc::c_int != 'F' as i32
+                        != 0 as libc::c_int
+                        && ch as libc::c_int != 'F' as i32
                     {
                         msg(b"you are being held\0" as *const u8 as *const libc::c_char);
                         return;
@@ -239,10 +233,11 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                                 }
                                 _ => {
                                     running = 0 as libc::c_int != 0;
-                                    if *_flags
-                                        .offset(
-                                            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                                        ) as libc::c_int & 0x40 as libc::c_int != 0
+                                    if *_flags.offset(
+                                        INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize
+                                    ) as libc::c_int
+                                        & 0x40 as libc::c_int
+                                        != 0
                                     {
                                         enter_room(&mut nh);
                                     }
@@ -286,10 +281,11 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                                 }
                                 _ => {
                                     running = 0 as libc::c_int != 0;
-                                    if *_flags
-                                        .offset(
-                                            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                                        ) as libc::c_int & 0x40 as libc::c_int != 0
+                                    if *_flags.offset(
+                                        INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize
+                                    ) as libc::c_int
+                                        & 0x40 as libc::c_int
+                                        != 0
                                     {
                                         enter_room(&mut nh);
                                     }
@@ -337,10 +333,11 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                                 }
                                 _ => {
                                     running = 0 as libc::c_int != 0;
-                                    if *_flags
-                                        .offset(
-                                            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                                        ) as libc::c_int & 0x40 as libc::c_int != 0
+                                    if *_flags.offset(
+                                        INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize
+                                    ) as libc::c_int
+                                        & 0x40 as libc::c_int
+                                        != 0
                                     {
                                         enter_room(&mut nh);
                                     }
@@ -384,10 +381,11 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                                 }
                                 _ => {
                                     running = 0 as libc::c_int != 0;
-                                    if *_flags
-                                        .offset(
-                                            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                                        ) as libc::c_int & 0x40 as libc::c_int != 0
+                                    if *_flags.offset(
+                                        INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize
+                                    ) as libc::c_int
+                                        & 0x40 as libc::c_int
+                                        != 0
                                     {
                                         enter_room(&mut nh);
                                     }
@@ -399,10 +397,9 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                     }
                 }
                 if !(running as libc::c_int != 0
-                    && ((*player._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int
-                        != 0
-                        && (*player._t._t_room).r_flags as libc::c_int
-                            & 0x4 as libc::c_int == 0 as libc::c_int)
+                    && ((*player._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int != 0
+                        && (*player._t._t_room).r_flags as libc::c_int & 0x4 as libc::c_int
+                            == 0 as libc::c_int)
                     && !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int
                         != 0 as libc::c_int))
                 {
@@ -414,35 +411,29 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                 match runch as libc::c_int {
                     104 | 108 => {
                         b1 = player._t._t_pos.y > 1 as libc::c_int
-                            && (*_flags
-                                .offset(
-                                    INDEX(
-                                        player._t._t_pos.y - 1 as libc::c_int,
-                                        player._t._t_pos.x,
-                                    ) as isize,
-                                ) as libc::c_int & 0x40 as libc::c_int != 0
-                                || *_level
-                                    .offset(
-                                        INDEX(
-                                            player._t._t_pos.y - 1 as libc::c_int,
-                                            player._t._t_pos.x,
-                                        ) as isize,
-                                    ) as libc::c_int == 0xce as libc::c_int);
+                            && (*_flags.offset(INDEX(
+                                player._t._t_pos.y - 1 as libc::c_int,
+                                player._t._t_pos.x,
+                            ) as isize) as libc::c_int
+                                & 0x40 as libc::c_int
+                                != 0
+                                || *_level.offset(INDEX(
+                                    player._t._t_pos.y - 1 as libc::c_int,
+                                    player._t._t_pos.x,
+                                ) as isize) as libc::c_int
+                                    == 0xce as libc::c_int);
                         b2 = player._t._t_pos.y < maxrow - 1 as libc::c_int
-                            && (*_flags
-                                .offset(
-                                    INDEX(
-                                        player._t._t_pos.y + 1 as libc::c_int,
-                                        player._t._t_pos.x,
-                                    ) as isize,
-                                ) as libc::c_int & 0x40 as libc::c_int != 0
-                                || *_level
-                                    .offset(
-                                        INDEX(
-                                            player._t._t_pos.y + 1 as libc::c_int,
-                                            player._t._t_pos.x,
-                                        ) as isize,
-                                    ) as libc::c_int == 0xce as libc::c_int);
+                            && (*_flags.offset(INDEX(
+                                player._t._t_pos.y + 1 as libc::c_int,
+                                player._t._t_pos.x,
+                            ) as isize) as libc::c_int
+                                & 0x40 as libc::c_int
+                                != 0
+                                || *_level.offset(INDEX(
+                                    player._t._t_pos.y + 1 as libc::c_int,
+                                    player._t._t_pos.x,
+                                ) as isize) as libc::c_int
+                                    == 0xce as libc::c_int);
                         if b1 as libc::c_int ^ b2 as libc::c_int == 0 {
                             current_block = 7990025728955927862;
                             break;
@@ -459,35 +450,29 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                     }
                     106 | 107 => {
                         b1 = player._t._t_pos.x > 1 as libc::c_int
-                            && (*_flags
-                                .offset(
-                                    INDEX(
-                                        player._t._t_pos.y,
-                                        player._t._t_pos.x - 1 as libc::c_int,
-                                    ) as isize,
-                                ) as libc::c_int & 0x40 as libc::c_int != 0
-                                || *_level
-                                    .offset(
-                                        INDEX(
-                                            player._t._t_pos.y,
-                                            player._t._t_pos.x - 1 as libc::c_int,
-                                        ) as isize,
-                                    ) as libc::c_int == 0xce as libc::c_int);
+                            && (*_flags.offset(INDEX(
+                                player._t._t_pos.y,
+                                player._t._t_pos.x - 1 as libc::c_int,
+                            ) as isize) as libc::c_int
+                                & 0x40 as libc::c_int
+                                != 0
+                                || *_level.offset(INDEX(
+                                    player._t._t_pos.y,
+                                    player._t._t_pos.x - 1 as libc::c_int,
+                                ) as isize) as libc::c_int
+                                    == 0xce as libc::c_int);
                         b2 = player._t._t_pos.x < COLS - 2 as libc::c_int
-                            && (*_flags
-                                .offset(
-                                    INDEX(
-                                        player._t._t_pos.y,
-                                        player._t._t_pos.x + 1 as libc::c_int,
-                                    ) as isize,
-                                ) as libc::c_int & 0x40 as libc::c_int != 0
-                                || *_level
-                                    .offset(
-                                        INDEX(
-                                            player._t._t_pos.y,
-                                            player._t._t_pos.x + 1 as libc::c_int,
-                                        ) as isize,
-                                    ) as libc::c_int == 0xce as libc::c_int);
+                            && (*_flags.offset(INDEX(
+                                player._t._t_pos.y,
+                                player._t._t_pos.x + 1 as libc::c_int,
+                            ) as isize) as libc::c_int
+                                & 0x40 as libc::c_int
+                                != 0
+                                || *_level.offset(INDEX(
+                                    player._t._t_pos.y,
+                                    player._t._t_pos.x + 1 as libc::c_int,
+                                ) as isize) as libc::c_int
+                                    == 0xce as libc::c_int);
                         if b1 as libc::c_int ^ b2 as libc::c_int == 0 {
                             current_block = 7990025728955927862;
                             break;
@@ -524,7 +509,12 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
             current_block = 7419121793134201633;
         }
         3392087639489470149 => {
-            fight(&mut nh, ch as libc::c_char, cur_weapon, 0 as libc::c_int != 0);
+            fight(
+                &mut nh,
+                ch as libc::c_char,
+                cur_weapon,
+                0 as libc::c_int != 0,
+            );
             current_block = 7419121793134201633;
         }
         _ => {}
@@ -540,13 +530,15 @@ pub unsafe extern "C" fn do_move(mut dy: libc::c_int, mut dx: libc::c_int) {
                 && (*_level.offset(INDEX(oldpos.y, oldpos.x) as isize) as libc::c_int
                     == 0xce as libc::c_int
                     || *_flags.offset(INDEX(oldpos.y, oldpos.x) as isize) as libc::c_int
-                        & 0x20 as libc::c_int != 0)
+                        & 0x20 as libc::c_int
+                        != 0)
             {
                 leave_room(&mut nh);
             }
             if fl & 0x20 as libc::c_int != 0
                 && *_flags.offset(INDEX(oldpos.y, oldpos.x) as isize) as libc::c_int
-                    & 0x20 as libc::c_int == 0 as libc::c_int
+                    & 0x20 as libc::c_int
+                    == 0 as libc::c_int
             {
                 enter_room(&mut nh);
             }
@@ -603,8 +595,7 @@ unsafe extern "C" fn be_trapped(mut tc: *mut coord) -> byte {
     match tr as libc::c_int {
         0 => {
             descend(
-                b"you fell into a trap!\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                b"you fell into a trap!\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             );
         }
         3 => {
@@ -613,16 +604,12 @@ unsafe extern "C" fn be_trapped(mut tc: *mut coord) -> byte {
         }
         2 => {
             no_command += spread(5 as libc::c_int);
-            player
-                ._t
-                ._t_flags = (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int))
-                as libc::c_short;
+            player._t._t_flags =
+                (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int)) as libc::c_short;
             msg(
-                b"a %smist envelops you and you fall asleep\0" as *const u8
-                    as *const libc::c_char,
+                b"a %smist envelops you and you fall asleep\0" as *const u8 as *const libc::c_char,
                 noterse(
-                    b"strange white \0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char,
+                    b"strange white \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
                 ),
             );
         }
@@ -637,9 +624,7 @@ unsafe extern "C" fn be_trapped(mut tc: *mut coord) -> byte {
                     msg(b"an arrow killed you\0" as *const u8 as *const libc::c_char);
                     death('a' as i32 as libc::c_char);
                 } else {
-                    msg(
-                        b"oh no! An arrow shot you\0" as *const u8 as *const libc::c_char,
-                    );
+                    msg(b"oh no! An arrow shot you\0" as *const u8 as *const libc::c_char);
                 }
             } else {
                 let mut arrow: *mut THING = 0 as *mut THING;
@@ -672,34 +657,27 @@ unsafe extern "C" fn be_trapped(mut tc: *mut coord) -> byte {
             ) {
                 player._t._t_stats.s_hpt -= roll(1 as libc::c_int, 4 as libc::c_int);
                 if player._t._t_stats.s_hpt <= 0 as libc::c_int {
-                    msg(
-                        b"a poisoned dart killed you\0" as *const u8
-                            as *const libc::c_char,
-                    );
+                    msg(b"a poisoned dart killed you\0" as *const u8 as *const libc::c_char);
                     death('d' as i32 as libc::c_char);
                 }
-                if !(!(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
-                    .is_null()
+                if !(!(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
                     && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                         ._o
-                        ._o_which == 2 as libc::c_int
-                    || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
-                        .is_null()
+                        ._o_which
+                        == 2 as libc::c_int
+                    || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                         && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                             ._o
-                            ._o_which == 2 as libc::c_int) && !save(0 as libc::c_int)
+                            ._o_which
+                            == 2 as libc::c_int)
+                    && !save(0 as libc::c_int)
                 {
                     chg_str(-(1 as libc::c_int));
                 }
-                msg(
-                    b"a dart just hit you in the shoulder\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"a dart just hit you in the shoulder\0" as *const u8 as *const libc::c_char);
             } else {
-                msg(
-                    b"a dart whizzes by your ear and vanishes\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"a dart whizzes by your ear and vanishes\0" as *const u8
+                    as *const libc::c_char);
             }
         }
         _ => {}

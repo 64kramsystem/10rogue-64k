@@ -1,10 +1,6 @@
 use ::libc;
 extern "C" {
-    fn memset(
-        _: *mut libc::c_void,
-        _: libc::c_int,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong) -> *mut libc::c_void;
     fn strcmp(_: *const libc::c_char, _: *const libc::c_char) -> libc::c_int;
     static mut current_drive: libc::c_int;
     static mut last_drive: libc::c_int;
@@ -22,10 +18,8 @@ extern "C" {
 #[no_mangle]
 pub unsafe extern "C" fn fakedos() {
     let mut comline: [libc::c_char; 132] = [0; 132];
-    let mut savedir: [libc::c_char; 3] = *::core::mem::transmute::<
-        &[u8; 3],
-        &mut [libc::c_char; 3],
-    >(b"a:\0");
+    let mut savedir: [libc::c_char; 3] =
+        *::core::mem::transmute::<&[u8; 3], &mut [libc::c_char; 3]>(b"a:\0");
     let mut comhead: *mut libc::c_char = 0 as *mut libc::c_char;
     wdump();
     cur_clear();
@@ -57,8 +51,7 @@ pub unsafe extern "C" fn fakedos() {
 unsafe extern "C" fn dodos(mut com: *mut libc::c_char) -> bool {
     let mut drv: libc::c_int = 0;
     if !(*com as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int)
-        || strcmp(com, b"rogue\0" as *const u8 as *const libc::c_char)
-            == 0 as libc::c_int
+        || strcmp(com, b"rogue\0" as *const u8 as *const libc::c_char) == 0 as libc::c_int
     {
         return 0 as libc::c_int != 0;
     }
@@ -68,14 +61,10 @@ unsafe extern "C" fn dodos(mut com: *mut libc::c_char) -> bool {
         drv = (*com as libc::c_int & 0x1f as libc::c_int) - 1 as libc::c_int;
         cur_printw(b"\n\0" as *const u8 as *const libc::c_char);
         if !is_alpha(*com) || drv >= select_drive(drv) {
-            cur_printw(
-                b"Invalid drive specification\n\0" as *const u8 as *const libc::c_char,
-            );
+            cur_printw(b"Invalid drive specification\n\0" as *const u8 as *const libc::c_char);
         }
     } else if *com.offset(0 as libc::c_int as isize) != 0 {
-        cur_printw(
-            b"\nBad command or file name\n\0" as *const u8 as *const libc::c_char,
-        );
+        cur_printw(b"\nBad command or file name\n\0" as *const u8 as *const libc::c_char);
     }
     return 1 as libc::c_int != 0;
 }

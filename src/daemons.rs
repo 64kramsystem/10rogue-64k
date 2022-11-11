@@ -11,9 +11,9 @@ extern "C" {
     static mut mlist: *mut THING;
     static mut player: THING;
     fn see_monst(mp: *mut THING) -> bool;
-    fn start_daemon(func: Option::<unsafe extern "C" fn() -> ()>);
-    fn fuse(func: Option::<unsafe extern "C" fn() -> ()>, time: libc::c_int);
-    fn extinguish(func: Option::<unsafe extern "C" fn() -> ()>);
+    fn start_daemon(func: Option<unsafe extern "C" fn() -> ()>);
+    fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
+    fn extinguish(func: Option<unsafe extern "C" fn() -> ()>);
     fn rnd(range: libc::c_int) -> libc::c_int;
     fn spread(nm: libc::c_int) -> libc::c_int;
     fn wanderer();
@@ -114,13 +114,17 @@ pub unsafe extern "C" fn doctor() {
         player._t._t_stats.s_hpt += rnd(lv - 7 as libc::c_int) + 1 as libc::c_int;
     }
     if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-        && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+        && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+            ._o
+            ._o_which
             == 9 as libc::c_int
     {
         player._t._t_stats.s_hpt += 1;
     }
     if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
-        && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_which
+        && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+            ._o
+            ._o_which
             == 9 as libc::c_int
     {
         player._t._t_stats.s_hpt += 1;
@@ -134,12 +138,10 @@ pub unsafe extern "C" fn doctor() {
 }
 #[no_mangle]
 pub unsafe extern "C" fn swander() {
-    start_daemon(
-        ::core::mem::transmute::<
-            Option::<unsafe extern "C" fn() -> ()>,
-            Option::<unsafe extern "C" fn() -> ()>,
-        >(Some(rollwand as unsafe extern "C" fn() -> ())),
-    );
+    start_daemon(::core::mem::transmute::<
+        Option<unsafe extern "C" fn() -> ()>,
+        Option<unsafe extern "C" fn() -> ()>,
+    >(Some(rollwand as unsafe extern "C" fn() -> ())));
 }
 #[no_mangle]
 pub unsafe extern "C" fn rollwand() {
@@ -148,16 +150,16 @@ pub unsafe extern "C" fn rollwand() {
     if between >= 3 as libc::c_int + rnd(3 as libc::c_int) {
         if roll(1 as libc::c_int, 6 as libc::c_int) == 4 as libc::c_int {
             wanderer();
-            extinguish(
-                ::core::mem::transmute::<
-                    Option::<unsafe extern "C" fn() -> ()>,
-                    Option::<unsafe extern "C" fn() -> ()>,
-                >(Some(rollwand as unsafe extern "C" fn() -> ())),
-            );
+            extinguish(::core::mem::transmute::<
+                Option<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
+            >(Some(
+                rollwand as unsafe extern "C" fn() -> (),
+            )));
             fuse(
                 ::core::mem::transmute::<
-                    Option::<unsafe extern "C" fn() -> ()>,
-                    Option::<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
                 >(Some(swander as unsafe extern "C" fn() -> ())),
                 spread(70 as libc::c_int),
             );
@@ -167,10 +169,8 @@ pub unsafe extern "C" fn rollwand() {
 }
 #[no_mangle]
 pub unsafe extern "C" fn unconfuse() {
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int & !(0x100 as libc::c_int))
-        as libc::c_short;
+    player._t._t_flags =
+        (player._t._t_flags as libc::c_int & !(0x100 as libc::c_int)) as libc::c_short;
     msg(b"you feel less confused now\0" as *const u8 as *const libc::c_char);
 }
 #[no_mangle]
@@ -186,24 +186,18 @@ pub unsafe extern "C" fn unsee() {
         }
         th = (*th)._t._l_next;
     }
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int & !(0x800 as libc::c_int))
-        as libc::c_short;
+    player._t._t_flags =
+        (player._t._t_flags as libc::c_int & !(0x800 as libc::c_int)) as libc::c_short;
 }
 #[no_mangle]
 pub unsafe extern "C" fn sight() {
     if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int {
-        extinguish(
-            ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
-            >(Some(sight as unsafe extern "C" fn() -> ())),
-        );
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int & !(0x1 as libc::c_int))
-            as libc::c_short;
+        extinguish(::core::mem::transmute::<
+            Option<unsafe extern "C" fn() -> ()>,
+            Option<unsafe extern "C" fn() -> ()>,
+        >(Some(sight as unsafe extern "C" fn() -> ())));
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int & !(0x1 as libc::c_int)) as libc::c_short;
         if (*player._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int == 0 {
             enter_room(&mut player._t._t_pos);
         }
@@ -212,10 +206,8 @@ pub unsafe extern "C" fn sight() {
 }
 #[no_mangle]
 pub unsafe extern "C" fn nohaste() {
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int & !(0x4000 as libc::c_int))
-        as libc::c_short;
+    player._t._t_flags =
+        (player._t._t_flags as libc::c_int & !(0x4000 as libc::c_int)) as libc::c_short;
     msg(b"you feel yourself slowing down\0" as *const u8 as *const libc::c_char);
 }
 #[no_mangle]
@@ -232,24 +224,20 @@ pub unsafe extern "C" fn stomach() {
             return;
         }
         no_command += rnd(8 as libc::c_int) + 4 as libc::c_int;
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int))
-            as libc::c_short;
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int)) as libc::c_short;
         running = 0 as libc::c_int != 0;
         count = 0 as libc::c_int;
         hungry_state = 3 as libc::c_int;
         msg(
             b"%syou faint from lack of food\0" as *const u8 as *const libc::c_char,
             noterse(
-                b"you feel very weak. \0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                b"you feel very weak. \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             ),
         );
     } else {
         oldfood = food_left;
-        deltafood = ring_eat(0 as libc::c_int) + ring_eat(1 as libc::c_int)
-            + 1 as libc::c_int;
+        deltafood = ring_eat(0 as libc::c_int) + ring_eat(1 as libc::c_int) + 1 as libc::c_int;
         if terse {
             deltafood *= 2 as libc::c_int;
         }

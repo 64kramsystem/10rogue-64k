@@ -8,11 +8,7 @@ extern "C" {
     fn strcpy(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
     static mut stdout: *mut FILE;
     fn printf(_: *const libc::c_char, _: ...) -> libc::c_int;
-    fn vfprintf(
-        _: *mut FILE,
-        _: *const libc::c_char,
-        _: ::core::ffi::VaList,
-    ) -> libc::c_int;
+    fn vfprintf(_: *mut FILE, _: *const libc::c_char, _: ::core::ffi::VaList) -> libc::c_int;
     fn malloc(_: libc::c_ulong) -> *mut libc::c_void;
     fn exit(_: libc::c_int) -> !;
     fn getenv(__name: *const libc::c_char) -> *mut libc::c_char;
@@ -20,10 +16,7 @@ extern "C" {
     fn pause() -> libc::c_int;
     fn time(__timer: *mut time_t) -> time_t;
     fn localtime(__timer: *const time_t) -> *mut tm;
-    fn nanosleep(
-        __requested_time: *const timespec,
-        __remaining: *mut timespec,
-    ) -> libc::c_int;
+    fn nanosleep(__requested_time: *const timespec, __remaining: *mut timespec) -> libc::c_int;
     fn open(__file: *const libc::c_char, __oflag: libc::c_int, _: ...) -> libc::c_int;
     fn ioctl(__fd: libc::c_int, __request: libc::c_ulong, _: ...) -> libc::c_int;
     fn quit();
@@ -53,12 +46,7 @@ extern "C" {
     fn cursor(ison: bool) -> bool;
     fn cur_clear();
     fn set_attr(bute: libc::c_int);
-    fn cur_box(
-        ul_r: libc::c_int,
-        ul_c: libc::c_int,
-        lr_r: libc::c_int,
-        lr_c: libc::c_int,
-    );
+    fn cur_box(ul_r: libc::c_int, ul_c: libc::c_int, lr_r: libc::c_int, lr_c: libc::c_int);
     static mut LINES: libc::c_int;
     fn center(row: libc::c_int, string: *mut libc::c_char);
     fn getinfo(str: *mut libc::c_char, size: libc::c_int) -> libc::c_int;
@@ -215,12 +203,10 @@ pub unsafe extern "C" fn swap_bits(
     mut j: libc::c_uint,
     mut length: libc::c_uint,
 ) -> byte {
-    let mut x: byte = ((data as libc::c_int >> i ^ data as libc::c_int >> j)
-        as libc::c_uint
+    let mut x: byte = ((data as libc::c_int >> i ^ data as libc::c_int >> j) as libc::c_uint
         & ((1 as libc::c_uint) << length).wrapping_sub(1 as libc::c_int as libc::c_uint))
         as byte;
-    return (data as libc::c_int ^ ((x as libc::c_int) << i | (x as libc::c_int) << j))
-        as byte;
+    return (data as libc::c_int ^ ((x as libc::c_int) << i | (x as libc::c_int) << j)) as byte;
 }
 #[no_mangle]
 pub unsafe extern "C" fn md_keyboard_leds() -> libc::c_int {
@@ -266,16 +252,10 @@ pub unsafe extern "C" fn csum() -> libc::c_int {
     return -(1632 as libc::c_int);
 }
 #[no_mangle]
-pub unsafe extern "C" fn pokeb(
-    mut offset: libc::c_int,
-    mut segment: libc::c_int,
-    mut value: byte,
-) {}
+pub unsafe extern "C" fn pokeb(mut offset: libc::c_int, mut segment: libc::c_int, mut value: byte) {
+}
 #[no_mangle]
-pub unsafe extern "C" fn peekb(
-    mut offset: libc::c_int,
-    mut segment: libc::c_int,
-) -> byte {
+pub unsafe extern "C" fn peekb(mut offset: libc::c_int, mut segment: libc::c_int) -> byte {
     return 0 as libc::c_int as byte;
 }
 #[no_mangle]
@@ -290,14 +270,16 @@ pub unsafe extern "C" fn dmaout(
     mut wordlength: libc::c_uint,
     mut segment: libc::c_uint,
     mut offset: libc::c_uint,
-) {}
+) {
+}
 #[no_mangle]
 pub unsafe extern "C" fn dmain(
     mut buffer: *mut libc::c_void,
     mut wordlength: libc::c_uint,
     mut segment: libc::c_uint,
     mut offset: libc::c_uint,
-) {}
+) {
+}
 #[no_mangle]
 pub unsafe extern "C" fn _halt() {
     cur_endwin();
@@ -318,11 +300,9 @@ pub unsafe extern "C" fn COFF() {
     };
     reg.ax = 0x2523 as libc::c_int;
     reg.ds = 0x33 as libc::c_int;
-    reg
-        .dx = ::core::mem::transmute::<
-        Option::<unsafe extern "C" fn() -> ()>,
-        intptr,
-    >(Some(quit as unsafe extern "C" fn() -> ())) as dosptr as libc::c_int;
+    reg.dx = ::core::mem::transmute::<Option<unsafe extern "C" fn() -> ()>, intptr>(Some(
+        quit as unsafe extern "C" fn() -> (),
+    )) as dosptr as libc::c_int;
     swint(0x21 as libc::c_int, &mut reg);
 }
 #[no_mangle]
@@ -342,12 +322,10 @@ pub unsafe extern "C" fn setup() {
 }
 #[no_mangle]
 pub unsafe extern "C" fn md_clock() {
-    if no_step != 0
-        && {
-            no_step += 1;
-            no_step > 20 as libc::c_int
-        }
-    {
+    if no_step != 0 && {
+        no_step += 1;
+        no_step > 20 as libc::c_int
+    } {
         _halt();
     }
     if hit_mul != 1 as libc::c_int && goodchk == 0xd0d as libc::c_int {
@@ -416,8 +394,7 @@ pub unsafe extern "C" fn credits() {
     set_attr(16 as libc::c_int);
     center(
         2 as libc::c_int,
-        b"ROGUE:  The Adventure Game\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char,
+        b"ROGUE:  The Adventure Game\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
     );
     if scr_type != 7 as libc::c_int {
         set_attr(10 as libc::c_int);
@@ -432,8 +409,7 @@ pub unsafe extern "C" fn credits() {
     set_attr(15 as libc::c_int);
     center(
         6 as libc::c_int,
-        b"Michael Toy and Glenn Wichman\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char,
+        b"Michael Toy and Glenn Wichman\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
     );
     if scr_type != 7 as libc::c_int {
         set_attr(10 as libc::c_int);
@@ -442,8 +418,7 @@ pub unsafe extern "C" fn credits() {
     }
     center(
         9 as libc::c_int,
-        b"Various implementations by:\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char,
+        b"Various implementations by:\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
     );
     set_attr(15 as libc::c_int);
     center(
@@ -458,8 +433,7 @@ pub unsafe extern "C" fn credits() {
     }
     center(
         14 as libc::c_int,
-        b"Adapted for the IBM PC by:\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char,
+        b"Adapted for the IBM PC by:\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
     );
     set_attr(15 as libc::c_int);
     center(
@@ -520,8 +494,16 @@ pub unsafe extern "C" fn credits() {
     if scr_type != 7 as libc::c_int {
         set_attr(5 as libc::c_int);
     }
-    cur_mvaddch(22 as libc::c_int, 0 as libc::c_int, 0xc8 as libc::c_int as byte);
-    cur_mvaddch(22 as libc::c_int, COLS - 1 as libc::c_int, 0xbc as libc::c_int as byte);
+    cur_mvaddch(
+        22 as libc::c_int,
+        0 as libc::c_int,
+        0xc8 as libc::c_int as byte,
+    );
+    cur_mvaddch(
+        22 as libc::c_int,
+        COLS - 1 as libc::c_int,
+        0xbc as libc::c_int as byte,
+    );
     set_attr(0 as libc::c_int);
 }
 #[no_mangle]
@@ -550,10 +532,7 @@ pub unsafe extern "C" fn readchar() -> byte {
     return ch;
 }
 #[no_mangle]
-pub unsafe extern "C" fn bdos(
-    mut fnum: libc::c_int,
-    mut dxval: libc::c_int,
-) -> libc::c_int {
+pub unsafe extern "C" fn bdos(mut fnum: libc::c_int, mut dxval: libc::c_int) -> libc::c_int {
     let mut saveptr: *mut sw_regs = 0 as *mut sw_regs;
     (*regs).ax = fnum << 8 as libc::c_int;
     (*regs).cx = 0 as libc::c_int;
@@ -574,10 +553,7 @@ pub unsafe extern "C" fn newmem(mut nbytes: libc::c_uint) -> *mut libc::c_char {
     return newaddr as *mut libc::c_char;
 }
 #[no_mangle]
-pub unsafe extern "C" fn swint(
-    mut intno: libc::c_int,
-    mut rp: *mut sw_regs,
-) -> libc::c_int {
+pub unsafe extern "C" fn swint(mut intno: libc::c_int, mut rp: *mut sw_regs) -> libc::c_int {
     let mut _dsval: libc::c_int = 0 as libc::c_int;
     (*rp).es = _dsval;
     (*rp).ds = (*rp).es;

@@ -1,10 +1,7 @@
 use ::libc;
 extern "C" {
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
     fn flush_type();
     static mut s_guess: [*mut libc::c_char; 0];
     static mut p_guess: [*mut libc::c_char; 0];
@@ -19,8 +16,8 @@ extern "C" {
     static mut mpos: libc::c_int;
     static mut player: THING;
     static mut rooms: [room; 0];
-    fn fuse(func: Option::<unsafe extern "C" fn() -> ()>, time: libc::c_int);
-    fn lengthen(func: Option::<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
+    fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
+    fn lengthen(func: Option<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
     fn unconfuse();
     fn msg(fmt: *const libc::c_char, _: ...);
     fn rnd(range: libc::c_int) -> libc::c_int;
@@ -136,58 +133,38 @@ pub unsafe extern "C" fn whatis() {
     }
     match (*obj)._o._o_type {
         13 => {
-            *s_know
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
-            **s_guess
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = '\0' as i32 as libc::c_char;
+            *s_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+            **s_guess.as_mut_ptr().offset((*obj)._o._o_which as isize) =
+                '\0' as i32 as libc::c_char;
         }
         173 => {
-            *p_know
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
-            **p_guess
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = '\0' as i32 as libc::c_char;
+            *p_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+            **p_guess.as_mut_ptr().offset((*obj)._o._o_which as isize) =
+                '\0' as i32 as libc::c_char;
         }
         231 => {
-            *ws_know
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
-            (*obj)
-                ._o
-                ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                as libc::c_short;
-            **ws_guess
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = '\0' as i32 as libc::c_char;
+            *ws_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+            (*obj)._o._o_flags =
+                ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
+            **ws_guess.as_mut_ptr().offset((*obj)._o._o_which as isize) =
+                '\0' as i32 as libc::c_char;
         }
         24 | 8 => {
-            (*obj)
-                ._o
-                ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                as libc::c_short;
+            (*obj)._o._o_flags =
+                ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
         }
         9 => {
-            *r_know
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
-            (*obj)
-                ._o
-                ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int)
-                as libc::c_short;
-            **r_guess
-                .as_mut_ptr()
-                .offset((*obj)._o._o_which as isize) = '\0' as i32 as libc::c_char;
+            *r_know.as_mut_ptr().offset((*obj)._o._o_which as isize) = 1 as libc::c_int != 0;
+            (*obj)._o._o_flags =
+                ((*obj)._o._o_flags as libc::c_int | 0x2 as libc::c_int) as libc::c_short;
+            **r_guess.as_mut_ptr().offset((*obj)._o._o_which as isize) =
+                '\0' as i32 as libc::c_char;
         }
         _ => {}
     }
     if (*obj)._o._o_enemy != 0 {
-        (*obj)
-            ._o
-            ._o_flags = ((*obj)._o._o_flags as libc::c_int | 0x40 as libc::c_int)
-            as libc::c_short;
+        (*obj)._o._o_flags =
+            ((*obj)._o._o_flags as libc::c_int | 0x40 as libc::c_int) as libc::c_short;
     }
     msg(inv_name(obj, 0 as libc::c_int != 0));
 }
@@ -223,12 +200,14 @@ pub unsafe extern "C" fn teleport() -> libc::c_int {
         );
         look(1 as libc::c_int != 0);
     }
-    cur_mvaddch(player._t._t_pos.y, player._t._t_pos.x, 0x1 as libc::c_int as byte);
+    cur_mvaddch(
+        player._t._t_pos.y,
+        player._t._t_pos.x,
+        0x1 as libc::c_int as byte,
+    );
     if player._t._t_flags as libc::c_int & 0x80 as libc::c_int != 0 as libc::c_int {
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int & !(0x80 as libc::c_int))
-            as libc::c_short;
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int & !(0x80 as libc::c_int)) as libc::c_short;
         f_restor();
     }
     no_move = 0 as libc::c_int;
@@ -238,23 +217,21 @@ pub unsafe extern "C" fn teleport() -> libc::c_int {
     if player._t._t_flags as libc::c_int & 0x100 as libc::c_int != 0 as libc::c_int {
         lengthen(
             ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
             >(Some(unconfuse as unsafe extern "C" fn() -> ())),
             rnd(4 as libc::c_int) + 2 as libc::c_int,
         );
     } else {
         fuse(
             ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
+                Option<unsafe extern "C" fn() -> ()>,
             >(Some(unconfuse as unsafe extern "C" fn() -> ())),
             rnd(4 as libc::c_int) + 2 as libc::c_int,
         );
     }
-    player
-        ._t
-        ._t_flags = (player._t._t_flags as libc::c_int | 0x100 as libc::c_int)
-        as libc::c_short;
+    player._t._t_flags =
+        (player._t._t_flags as libc::c_int | 0x100 as libc::c_int) as libc::c_short;
     return rm;
 }

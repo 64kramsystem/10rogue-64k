@@ -31,16 +31,8 @@ extern "C" {
         _: *mut FILE,
     ) -> libc::c_ulong;
     fn feof(__stream: *mut FILE) -> libc::c_int;
-    fn memcmp(
-        _: *const libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> libc::c_int;
-    fn strncmp(
-        _: *const libc::c_char,
-        _: *const libc::c_char,
-        _: libc::c_ulong,
-    ) -> libc::c_int;
+    fn memcmp(_: *const libc::c_void, _: *const libc::c_void, _: libc::c_ulong) -> libc::c_int;
+    fn strncmp(_: *const libc::c_char, _: *const libc::c_char, _: libc::c_ulong) -> libc::c_int;
     fn strlen(_: *const libc::c_char) -> libc::c_ulong;
     fn strerror(_: libc::c_int) -> *mut libc::c_char;
     fn SDL_GetError() -> *const libc::c_char;
@@ -875,8 +867,7 @@ pub unsafe extern "C" fn freaderror(
 ) {
     if feof(file) != 0 {
         printerr(
-            b"invalid BSAVE %s, PIC must have %d bytes: %s\0" as *const u8
-                as *const libc::c_char,
+            b"invalid BSAVE %s, PIC must have %d bytes: %s\0" as *const u8 as *const libc::c_char,
             type_0,
             size,
             path,
@@ -919,14 +910,12 @@ pub unsafe extern "C" fn epyx_yeah(mut path: *const libc::c_char) -> libc::c_int
         '\0' as i32 as libc::c_uchar,
         '@' as i32 as libc::c_uchar,
     ];
-    let PIC_SIG: *const libc::c_char = b"PCPaint V1.0\0" as *const u8
-        as *const libc::c_char;
+    let PIC_SIG: *const libc::c_char = b"PCPaint V1.0\0" as *const u8 as *const libc::c_char;
     let SIG_OFFSET: libc::c_int = CGA_DATA_SIZE / CGA_FIELDS;
-    let BSAVE_SIZE: libc::c_int = (::core::mem::size_of::<[libc::c_uchar; 7]>()
-        as libc::c_ulong)
+    let BSAVE_SIZE: libc::c_int = (::core::mem::size_of::<[libc::c_uchar; 7]>() as libc::c_ulong)
         .wrapping_add(CGA_SIZE as libc::c_ulong) as libc::c_int;
     let vla = CGA_SIZE as usize;
-    let mut data: Vec::<libc::c_uchar> = ::std::vec::from_elem(0, vla);
+    let mut data: Vec<libc::c_uchar> = ::std::vec::from_elem(0, vla);
     let mut file: *mut FILE = 0 as *mut FILE;
     let mut window: *mut SDL_Window = 0 as *mut SDL_Window;
     let mut renderer: *mut SDL_Renderer = 0 as *mut SDL_Renderer;
@@ -962,8 +951,8 @@ pub unsafe extern "C" fn epyx_yeah(mut path: *const libc::c_char) -> libc::c_int
     ) != 0
     {
         printwarn(
-            b"invalid header, possibly not a valid PIC image in BSAVE format: %s\0"
-                as *const u8 as *const libc::c_char,
+            b"invalid header, possibly not a valid PIC image in BSAVE format: %s\0" as *const u8
+                as *const libc::c_char,
             path,
         );
     }
@@ -1011,7 +1000,8 @@ pub unsafe extern "C" fn epyx_yeah(mut path: *const libc::c_char) -> libc::c_int
         || SDL_SetHint(
             b"SDL_RENDER_SCALE_QUALITY\0" as *const u8 as *const libc::c_char,
             b"linear\0" as *const u8 as *const libc::c_char,
-        ) as libc::c_uint != SDL_TRUE as libc::c_int as libc::c_uint
+        ) as libc::c_uint
+            != SDL_TRUE as libc::c_int as libc::c_uint
         || SDL_CreateWindowAndRenderer(
             0 as libc::c_int,
             0 as libc::c_int,
@@ -1028,17 +1018,17 @@ pub unsafe extern "C" fn epyx_yeah(mut path: *const libc::c_char) -> libc::c_int
         return 0 as libc::c_int;
     }
     SDL_RenderSetLogicalSize(renderer, CGA_WIDTH, CGA_HEIGHT);
-    if CGA_BG_COLOR >= 0 as libc::c_int && CGA_BG_COLOR < CGA_NUM_COLORS {} else {
+    if CGA_BG_COLOR >= 0 as libc::c_int && CGA_BG_COLOR < CGA_NUM_COLORS {
+    } else {
         __assert_fail(
             b"CGA_BG_COLOR >= 0 && CGA_BG_COLOR < CGA_NUM_COLORS\0" as *const u8
                 as *const libc::c_char,
             b"load_sdl.c\0" as *const u8 as *const libc::c_char,
             141 as libc::c_int as libc::c_uint,
-            (*::core::mem::transmute::<
-                &[u8; 28],
-                &[libc::c_char; 28],
-            >(b"int epyx_yeah(const char *)\0"))
-                .as_ptr(),
+            (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
+                b"int epyx_yeah(const char *)\0",
+            ))
+            .as_ptr(),
         );
     };
     SDL_SetRenderDrawColor(
@@ -1062,33 +1052,34 @@ pub unsafe extern "C" fn epyx_yeah(mut path: *const libc::c_char) -> libc::c_int
         while y < CGA_HEIGHT {
             x = 0 as libc::c_int;
             while x < CGA_WIDTH {
-                if i < CGA_SIZE {} else {
+                if i < CGA_SIZE {
+                } else {
                     __assert_fail(
                         b"i < CGA_SIZE\0" as *const u8 as *const libc::c_char,
                         b"load_sdl.c\0" as *const u8 as *const libc::c_char,
                         161 as libc::c_int as libc::c_uint,
-                        (*::core::mem::transmute::<
-                            &[u8; 28],
-                            &[libc::c_char; 28],
-                        >(b"int epyx_yeah(const char *)\0"))
-                            .as_ptr(),
+                        (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
+                            b"int epyx_yeah(const char *)\0",
+                        ))
+                        .as_ptr(),
                     );
                 };
                 p = 0 as libc::c_int;
                 while p < CGA_PPB {
                     c = (*data.as_mut_ptr().offset(i as isize) as libc::c_int
                         >> (CGA_PPB - p - 1 as libc::c_int) * CGA_BIT_DEPTH
-                        & CGA_NUM_COLORS - 1 as libc::c_int) as libc::c_uchar;
-                    if (c as libc::c_int) < CGA_NUM_COLORS {} else {
+                        & CGA_NUM_COLORS - 1 as libc::c_int)
+                        as libc::c_uchar;
+                    if (c as libc::c_int) < CGA_NUM_COLORS {
+                    } else {
                         __assert_fail(
                             b"c < CGA_NUM_COLORS\0" as *const u8 as *const libc::c_char,
                             b"load_sdl.c\0" as *const u8 as *const libc::c_char,
                             167 as libc::c_int as libc::c_uint,
-                            (*::core::mem::transmute::<
-                                &[u8; 28],
-                                &[libc::c_char; 28],
-                            >(b"int epyx_yeah(const char *)\0"))
-                                .as_ptr(),
+                            (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
+                                b"int epyx_yeah(const char *)\0",
+                            ))
+                            .as_ptr(),
                         );
                     };
                     if c as libc::c_int != prevc as libc::c_int {
@@ -1112,16 +1103,16 @@ pub unsafe extern "C" fn epyx_yeah(mut path: *const libc::c_char) -> libc::c_int
         field += 1;
         i += CGA_PADDING;
     }
-    if i == CGA_SIZE {} else {
+    if i == CGA_SIZE {
+    } else {
         __assert_fail(
             b"i == CGA_SIZE\0" as *const u8 as *const libc::c_char,
             b"load_sdl.c\0" as *const u8 as *const libc::c_char,
             185 as libc::c_int as libc::c_uint,
-            (*::core::mem::transmute::<
-                &[u8; 28],
-                &[libc::c_char; 28],
-            >(b"int epyx_yeah(const char *)\0"))
-                .as_ptr(),
+            (*::core::mem::transmute::<&[u8; 28], &[libc::c_char; 28]>(
+                b"int epyx_yeah(const char *)\0",
+            ))
+            .as_ptr(),
         );
     };
     SDL_RenderPresent(renderer);

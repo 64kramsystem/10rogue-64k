@@ -140,33 +140,20 @@ pub unsafe extern "C" fn fix_stick(mut cur: *mut THING) {
         b"staff\0" as *const u8 as *const libc::c_char,
     ) == 0 as libc::c_int
     {
-        (*cur)
-            ._o
-            ._o_damage = b"2d3\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char;
+        (*cur)._o._o_damage = b"2d3\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     } else {
-        (*cur)
-            ._o
-            ._o_damage = b"1d1\0" as *const u8 as *const libc::c_char
-            as *mut libc::c_char;
+        (*cur)._o._o_damage = b"1d1\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     }
-    (*cur)
-        ._o
-        ._o_hurldmg = b"1d1\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
+    (*cur)._o._o_hurldmg = b"1d1\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     (*cur)._o._o_ac = (3 as libc::c_int + rnd(5 as libc::c_int)) as libc::c_short;
     match (*cur)._o._o_which {
         1 => {
             (*cur)._o._o_hplus = 100 as libc::c_int;
             (*cur)._o._o_dplus = 3 as libc::c_int;
-            (*cur)
-                ._o
-                ._o_damage = b"1d8\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            (*cur)._o._o_damage = b"1d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         0 => {
-            (*cur)
-                ._o
-                ._o_ac = (10 as libc::c_int + rnd(10 as libc::c_int)) as libc::c_short;
+            (*cur)._o._o_ac = (10 as libc::c_int + rnd(10 as libc::c_int)) as libc::c_short;
         }
         _ => {}
     };
@@ -188,8 +175,7 @@ pub unsafe extern "C" fn do_zap() {
     }
     which_one = (*obj)._o._o_which;
     if (*obj)._o._o_type != 0xe7 as libc::c_int {
-        if (*obj)._o._o_enemy as libc::c_int != 0 && (*obj)._o._o_ac as libc::c_int != 0
-        {
+        if (*obj)._o._o_enemy as libc::c_int != 0 && (*obj)._o._o_ac as libc::c_int != 0 {
             which_one = 14 as libc::c_int;
         } else {
             msg(b"you can't zap with that!\0" as *const u8 as *const libc::c_char);
@@ -203,33 +189,21 @@ pub unsafe extern "C" fn do_zap() {
     }
     match which_one {
         0 => {
-            if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int
-            {
-                msg(
-                    b"you feel a warm glow around you\0" as *const u8
-                        as *const libc::c_char,
-                );
+            if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int {
+                msg(b"you feel a warm glow around you\0" as *const u8 as *const libc::c_char);
             } else {
-                *ws_know
-                    .as_mut_ptr()
-                    .offset(0 as libc::c_int as isize) = 1 as libc::c_int != 0;
-                if (*player._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int != 0
-                {
-                    msg(
-                        b"the corridor glows and then fades\0" as *const u8
-                            as *const libc::c_char,
-                    );
+                *ws_know.as_mut_ptr().offset(0 as libc::c_int as isize) = 1 as libc::c_int != 0;
+                if (*player._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int != 0 {
+                    msg(b"the corridor glows and then fades\0" as *const u8 as *const libc::c_char);
                 } else {
-                    msg(
-                        b"the room is lit by a shimmering blue light\0" as *const u8
-                            as *const libc::c_char,
-                    );
+                    msg(b"the room is lit by a shimmering blue light\0" as *const u8
+                        as *const libc::c_char);
                 }
             }
             if (*player._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int == 0 {
-                (*player._t._t_room)
-                    .r_flags = ((*player._t._t_room).r_flags as libc::c_int
-                    & !(0x1 as libc::c_int)) as libc::c_short;
+                (*player._t._t_room).r_flags = ((*player._t._t_room).r_flags as libc::c_int
+                    & !(0x1 as libc::c_int))
+                    as libc::c_short;
                 enter_room(&mut player._t._t_pos);
             }
         }
@@ -258,10 +232,9 @@ pub unsafe extern "C" fn do_zap() {
                 monster = (*tp)._t._t_type as byte;
                 omonst = monster;
                 if monster as libc::c_int == 'F' as i32 {
-                    player
-                        ._t
-                        ._t_flags = (player._t._t_flags as libc::c_int
-                        & !(0x80 as libc::c_int)) as libc::c_short;
+                    player._t._t_flags = (player._t._t_flags as libc::c_int
+                        & !(0x80 as libc::c_int))
+                        as libc::c_short;
                 }
                 if which_one == 14 as libc::c_int {
                     if monster as libc::c_int == (*obj)._o._o_enemy as libc::c_int {
@@ -271,13 +244,13 @@ pub unsafe extern "C" fn do_zap() {
                             (*monsters
                                 .as_mut_ptr()
                                 .offset((monster as libc::c_int - 'A' as i32) as isize))
-                                .m_name,
+                            .m_name,
                         );
                         killed(tp, 0 as libc::c_int != 0);
                     } else {
                         msg(
-                            b"you hear a maniacal chuckle in the distance.\0"
-                                as *const u8 as *const libc::c_char,
+                            b"you hear a maniacal chuckle in the distance.\0" as *const u8
+                                as *const libc::c_char,
                         );
                     }
                 } else if which_one == 5 as libc::c_int {
@@ -297,19 +270,13 @@ pub unsafe extern "C" fn do_zap() {
                     }
                     (*tp)._t._t_oldch = oldch;
                     (*tp)._t._t_pack = pp;
-                    let ref mut fresh0 = *ws_know
-                        .as_mut_ptr()
-                        .offset(5 as libc::c_int as isize);
+                    let ref mut fresh0 = *ws_know.as_mut_ptr().offset(5 as libc::c_int as isize);
                     // Rust port: Fix weakly typed booleans
                     *fresh0 = *fresh0 | (monster != omonst);
                 } else if which_one == 13 as libc::c_int {
-                    (*tp)
-                        ._t
-                        ._t_flags = ((*tp)._t._t_flags as libc::c_int
-                        | 0x1000 as libc::c_int) as libc::c_short;
-                    (*tp)
-                        ._t
-                        ._t_flags = ((*tp)._t._t_flags as libc::c_int
+                    (*tp)._t._t_flags =
+                        ((*tp)._t._t_flags as libc::c_int | 0x1000 as libc::c_int) as libc::c_short;
+                    (*tp)._t._t_flags = ((*tp)._t._t_flags as libc::c_int
                         & !(0x10 as libc::c_int | 0x400 as libc::c_int))
                         as libc::c_short;
                     (*tp)._t._t_disguise = (*tp)._t._t_type as byte;
@@ -322,34 +289,21 @@ pub unsafe extern "C" fn do_zap() {
                         loop {
                             rm = rnd_room();
                             new_yx = (*tp)._t._t_pos;
-                            rnd_pos(
-                                &mut *rooms.as_mut_ptr().offset(rm as isize),
-                                &mut new_yx,
-                            );
-                            if winat(new_yx.y, new_yx.x) as libc::c_int
-                                == 0xfa as libc::c_int
-                                || winat(new_yx.y, new_yx.x) as libc::c_int
-                                    == 0xb1 as libc::c_int
+                            rnd_pos(&mut *rooms.as_mut_ptr().offset(rm as isize), &mut new_yx);
+                            if winat(new_yx.y, new_yx.x) as libc::c_int == 0xfa as libc::c_int
+                                || winat(new_yx.y, new_yx.x) as libc::c_int == 0xb1 as libc::c_int
                             {
                                 break;
                             }
                         }
                         (*tp)._t._t_pos = new_yx;
                         if see_monst(tp) {
-                            cur_mvaddch(
-                                (*tp)._t._t_pos.y,
-                                (*tp)._t._t_pos.x,
-                                (*tp)._t._t_disguise,
-                            );
+                            cur_mvaddch((*tp)._t._t_pos.y, (*tp)._t._t_pos.x, (*tp)._t._t_disguise);
                         } else if player._t._t_flags as libc::c_int & 0x2 as libc::c_int
                             != 0 as libc::c_int
                         {
                             set_attr(14 as libc::c_int);
-                            cur_mvaddch(
-                                (*tp)._t._t_pos.y,
-                                (*tp)._t._t_pos.x,
-                                (*tp)._t._t_disguise,
-                            );
+                            cur_mvaddch((*tp)._t._t_pos.y, (*tp)._t._t_pos.x, (*tp)._t._t_disguise);
                             set_attr(0 as libc::c_int);
                         }
                     } else {
@@ -357,22 +311,17 @@ pub unsafe extern "C" fn do_zap() {
                         (*tp)._t._t_pos.x = player._t._t_pos.x + delta.x;
                     }
                     if (*tp)._t._t_type as libc::c_int == 'F' as i32 {
-                        player
-                            ._t
-                            ._t_flags = (player._t._t_flags as libc::c_int
-                            & !(0x80 as libc::c_int)) as libc::c_short;
+                        player._t._t_flags = (player._t._t_flags as libc::c_int
+                            & !(0x80 as libc::c_int))
+                            as libc::c_short;
                     }
                     if (*tp)._t._t_pos.y != y || (*tp)._t._t_pos.x != x {
-                        (*tp)
-                            ._t
-                            ._t_oldch = cur_mvinch((*tp)._t._t_pos.y, (*tp)._t._t_pos.x);
+                        (*tp)._t._t_oldch = cur_mvinch((*tp)._t._t_pos.y, (*tp)._t._t_pos.x);
                     }
                 }
                 (*tp)._t._t_dest = &mut player._t._t_pos;
-                (*tp)
-                    ._t
-                    ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int)
-                    as libc::c_short;
+                (*tp)._t._t_flags =
+                    ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int) as libc::c_short;
             }
         }
         6 => {
@@ -400,14 +349,9 @@ pub unsafe extern "C" fn do_zap() {
                     _t_pack: 0 as *const thing as *mut thing,
                 },
             };
-            *ws_know
-                .as_mut_ptr()
-                .offset(6 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *ws_know.as_mut_ptr().offset(6 as libc::c_int as isize) = 1 as libc::c_int != 0;
             bolt._o._o_type = '*' as i32;
-            bolt
-                ._o
-                ._o_hurldmg = b"1d8\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            bolt._o._o_hurldmg = b"1d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
             bolt._o._o_hplus = 1000 as libc::c_int;
             bolt._o._o_dplus = 1 as libc::c_int;
             bolt._o._o_flags = 0x10 as libc::c_int as libc::c_short;
@@ -419,10 +363,8 @@ pub unsafe extern "C" fn do_zap() {
             if !tp.is_null() && !save_throw(0o3 as libc::c_int, tp) {
                 hit_monster(bolt._o._o_pos.y, bolt._o._o_pos.x, &mut bolt);
             } else {
-                msg(
-                    b"the missle vanishes with a puff of smoke\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"the missle vanishes with a puff of smoke\0" as *const u8
+                    as *const libc::c_char);
             }
         }
         1 => {
@@ -431,16 +373,12 @@ pub unsafe extern "C" fn do_zap() {
             tp = moat(delta.y, delta.x);
             if !tp.is_null() {
                 if rnd(20 as libc::c_int) == 0 as libc::c_int {
-                    (*obj)
-                        ._o
-                        ._o_damage = b"3d8\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char;
+                    (*obj)._o._o_damage =
+                        b"3d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
                     (*obj)._o._o_dplus = 9 as libc::c_int;
                 } else {
-                    (*obj)
-                        ._o
-                        ._o_damage = b"2d8\0" as *const u8 as *const libc::c_char
-                        as *mut libc::c_char;
+                    (*obj)._o._o_damage =
+                        b"2d8\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
                     (*obj)._o._o_dplus = 4 as libc::c_int;
                 }
                 fight(&mut delta, (*tp)._t._t_type, obj, 0 as libc::c_int != 0);
@@ -456,32 +394,26 @@ pub unsafe extern "C" fn do_zap() {
             tp = moat(y, x);
             if !tp.is_null() {
                 if which_one == 7 as libc::c_int {
-                    if (*tp)._t._t_flags as libc::c_int & 0x2000 as libc::c_int
-                        != 0 as libc::c_int
+                    if (*tp)._t._t_flags as libc::c_int & 0x2000 as libc::c_int != 0 as libc::c_int
                     {
-                        (*tp)
-                            ._t
-                            ._t_flags = ((*tp)._t._t_flags as libc::c_int
-                            & !(0x2000 as libc::c_int)) as libc::c_short;
+                        (*tp)._t._t_flags = ((*tp)._t._t_flags as libc::c_int
+                            & !(0x2000 as libc::c_int))
+                            as libc::c_short;
                     } else {
-                        (*tp)
-                            ._t
-                            ._t_flags = ((*tp)._t._t_flags as libc::c_int
-                            | 0x4000 as libc::c_int) as libc::c_short;
+                        (*tp)._t._t_flags = ((*tp)._t._t_flags as libc::c_int
+                            | 0x4000 as libc::c_int)
+                            as libc::c_short;
                     }
                 } else {
-                    if (*tp)._t._t_flags as libc::c_int & 0x4000 as libc::c_int
-                        != 0 as libc::c_int
+                    if (*tp)._t._t_flags as libc::c_int & 0x4000 as libc::c_int != 0 as libc::c_int
                     {
-                        (*tp)
-                            ._t
-                            ._t_flags = ((*tp)._t._t_flags as libc::c_int
-                            & !(0x4000 as libc::c_int)) as libc::c_short;
+                        (*tp)._t._t_flags = ((*tp)._t._t_flags as libc::c_int
+                            & !(0x4000 as libc::c_int))
+                            as libc::c_short;
                     } else {
-                        (*tp)
-                            ._t
-                            ._t_flags = ((*tp)._t._t_flags as libc::c_int
-                            | 0x2000 as libc::c_int) as libc::c_short;
+                        (*tp)._t._t_flags = ((*tp)._t._t_flags as libc::c_int
+                            | 0x2000 as libc::c_int)
+                            as libc::c_short;
                     }
                     (*tp)._t._t_turn = 1 as libc::c_int as libc::c_char;
                 }
@@ -492,11 +424,9 @@ pub unsafe extern "C" fn do_zap() {
         }
         2 | 3 | 4 => {
             if which_one == 2 as libc::c_int {
-                name = b"bolt\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char;
+                name = b"bolt\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
             } else if which_one == 3 as libc::c_int {
-                name = b"flame\0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char;
+                name = b"flame\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
             } else {
                 name = b"ice\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
             }
@@ -519,22 +449,18 @@ pub unsafe extern "C" fn drain() {
     let mut inpass: bool = false;
     let mut drainee: [*mut THING; 40] = [0 as *mut THING; 40];
     cnt = 0 as libc::c_int;
-    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
-        as libc::c_int == 0xce as libc::c_int
+    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) as libc::c_int
+        == 0xce as libc::c_int
     {
-        corp = &mut *passages
-            .as_mut_ptr()
-            .offset(
-                (*_flags
-                    .offset(
-                        (INDEX
-                            as unsafe extern "C" fn(
-                                libc::c_int,
-                                libc::c_int,
-                            ) -> libc::c_int)(player._t._t_pos.y, player._t._t_pos.x)
-                            as isize,
-                    ) as libc::c_int & 0xf as libc::c_int) as isize,
-            ) as *mut room;
+        corp = &mut *passages.as_mut_ptr().offset(
+            (*_flags.offset(
+                (INDEX as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(
+                    player._t._t_pos.y,
+                    player._t._t_pos.x,
+                ) as isize,
+            ) as libc::c_int
+                & 0xf as libc::c_int) as isize,
+        ) as *mut room;
     } else {
         corp = 0 as *mut room;
     }
@@ -542,23 +468,21 @@ pub unsafe extern "C" fn drain() {
     dp = drainee.as_mut_ptr();
     mp = mlist;
     while !mp.is_null() {
-        if (*mp)._t._t_room == player._t._t_room || (*mp)._t._t_room == corp
+        if (*mp)._t._t_room == player._t._t_room
+            || (*mp)._t._t_room == corp
             || inpass as libc::c_int != 0
                 && *_level.offset(INDEX((*mp)._t._t_pos.y, (*mp)._t._t_pos.x) as isize)
-                    as libc::c_int == 0xce as libc::c_int
-                && &mut *passages
-                    .as_mut_ptr()
-                    .offset(
-                        (*_flags
-                            .offset(
-                                (INDEX
-                                    as unsafe extern "C" fn(
-                                        libc::c_int,
-                                        libc::c_int,
-                                    ) -> libc::c_int)((*mp)._t._t_pos.y, (*mp)._t._t_pos.x)
-                                    as isize,
-                            ) as libc::c_int & 0xf as libc::c_int) as isize,
-                    ) as *mut room == player._t._t_room
+                    as libc::c_int
+                    == 0xce as libc::c_int
+                && &mut *passages.as_mut_ptr().offset(
+                    (*_flags.offset((INDEX
+                        as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(
+                        (*mp)._t._t_pos.y,
+                        (*mp)._t._t_pos.x,
+                    ) as isize) as libc::c_int
+                        & 0xf as libc::c_int) as isize,
+                ) as *mut room
+                    == player._t._t_room
         {
             let fresh1 = dp;
             dp = dp.offset(1);
@@ -630,13 +554,10 @@ pub unsafe extern "C" fn fire_bolt(
         },
     };
     let mut is_frost: bool = false;
-    is_frost = strcmp(name, b"frost\0" as *const u8 as *const libc::c_char)
-        == 0 as libc::c_int;
+    is_frost = strcmp(name, b"frost\0" as *const u8 as *const libc::c_char) == 0 as libc::c_int;
     bolt._o._o_type = 0x18 as libc::c_int;
     bolt._o._o_which = 10 as libc::c_int;
-    bolt
-        ._o
-        ._o_hurldmg = b"6d6\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
+    bolt._o._o_hurldmg = b"6d6\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     bolt._o._o_damage = bolt._o._o_hurldmg;
     bolt._o._o_hplus = 30 as libc::c_int;
     bolt._o._o_dplus = 0 as libc::c_int;
@@ -647,8 +568,11 @@ pub unsafe extern "C" fn fire_bolt(
             dirch = '/' as i32 as byte;
         }
         1 | -1 => {
-            dirch = (if (*dir).y == 0 as libc::c_int { '-' as i32 } else { '|' as i32 })
-                as byte;
+            dirch = (if (*dir).y == 0 as libc::c_int {
+                '-' as i32
+            } else {
+                '|' as i32
+            }) as byte;
         }
         2 | -2 => {
             dirch = '\\' as i32 as byte;
@@ -678,40 +602,33 @@ pub unsafe extern "C" fn fire_bolt(
                 (*dir).y = -(*dir).y;
                 (*dir).x = -(*dir).x;
                 i -= 1;
-                msg(b"the %s bounces\0" as *const u8 as *const libc::c_char, name);
+                msg(
+                    b"the %s bounces\0" as *const u8 as *const libc::c_char,
+                    name,
+                );
             }
             _ => {
-                if !hit_hero
-                    && {
-                        tp = moat(pos.y, pos.x);
-                        !tp.is_null()
-                    }
-                {
+                if !hit_hero && {
+                    tp = moat(pos.y, pos.x);
+                    !tp.is_null()
+                } {
                     hit_hero = 1 as libc::c_int != 0;
                     changed = !changed;
                     if (*tp)._t._t_oldch as libc::c_int != '@' as i32 {
                         (*tp)._t._t_oldch = *_level.offset(INDEX(pos.y, pos.x) as isize);
                     }
-                    if !save_throw(0o3 as libc::c_int, tp)
-                        || is_frost as libc::c_int != 0
-                    {
+                    if !save_throw(0o3 as libc::c_int, tp) || is_frost as libc::c_int != 0 {
                         bolt._o._o_pos = pos;
                         used = 1 as libc::c_int != 0;
                         if (*tp)._t._t_type as libc::c_int == 'D' as i32
-                            && strcmp(
-                                name,
-                                b"flame\0" as *const u8 as *const libc::c_char,
-                            ) == 0 as libc::c_int
+                            && strcmp(name, b"flame\0" as *const u8 as *const libc::c_char)
+                                == 0 as libc::c_int
                         {
-                            msg(
-                                b"the flame bounces off the dragon\0" as *const u8
-                                    as *const libc::c_char,
-                            );
+                            msg(b"the flame bounces off the dragon\0" as *const u8
+                                as *const libc::c_char);
                         } else {
                             hit_monster(pos.y, pos.x, &mut bolt);
-                            if cur_mvinch(pos.y, pos.x) as libc::c_int
-                                != dirch as libc::c_int
-                            {
+                            if cur_mvinch(pos.y, pos.x) as libc::c_int != dirch as libc::c_int {
                                 spotpos[i as usize].s_under = cur_mvinch(pos.y, pos.x);
                             }
                         }
@@ -722,13 +639,12 @@ pub unsafe extern "C" fn fire_bolt(
                             start_run(&mut pos);
                         }
                         msg(
-                            b"the %s whizzes past the %s\0" as *const u8
-                                as *const libc::c_char,
+                            b"the %s whizzes past the %s\0" as *const u8 as *const libc::c_char,
                             name,
                             (*monsters
                                 .as_mut_ptr()
                                 .offset((ch as libc::c_int - 'A' as i32) as isize))
-                                .m_name,
+                            .m_name,
                         );
                     }
                 } else if hit_hero as libc::c_int != 0
@@ -742,16 +658,15 @@ pub unsafe extern "C" fn fire_bolt(
                                 b"You are frozen by a blast of frost%s.\0" as *const u8
                                     as *const libc::c_char,
                                 noterse(
-                                    b" from the Ice Monster\0" as *const u8
-                                        as *const libc::c_char as *mut libc::c_char,
+                                    b" from the Ice Monster\0" as *const u8 as *const libc::c_char
+                                        as *mut libc::c_char,
                                 ),
                             );
                             if no_command < 20 as libc::c_int {
                                 no_command += spread(7 as libc::c_int);
                             }
                         } else {
-                            player._t._t_stats.s_hpt
-                                -= roll(6 as libc::c_int, 6 as libc::c_int);
+                            player._t._t_stats.s_hpt -= roll(6 as libc::c_int, 6 as libc::c_int);
                             if player._t._t_stats.s_hpt <= 0 as libc::c_int {
                                 if start == &mut player._t._t_pos as *mut coord {
                                     death('b' as i32 as libc::c_char);
@@ -763,15 +678,13 @@ pub unsafe extern "C" fn fire_bolt(
                         used = 1 as libc::c_int != 0;
                         if !is_frost {
                             msg(
-                                b"you are hit by the %s\0" as *const u8
-                                    as *const libc::c_char,
+                                b"you are hit by the %s\0" as *const u8 as *const libc::c_char,
                                 name,
                             );
                         }
                     } else {
                         msg(
-                            b"the %s whizzes by you\0" as *const u8
-                                as *const libc::c_char,
+                            b"the %s whizzes by you\0" as *const u8 as *const libc::c_char,
                             name,
                         );
                     }

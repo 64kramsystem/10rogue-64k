@@ -120,11 +120,11 @@ pub struct C2RustUnnamed_0 {
 }
 pub type THING = thing;
 #[no_mangle]
-pub static mut laugh: *mut libc::c_char = b"you hear maniacal laughter%s.\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut laugh: *mut libc::c_char =
+    b"you hear maniacal laughter%s.\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
-pub static mut in_dist: *mut libc::c_char = b" in the distance\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut in_dist: *mut libc::c_char =
+    b" in the distance\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
 pub unsafe extern "C" fn read_scroll() {
     let mut obj: *mut THING = 0 as *mut THING;
@@ -154,23 +154,19 @@ pub unsafe extern "C" fn read_scroll() {
     }
     match (*obj)._o._o_which {
         0 => {
-            player
-                ._t
-                ._t_flags = (player._t._t_flags as libc::c_int | 0x400 as libc::c_int)
-                as libc::c_short;
+            player._t._t_flags =
+                (player._t._t_flags as libc::c_int | 0x400 as libc::c_int) as libc::c_short;
             msg(b"your hands begin to glow red\0" as *const u8 as *const libc::c_char);
         }
         4 => {
             if !cur_armor.is_null() {
                 (*cur_armor)._o._o_ac -= 1;
-                (*cur_armor)
-                    ._o
-                    ._o_flags = ((*cur_armor)._o._o_flags as libc::c_int
-                    & !(0x1 as libc::c_int)) as libc::c_short;
+                (*cur_armor)._o._o_flags = ((*cur_armor)._o._o_flags as libc::c_int
+                    & !(0x1 as libc::c_int))
+                    as libc::c_short;
                 ifterse(
                     b"your armor glows faintly\0" as *const u8 as *const libc::c_char,
-                    b"your armor glows faintly for a moment\0" as *const u8
-                        as *const libc::c_char,
+                    b"your armor glows faintly for a moment\0" as *const u8 as *const libc::c_char,
                 );
             }
         }
@@ -180,20 +176,16 @@ pub unsafe extern "C" fn read_scroll() {
                 if x >= 0 as libc::c_int && x < COLS {
                     y = player._t._t_pos.y - 3 as libc::c_int;
                     while y <= player._t._t_pos.y + 3 as libc::c_int {
-                        if y > 0 as libc::c_int && y < maxrow
-                            && {
-                                op = moat(y, x);
-                                !op.is_null()
-                            }
-                        {
-                            (*op)
-                                ._t
-                                ._t_flags = ((*op)._t._t_flags as libc::c_int
-                                & !(0x4 as libc::c_int)) as libc::c_short;
-                            (*op)
-                                ._t
-                                ._t_flags = ((*op)._t._t_flags as libc::c_int
-                                | 0x80 as libc::c_int) as libc::c_short;
+                        if y > 0 as libc::c_int && y < maxrow && {
+                            op = moat(y, x);
+                            !op.is_null()
+                        } {
+                            (*op)._t._t_flags = ((*op)._t._t_flags as libc::c_int
+                                & !(0x4 as libc::c_int))
+                                as libc::c_short;
+                            (*op)._t._t_flags = ((*op)._t._t_flags as libc::c_int
+                                | 0x80 as libc::c_int)
+                                as libc::c_short;
                         }
                         y += 1;
                     }
@@ -202,20 +194,15 @@ pub unsafe extern "C" fn read_scroll() {
             }
         }
         3 => {
-            *s_know
-                .as_mut_ptr()
-                .offset(3 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            *s_know.as_mut_ptr().offset(3 as libc::c_int as isize) = 1 as libc::c_int != 0;
             no_command += rnd(spread(5 as libc::c_int)) + 4 as libc::c_int;
-            player
-                ._t
-                ._t_flags = (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int))
-                as libc::c_short;
+            player._t._t_flags =
+                (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int)) as libc::c_short;
             msg(b"you fall asleep\0" as *const u8 as *const libc::c_char);
         }
         10 => {
             let mut mp: coord = coord { x: 0, y: 0 };
-            if plop_monster(player._t._t_pos.y, player._t._t_pos.x, &mut mp)
-                as libc::c_int != 0
+            if plop_monster(player._t._t_pos.y, player._t._t_pos.x, &mut mp) as libc::c_int != 0
                 && {
                     op = new_item();
                     !op.is_null()
@@ -224,42 +211,31 @@ pub unsafe extern "C" fn read_scroll() {
                 new_monster(op, randmonster(0 as libc::c_int != 0) as byte, &mut mp);
             } else {
                 ifterse(
-                    b"you hear a faint cry of anguish\0" as *const u8
-                        as *const libc::c_char,
+                    b"you hear a faint cry of anguish\0" as *const u8 as *const libc::c_char,
                     b"you hear a faint cry of anguish in the distance\0" as *const u8
                         as *const libc::c_char,
                 );
             }
         }
         5 => {
-            *s_know
-                .as_mut_ptr()
-                .offset(5 as libc::c_int as isize) = 1 as libc::c_int != 0;
-            msg(
-                b"this scroll is an identify scroll\0" as *const u8
-                    as *const libc::c_char,
-            );
-            if strcmp(s_menu.as_mut_ptr(), b"on\0" as *const u8 as *const libc::c_char)
-                == 0
+            *s_know.as_mut_ptr().offset(5 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            msg(b"this scroll is an identify scroll\0" as *const u8 as *const libc::c_char);
+            if strcmp(
+                s_menu.as_mut_ptr(),
+                b"on\0" as *const u8 as *const libc::c_char,
+            ) == 0
                 || strcmp(
                     s_menu.as_mut_ptr(),
                     b"sel\0" as *const u8 as *const libc::c_char,
                 ) == 0
             {
-                more(
-                    b" More \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-                );
+                more(b" More \0" as *const u8 as *const libc::c_char as *mut libc::c_char);
             }
             whatis();
         }
         1 => {
-            *s_know
-                .as_mut_ptr()
-                .offset(1 as libc::c_int as isize) = 1 as libc::c_int != 0;
-            msg(
-                b"oh, now this scroll has a map on it\0" as *const u8
-                    as *const libc::c_char,
-            );
+            *s_know.as_mut_ptr().offset(1 as libc::c_int as isize) = 1 as libc::c_int != 0;
+            msg(b"oh, now this scroll has a map on it\0" as *const u8 as *const libc::c_char);
             y = 1 as libc::c_int;
             while y < maxrow {
                 x = 0 as libc::c_int;
@@ -269,15 +245,14 @@ pub unsafe extern "C" fn read_scroll() {
                     ch = *_level.offset(index as isize);
                     match ch as libc::c_int {
                         186 | 205 | 201 | 187 | 200 | 188 => {
-                            if *_flags.offset(index as isize) as libc::c_int
-                                & 0x10 as libc::c_int == 0
+                            if *_flags.offset(index as isize) as libc::c_int & 0x10 as libc::c_int
+                                == 0
                             {
                                 let ref mut fresh0 = *_level.offset(index as isize);
                                 *fresh0 = 0xce as libc::c_int as byte;
                                 ch = *fresh0;
                                 let ref mut fresh1 = *_flags.offset(index as isize);
-                                *fresh1 = (*fresh1 as libc::c_int & !(0x10 as libc::c_int))
-                                    as byte;
+                                *fresh1 = (*fresh1 as libc::c_int & !(0x10 as libc::c_int)) as byte;
                             }
                             current_block_51 = 17404231275461091374;
                         }
@@ -341,17 +316,11 @@ pub unsafe extern "C" fn read_scroll() {
                 op = (*op)._t._l_next;
             }
             if ch != 0 {
-                *s_know
-                    .as_mut_ptr()
-                    .offset(7 as libc::c_int as isize) = 1 as libc::c_int != 0;
-                msg(
-                    b"your nose tingles as you sense food\0" as *const u8
-                        as *const libc::c_char,
-                );
+                *s_know.as_mut_ptr().offset(7 as libc::c_int as isize) = 1 as libc::c_int != 0;
+                msg(b"your nose tingles as you sense food\0" as *const u8 as *const libc::c_char);
             } else {
                 ifterse(
-                    b"you hear a growling noise close by\0" as *const u8
-                        as *const libc::c_char,
+                    b"you hear a growling noise close by\0" as *const u8 as *const libc::c_char,
                     b"you hear a growling noise very close to you\0" as *const u8
                         as *const libc::c_char,
                 );
@@ -362,22 +331,16 @@ pub unsafe extern "C" fn read_scroll() {
             cur_room = player._t._t_room;
             teleport();
             if cur_room != player._t._t_room {
-                *s_know
-                    .as_mut_ptr()
-                    .offset(8 as libc::c_int as isize) = 1 as libc::c_int != 0;
+                *s_know.as_mut_ptr().offset(8 as libc::c_int as isize) = 1 as libc::c_int != 0;
             }
         }
         9 => {
             if cur_weapon.is_null() || (*cur_weapon)._o._o_type != 0x18 as libc::c_int {
-                msg(
-                    b"you feel a strange sense of loss\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"you feel a strange sense of loss\0" as *const u8 as *const libc::c_char);
             } else {
-                (*cur_weapon)
-                    ._o
-                    ._o_flags = ((*cur_weapon)._o._o_flags as libc::c_int
-                    & !(0x1 as libc::c_int)) as libc::c_short;
+                (*cur_weapon)._o._o_flags = ((*cur_weapon)._o._o_flags as libc::c_int
+                    & !(0x1 as libc::c_int))
+                    as libc::c_short;
                 if rnd(2 as libc::c_int) == 0 as libc::c_int {
                     (*cur_weapon)._o._o_hplus += 1;
                 } else {
@@ -385,9 +348,10 @@ pub unsafe extern "C" fn read_scroll() {
                 }
                 ifterse(
                     b"your %s glows blue\0" as *const u8 as *const libc::c_char,
-                    b"your %s glows blue for a moment\0" as *const u8
-                        as *const libc::c_char,
-                    *w_names.as_mut_ptr().offset((*cur_weapon)._o._o_which as isize),
+                    b"your %s glows blue for a moment\0" as *const u8 as *const libc::c_char,
+                    *w_names
+                        .as_mut_ptr()
+                        .offset((*cur_weapon)._o._o_which as isize),
                 );
             }
         }
@@ -403,34 +367,26 @@ pub unsafe extern "C" fn read_scroll() {
         }
         11 => {
             if !cur_armor.is_null() {
-                (*cur_armor)
-                    ._o
-                    ._o_flags = ((*cur_armor)._o._o_flags as libc::c_int
-                    & !(0x1 as libc::c_int)) as libc::c_short;
+                (*cur_armor)._o._o_flags = ((*cur_armor)._o._o_flags as libc::c_int
+                    & !(0x1 as libc::c_int))
+                    as libc::c_short;
             }
             if !cur_weapon.is_null() {
-                (*cur_weapon)
-                    ._o
-                    ._o_flags = ((*cur_weapon)._o._o_flags as libc::c_int
-                    & !(0x1 as libc::c_int)) as libc::c_short;
+                (*cur_weapon)._o._o_flags = ((*cur_weapon)._o._o_flags as libc::c_int
+                    & !(0x1 as libc::c_int))
+                    as libc::c_short;
             }
             if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null() {
-                let ref mut fresh2 = (**cur_ring
-                    .as_mut_ptr()
-                    .offset(0 as libc::c_int as isize))
+                let ref mut fresh2 = (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                     ._o
                     ._o_flags;
-                *fresh2 = (*fresh2 as libc::c_int & !(0x1 as libc::c_int))
-                    as libc::c_short;
+                *fresh2 = (*fresh2 as libc::c_int & !(0x1 as libc::c_int)) as libc::c_short;
             }
             if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null() {
-                let ref mut fresh3 = (**cur_ring
-                    .as_mut_ptr()
-                    .offset(1 as libc::c_int as isize))
+                let ref mut fresh3 = (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                     ._o
                     ._o_flags;
-                *fresh3 = (*fresh3 as libc::c_int & !(0x1 as libc::c_int))
-                    as libc::c_short;
+                *fresh3 = (*fresh3 as libc::c_int & !(0x1 as libc::c_int)) as libc::c_short;
             }
             ifterse(
                 b"somebody is watching over you\0" as *const u8 as *const libc::c_char,
@@ -442,8 +398,7 @@ pub unsafe extern "C" fn read_scroll() {
             aggravate();
             ifterse(
                 b"you hear a humming noise\0" as *const u8 as *const libc::c_char,
-                b"you hear a high pitched humming noise\0" as *const u8
-                    as *const libc::c_char,
+                b"you hear a high pitched humming noise\0" as *const u8 as *const libc::c_char,
             );
         }
         13 => {
@@ -461,9 +416,10 @@ pub unsafe extern "C" fn read_scroll() {
                 );
             } else if (*cur_weapon)._o._o_enemy as libc::c_int != 0 as libc::c_int {
                 msg(
-                    b"your %s vanishes in a puff of smoke\0" as *const u8
-                        as *const libc::c_char,
-                    *w_names.as_mut_ptr().offset((*cur_weapon)._o._o_which as isize),
+                    b"your %s vanishes in a puff of smoke\0" as *const u8 as *const libc::c_char,
+                    *w_names
+                        .as_mut_ptr()
+                        .offset((*cur_weapon)._o._o_which as isize),
                 );
                 list_detach(&mut player._t._t_pack, cur_weapon);
                 discard(cur_weapon);
@@ -475,7 +431,9 @@ pub unsafe extern "C" fn read_scroll() {
                 (*cur_weapon)._o._o_ac = 1 as libc::c_int as libc::c_short;
                 msg(
                     flashmsg,
-                    *w_names.as_mut_ptr().offset((*cur_weapon)._o._o_which as isize),
+                    *w_names
+                        .as_mut_ptr()
+                        .offset((*cur_weapon)._o._o_which as isize),
                     if terse as libc::c_int != 0 || expert as libc::c_int != 0 {
                         b"\0" as *const u8 as *const libc::c_char
                     } else {

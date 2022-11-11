@@ -114,10 +114,9 @@ pub static mut dummier: [libc::c_char; 4321] = [0; 4321];
 #[no_mangle]
 pub static mut end_sb: *mut libc::c_char = unsafe { dummier.as_ptr() as *mut _ };
 #[no_mangle]
-pub static mut startmem: *mut libc::c_char = 0 as *const libc::c_char
-    as *mut libc::c_char;
-static mut msaveid: *mut libc::c_char = b"AI Design\0" as *const u8
-    as *const libc::c_char as *mut libc::c_char;
+pub static mut startmem: *mut libc::c_char = 0 as *const libc::c_char as *mut libc::c_char;
+static mut msaveid: *mut libc::c_char =
+    b"AI Design\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
 #[no_mangle]
 pub unsafe extern "C" fn save_game() {
     let mut retcode: libc::c_int = 0;
@@ -136,9 +135,7 @@ unsafe extern "C" fn save_ds(mut savename: *mut libc::c_char) -> libc::c_int {
         msg(
             b"%s %sexists, overwrite (y/n) ?\0" as *const u8 as *const libc::c_char,
             savename,
-            noterse(
-                b"already \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            ),
+            noterse(b"already \0" as *const u8 as *const libc::c_char as *mut libc::c_char),
         );
         answer = readchar() as libc::c_char;
         msg(b"\0" as *const u8 as *const libc::c_char);
@@ -148,7 +145,10 @@ unsafe extern "C" fn save_ds(mut savename: *mut libc::c_char) -> libc::c_int {
     }
     file = fopen(savename, b"w\0" as *const u8 as *const libc::c_char);
     if file.is_null() {
-        msg(b"Could not create %s\0" as *const u8 as *const libc::c_char, savename);
+        msg(
+            b"Could not create %s\0" as *const u8 as *const libc::c_char,
+            savename,
+        );
         return -(2 as libc::c_int);
     }
     mpos = 0 as libc::c_int;
@@ -161,8 +161,8 @@ unsafe extern "C" fn save_ds(mut savename: *mut libc::c_char) -> libc::c_int {
     ) == 0
         || fwrite(
             &mut _lowmem as *mut *mut libc::c_char as *const libc::c_void,
-            (&mut _Uend as *mut *mut libc::c_char).offset_from(&mut _lowmem)
-                as libc::c_long as libc::c_ulong,
+            (&mut _Uend as *mut *mut libc::c_char).offset_from(&mut _lowmem) as libc::c_long
+                as libc::c_ulong,
             1 as libc::c_int as libc::c_ulong,
             file,
         ) == 0
@@ -194,10 +194,7 @@ unsafe extern "C" fn save_ds(mut savename: *mut libc::c_char) -> libc::c_int {
             return 1 as libc::c_int;
         }
         _ => {
-            msg(
-                b"Could not write savefile to disk!\0" as *const u8
-                    as *const libc::c_char,
-            );
+            msg(b"Could not write savefile to disk!\0" as *const u8 as *const libc::c_char);
             return -(1 as libc::c_int);
         }
     };
@@ -215,8 +212,8 @@ pub unsafe extern "C" fn restore(mut savefile: *mut libc::c_char) {
     let mut file: *mut FILE = 0 as *mut FILE;
     let mut errbuf: [libc::c_char; 11] = [0; 11];
     let mut save_name: [libc::c_char; 80] = [0; 80];
-    let mut read_error: *mut libc::c_char = b"Read Error\0" as *const u8
-        as *const libc::c_char as *mut libc::c_char;
+    let mut read_error: *mut libc::c_char =
+        b"Read Error\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     let mut oregs: *mut sw_regs = 0 as *mut sw_regs;
     let mut nbytes: libc::c_uint = 0;
     let mut idbuf: [libc::c_char; 10] = [0; 10];
@@ -225,7 +222,11 @@ pub unsafe extern "C" fn restore(mut savefile: *mut libc::c_char) {
     strcpy(errbuf.as_mut_ptr(), read_error);
     oldrev = revno;
     oldver = verno;
-    if strcmp(s_drive.as_mut_ptr(), b"?\0" as *const u8 as *const libc::c_char) == 0 {
+    if strcmp(
+        s_drive.as_mut_ptr(),
+        b"?\0" as *const u8 as *const libc::c_char,
+    ) == 0
+    {
         let mut ot: libc::c_int = scr_type;
         cur_printw(b"Press space to restart game\0" as *const u8 as *const libc::c_char);
         scr_type = -(1 as libc::c_int);
@@ -235,23 +236,29 @@ pub unsafe extern "C" fn restore(mut savefile: *mut libc::c_char) {
     }
     file = fopen(savefile, b"r\0" as *const u8 as *const libc::c_char);
     if file.is_null() {
-        fatal(b"%s not found\n\0" as *const u8 as *const libc::c_char, savefile);
+        fatal(
+            b"%s not found\n\0" as *const u8 as *const libc::c_char,
+            savefile,
+        );
     } else {
-        cur_printw(b"Restoring %s\0" as *const u8 as *const libc::c_char, savefile);
+        cur_printw(
+            b"Restoring %s\0" as *const u8 as *const libc::c_char,
+            savefile,
+        );
     }
     strcpy(save_name.as_mut_ptr(), savefile);
-    nbytes = (&mut _Uend as *mut *mut libc::c_char).offset_from(&mut _lowmem)
-        as libc::c_long as libc::c_uint;
+    nbytes = (&mut _Uend as *mut *mut libc::c_char).offset_from(&mut _lowmem) as libc::c_long
+        as libc::c_uint;
     if fread(
         idbuf.as_mut_ptr() as *mut libc::c_void,
         10 as libc::c_int as libc::c_ulong,
         1 as libc::c_int as libc::c_ulong,
         file,
-    ) != 0 || strcmp(idbuf.as_mut_ptr(), msaveid) != 0
+    ) != 0
+        || strcmp(idbuf.as_mut_ptr(), msaveid) != 0
     {
         cur_addstr(
-            b"\nNot a savefile\n\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char,
+            b"\nNot a savefile\n\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
         );
         current_block = 13797916685926291137;
     } else {
@@ -320,8 +327,7 @@ pub unsafe extern "C" fn restore(mut savefile: *mut libc::c_char) {
     mpos = 0 as libc::c_int;
     ifterse(
         b"%s, Welcome back!\0" as *const u8 as *const libc::c_char,
-        b"Hello %s, Welcome back to the Dungeons of Doom!\0" as *const u8
-            as *const libc::c_char,
+        b"Hello %s, Welcome back to the Dungeons of Doom!\0" as *const u8 as *const libc::c_char,
         whoami.as_mut_ptr(),
     );
     dnum = md_srand();
@@ -330,14 +336,10 @@ pub unsafe extern "C" fn restore(mut savefile: *mut libc::c_char) {
 unsafe extern "C" fn run_static_initializers() {
     _Uend = dummy
         .as_mut_ptr()
-        .offset(
-            ::core::mem::size_of::<[libc::c_char; 1234]>() as libc::c_ulong as isize,
-        );
+        .offset(::core::mem::size_of::<[libc::c_char; 1234]>() as libc::c_ulong as isize);
     startmem = dummier
         .as_mut_ptr()
-        .offset(
-            ::core::mem::size_of::<[libc::c_char; 4321]>() as libc::c_ulong as isize,
-        );
+        .offset(::core::mem::size_of::<[libc::c_char; 4321]>() as libc::c_ulong as isize);
 }
 #[used]
 #[cfg_attr(target_os = "linux", link_section = ".init_array")]

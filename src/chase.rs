@@ -20,12 +20,7 @@ extern "C" {
     static mut _flags: *mut byte;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;
     fn msg(fmt: *const libc::c_char, _: ...);
-    fn DISTANCE(
-        y1: libc::c_int,
-        x1: libc::c_int,
-        y2: libc::c_int,
-        x2: libc::c_int,
-    ) -> libc::c_int;
+    fn DISTANCE(y1: libc::c_int, x1: libc::c_int, y2: libc::c_int, x2: libc::c_int) -> libc::c_int;
     fn rnd(range: libc::c_int) -> libc::c_int;
     fn _ce(a: *mut coord, b: *mut coord) -> bool;
     fn list_attach(list: *mut *mut THING, item: *mut THING);
@@ -140,16 +135,13 @@ pub unsafe extern "C" fn runners() {
                 (*tp)._t._t_pos.y,
                 (*tp)._t._t_pos.x,
             );
-            if !((*tp)._t._t_flags as libc::c_int & 0x2000 as libc::c_int
-                != 0 as libc::c_int
-                || (*tp)._t._t_type as libc::c_int == 'S' as i32
-                    && dist > 3 as libc::c_int) || (*tp)._t._t_turn as libc::c_int != 0
+            if !((*tp)._t._t_flags as libc::c_int & 0x2000 as libc::c_int != 0 as libc::c_int
+                || (*tp)._t._t_type as libc::c_int == 'S' as i32 && dist > 3 as libc::c_int)
+                || (*tp)._t._t_turn as libc::c_int != 0
             {
                 do_chase(tp);
             }
-            if (*tp)._t._t_flags as libc::c_int & 0x4000 as libc::c_int
-                != 0 as libc::c_int
-            {
+            if (*tp)._t._t_flags as libc::c_int & 0x4000 as libc::c_int != 0 as libc::c_int {
                 do_chase(tp);
             }
             dist = DISTANCE(
@@ -158,15 +150,12 @@ pub unsafe extern "C" fn runners() {
                 (*tp)._t._t_pos.y,
                 (*tp)._t._t_pos.x,
             );
-            if (*tp)._t._t_flags as libc::c_int & 0x8000 as libc::c_int
-                != 0 as libc::c_int && dist > 3 as libc::c_int
+            if (*tp)._t._t_flags as libc::c_int & 0x8000 as libc::c_int != 0 as libc::c_int
+                && dist > 3 as libc::c_int
             {
                 do_chase(tp);
             }
-            (*tp)
-                ._t
-                ._t_turn = ((*tp)._t._t_turn as libc::c_int ^ 1 as libc::c_int)
-                as libc::c_char;
+            (*tp)._t._t_turn = ((*tp)._t._t_turn as libc::c_int ^ 1 as libc::c_int) as libc::c_char;
         }
         tp = (*tp)._t._l_next;
     }
@@ -195,12 +184,10 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
     if ree.is_null() {
         return;
     }
-    door = *_level.offset(INDEX((*th)._t._t_pos.y, (*th)._t._t_pos.x) as isize)
-        as libc::c_int == 0xce as libc::c_int;
+    door = *_level.offset(INDEX((*th)._t._t_pos.y, (*th)._t._t_pos.x) as isize) as libc::c_int
+        == 0xce as libc::c_int;
     loop {
-        if rer != ree
-            && (*rer).r_flags as libc::c_int & 0x4 as libc::c_int == 0 as libc::c_int
-        {
+        if rer != ree && (*rer).r_flags as libc::c_int & 0x4 as libc::c_int == 0 as libc::c_int {
             i = 0 as libc::c_int;
             while i < (*rer).r_nexits {
                 dist = DISTANCE(
@@ -218,19 +205,14 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
             if !door {
                 break;
             }
-            rer = &mut *passages
-                .as_mut_ptr()
-                .offset(
-                    (*_flags
-                        .offset(
-                            (INDEX
-                                as unsafe extern "C" fn(
-                                    libc::c_int,
-                                    libc::c_int,
-                                ) -> libc::c_int)((*th)._t._t_pos.y, (*th)._t._t_pos.x)
-                                as isize,
-                        ) as libc::c_int & 0xf as libc::c_int) as isize,
-                ) as *mut room;
+            rer = &mut *passages.as_mut_ptr().offset(
+                (*_flags.offset((INDEX
+                    as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(
+                    (*th)._t._t_pos.y,
+                    (*th)._t._t_pos.x,
+                ) as isize) as libc::c_int
+                    & 0xf as libc::c_int) as isize,
+            ) as *mut room;
             door = 0 as libc::c_int != 0;
         } else {
             this = *(*th)._t._t_dest;
@@ -247,11 +229,10 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
                         player._t._t_pos.y,
                         player._t._t_pos.x,
                     );
-                    dist > 2 as libc::c_int
-                        && dist <= 6 as libc::c_int * 6 as libc::c_int
+                    dist > 2 as libc::c_int && dist <= 6 as libc::c_int * 6 as libc::c_int
                 }
-                && !((*th)._t._t_flags as libc::c_int & 0x1000 as libc::c_int
-                    != 0 as libc::c_int) && rnd(5 as libc::c_int) == 0 as libc::c_int
+                && !((*th)._t._t_flags as libc::c_int & 0x1000 as libc::c_int != 0 as libc::c_int)
+                && rnd(5 as libc::c_int) == 0 as libc::c_int
             {
                 running = 0 as libc::c_int != 0;
                 delta.y = sign(player._t._t_pos.y - (*th)._t._t_pos.y);
@@ -282,15 +263,14 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
                     let mut oldchar: byte = 0;
                     list_detach(&mut lvl_obj, obj);
                     list_attach(&mut (*th)._t._t_pack, obj);
-                    let ref mut fresh0 = *_level
-                        .offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize);
-                    *fresh0 = (if (*(*th)._t._t_room).r_flags as libc::c_int
-                        & 0x2 as libc::c_int != 0
-                    {
-                        0xb1 as libc::c_int
-                    } else {
-                        0xfa as libc::c_int
-                    }) as byte;
+                    let ref mut fresh0 =
+                        *_level.offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize);
+                    *fresh0 =
+                        (if (*(*th)._t._t_room).r_flags as libc::c_int & 0x2 as libc::c_int != 0 {
+                            0xb1 as libc::c_int
+                        } else {
+                            0xfa as libc::c_int
+                        }) as byte;
                     oldchar = *fresh0;
                     if cansee((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) {
                         cur_mvaddch((*obj)._o._o_pos.y, (*obj)._o._o_pos.x, oldchar);
@@ -309,8 +289,8 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
     if (*th)._t._t_oldch as libc::c_int != '@' as i32 {
         if (*th)._t._t_oldch as libc::c_int == ' ' as i32
             && cansee((*th)._t._t_pos.y, (*th)._t._t_pos.x) as libc::c_int != 0
-            && *_level.offset(INDEX((*th)._t._t_pos.y, (*th)._t._t_pos.x) as isize)
-                as libc::c_int == 0xfa as libc::c_int
+            && *_level.offset(INDEX((*th)._t._t_pos.y, (*th)._t._t_pos.x) as isize) as libc::c_int
+                == 0xfa as libc::c_int
         {
             cur_mvaddch(
                 (*th)._t._t_pos.y,
@@ -319,8 +299,7 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
             );
         } else if (*th)._t._t_oldch as libc::c_int == 0xfa as libc::c_int
             && !cansee((*th)._t._t_pos.y, (*th)._t._t_pos.x)
-            && !(player._t._t_flags as libc::c_int & 0x2 as libc::c_int
-                != 0 as libc::c_int)
+            && !(player._t._t_flags as libc::c_int & 0x2 as libc::c_int != 0 as libc::c_int)
         {
             cur_mvaddch((*th)._t._t_pos.y, (*th)._t._t_pos.x, ' ' as i32 as byte);
         } else {
@@ -340,15 +319,14 @@ pub unsafe extern "C" fn do_chase(mut th: *mut THING) {
         (*th)._t._t_pos = ch_ret;
     }
     if see_monst(th) {
-        if *_flags.offset(INDEX(ch_ret.y, ch_ret.x) as isize) as libc::c_int
-            & 0x40 as libc::c_int != 0
+        if *_flags.offset(INDEX(ch_ret.y, ch_ret.x) as isize) as libc::c_int & 0x40 as libc::c_int
+            != 0
         {
             set_attr(14 as libc::c_int);
         }
         (*th)._t._t_oldch = cur_mvinch(ch_ret.y, ch_ret.x);
         cur_mvaddch(ch_ret.y, ch_ret.x, (*th)._t._t_disguise);
-    } else if player._t._t_flags as libc::c_int & 0x2 as libc::c_int != 0 as libc::c_int
-    {
+    } else if player._t._t_flags as libc::c_int & 0x2 as libc::c_int != 0 as libc::c_int {
         set_attr(14 as libc::c_int);
         (*th)._t._t_oldch = cur_mvinch(ch_ret.y, ch_ret.x);
         cur_mvaddch(ch_ret.y, ch_ret.x, (*th)._t._t_type as byte);
@@ -368,8 +346,7 @@ pub unsafe extern "C" fn see_monst(mut mp: *mut THING) -> bool {
         return 0 as libc::c_int != 0;
     }
     if (*mp)._t._t_flags as libc::c_int & 0x10 as libc::c_int != 0 as libc::c_int
-        && !(player._t._t_flags as libc::c_int & 0x800 as libc::c_int
-            != 0 as libc::c_int)
+        && !(player._t._t_flags as libc::c_int & 0x800 as libc::c_int != 0 as libc::c_int)
     {
         return 0 as libc::c_int != 0;
     }
@@ -387,16 +364,15 @@ pub unsafe extern "C" fn see_monst(mut mp: *mut THING) -> bool {
     }
     if !cur_weapon.is_null()
         && (*mp)._t._t_type as libc::c_int == (*cur_weapon)._o._o_enemy as libc::c_int
-        && (*cur_weapon)._o._o_flags as libc::c_int & 0x4 as libc::c_int
-            == 0 as libc::c_int
+        && (*cur_weapon)._o._o_flags as libc::c_int & 0x4 as libc::c_int == 0 as libc::c_int
     {
-        (*cur_weapon)
-            ._o
-            ._o_flags = ((*cur_weapon)._o._o_flags as libc::c_int | 0x4 as libc::c_int)
-            as libc::c_short;
+        (*cur_weapon)._o._o_flags =
+            ((*cur_weapon)._o._o_flags as libc::c_int | 0x4 as libc::c_int) as libc::c_short;
         msg(
             flashmsg,
-            *w_names.as_mut_ptr().offset((*cur_weapon)._o._o_which as isize),
+            *w_names
+                .as_mut_ptr()
+                .offset((*cur_weapon)._o._o_which as isize),
             if terse as libc::c_int != 0 || expert as libc::c_int != 0 {
                 b"\0" as *const u8 as *const libc::c_char
             } else {
@@ -411,14 +387,10 @@ pub unsafe extern "C" fn start_run(mut runner: *mut coord) {
     let mut tp: *mut THING = 0 as *mut THING;
     tp = moat((*runner).y, (*runner).x);
     if !tp.is_null() {
-        (*tp)
-            ._t
-            ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int)
-            as libc::c_short;
-        (*tp)
-            ._t
-            ._t_flags = ((*tp)._t._t_flags as libc::c_int & !(0x80 as libc::c_int))
-            as libc::c_short;
+        (*tp)._t._t_flags =
+            ((*tp)._t._t_flags as libc::c_int | 0x4 as libc::c_int) as libc::c_short;
+        (*tp)._t._t_flags =
+            ((*tp)._t._t_flags as libc::c_int & !(0x80 as libc::c_int)) as libc::c_short;
         (*tp)._t._t_dest = find_dest(tp);
     }
 }
@@ -443,10 +415,8 @@ pub unsafe extern "C" fn chase(mut tp: *mut THING, mut ee: *mut coord) {
         rndmove(tp, &mut ch_ret);
         dist = DISTANCE(ch_ret.y, ch_ret.x, (*ee).y, (*ee).x);
         if rnd(30 as libc::c_int) == 17 as libc::c_int {
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int & !(0x100 as libc::c_int))
-                as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int & !(0x100 as libc::c_int)) as libc::c_short;
         }
     } else {
         let mut ey: libc::c_int = 0;
@@ -490,12 +460,10 @@ pub unsafe extern "C" fn chase(mut tp: *mut THING, mut ee: *mut coord) {
                                     plcnt = 1 as libc::c_int;
                                     ch_ret = tryp;
                                     dist = thisdist;
-                                } else if thisdist == dist
-                                    && {
-                                        plcnt += 1;
-                                        rnd(plcnt) == 0 as libc::c_int
-                                    }
-                                {
+                                } else if thisdist == dist && {
+                                    plcnt += 1;
+                                    rnd(plcnt) == 0 as libc::c_int
+                                } {
                                     ch_ret = tryp;
                                     dist = thisdist;
                                 }
@@ -519,25 +487,24 @@ pub unsafe extern "C" fn roomin(mut cp: *mut coord) -> *mut room {
             .as_mut_ptr()
             .offset((9 as libc::c_int - 1 as libc::c_int) as isize) as *mut room
     {
-        if (*cp).x < (*rp).r_pos.x + (*rp).r_max.x && (*rp).r_pos.x <= (*cp).x
-            && (*cp).y < (*rp).r_pos.y + (*rp).r_max.y && (*rp).r_pos.y <= (*cp).y
+        if (*cp).x < (*rp).r_pos.x + (*rp).r_max.x
+            && (*rp).r_pos.x <= (*cp).x
+            && (*cp).y < (*rp).r_pos.y + (*rp).r_max.y
+            && (*rp).r_pos.y <= (*cp).y
         {
             return rp;
         }
         rp = rp.offset(1);
     }
-    fp = &mut *_flags
-        .offset(
-            (INDEX
-                as unsafe extern "C" fn(
-                    libc::c_int,
-                    libc::c_int,
-                ) -> libc::c_int)((*cp).y, (*cp).x) as isize,
-        ) as *mut byte;
+    fp = &mut *_flags.offset((INDEX
+        as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(
+        (*cp).y, (*cp).x
+    ) as isize) as *mut byte;
     if *fp as libc::c_int & 0x40 as libc::c_int != 0 {
         return &mut *passages
             .as_mut_ptr()
-            .offset((*fp as libc::c_int & 0xf as libc::c_int) as isize) as *mut room;
+            .offset((*fp as libc::c_int & 0xf as libc::c_int) as isize)
+            as *mut room;
     }
     bailout = 1 as libc::c_int != 0;
     return 0 as *mut room;
@@ -563,8 +530,7 @@ pub unsafe extern "C" fn cansee(mut y: libc::c_int, mut x: libc::c_int) -> bool 
     tp.y = y;
     tp.x = x;
     rer = roomin(&mut tp);
-    return rer == player._t._t_room
-        && (*rer).r_flags as libc::c_int & 0x1 as libc::c_int == 0;
+    return rer == player._t._t_room && (*rer).r_flags as libc::c_int & 0x1 as libc::c_int == 0;
 }
 #[no_mangle]
 pub unsafe extern "C" fn find_dest(mut tp: *mut THING) -> *mut coord {
@@ -574,8 +540,9 @@ pub unsafe extern "C" fn find_dest(mut tp: *mut THING) -> *mut coord {
     prob = (*monsters
         .as_mut_ptr()
         .offset(((*tp)._t._t_type as libc::c_int - 'A' as i32) as isize))
-        .m_carry;
-    if prob <= 0 as libc::c_int || (*tp)._t._t_room == player._t._t_room
+    .m_carry;
+    if prob <= 0 as libc::c_int
+        || (*tp)._t._t_room == player._t._t_room
         || see_monst(tp) as libc::c_int != 0
     {
         return &mut player._t._t_pos;
@@ -583,9 +550,7 @@ pub unsafe extern "C" fn find_dest(mut tp: *mut THING) -> *mut coord {
     rp = (*tp)._t._t_room;
     obj = lvl_obj;
     while !obj.is_null() {
-        if !((*obj)._o._o_type == 0xd as libc::c_int
-            && (*obj)._o._o_which == 6 as libc::c_int)
-        {
+        if !((*obj)._o._o_type == 0xd as libc::c_int && (*obj)._o._o_which == 6 as libc::c_int) {
             if roomin(&mut (*obj)._o._o_pos) == rp && rnd(100 as libc::c_int) < prob {
                 tp = mlist;
                 while !tp.is_null() {

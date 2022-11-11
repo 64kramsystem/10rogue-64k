@@ -1,20 +1,13 @@
 use ::libc;
 extern "C" {
     fn __ctype_toupper_loc() -> *mut *const __int32_t;
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
     fn strcpy(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
     fn strcat(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
     fn strchr(_: *const libc::c_char, _: libc::c_int) -> *mut libc::c_char;
     fn sprintf(_: *mut libc::c_char, _: *const libc::c_char, _: ...) -> libc::c_int;
-    fn strtol(
-        _: *const libc::c_char,
-        _: *mut *mut libc::c_char,
-        _: libc::c_int,
-    ) -> libc::c_long;
+    fn strtol(_: *const libc::c_char, _: *mut *mut libc::c_char, _: libc::c_int) -> libc::c_long;
     fn flush_type();
     static mut it: *mut libc::c_char;
     static mut you: *mut libc::c_char;
@@ -191,8 +184,10 @@ pub unsafe extern "C" fn fight(
         }
         msg(b"wait! That's a Xeroc!\0" as *const u8 as *const libc::c_char);
     }
-    mname = (*monsters.as_mut_ptr().offset((mn as libc::c_int - 'A' as i32) as isize))
-        .m_name;
+    mname = (*monsters
+        .as_mut_ptr()
+        .offset((mn as libc::c_int - 'A' as i32) as isize))
+    .m_name;
     if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int {
         mname = it;
     }
@@ -224,23 +219,21 @@ pub unsafe extern "C" fn fight(
         }
         if player._t._t_flags as libc::c_int & 0x400 as libc::c_int != 0 as libc::c_int {
             did_huh = 1 as libc::c_int != 0;
-            (*tp)
-                ._t
-                ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x100 as libc::c_int)
-                as libc::c_short;
-            player
-                ._t
-                ._t_flags = (player._t._t_flags as libc::c_int & !(0x400 as libc::c_int))
-                as libc::c_short;
+            (*tp)._t._t_flags =
+                ((*tp)._t._t_flags as libc::c_int | 0x100 as libc::c_int) as libc::c_short;
+            player._t._t_flags =
+                (player._t._t_flags as libc::c_int & !(0x400 as libc::c_int)) as libc::c_short;
             msg(b"your hands stop glowing red\0" as *const u8 as *const libc::c_char);
         }
         if (*tp)._t._t_stats.s_hpt <= 0 as libc::c_int {
             killed(tp, 1 as libc::c_int != 0);
         } else if did_huh as libc::c_int != 0
-            && !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int
-                != 0 as libc::c_int)
+            && !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int)
         {
-            msg(b"the %s appears confused\0" as *const u8 as *const libc::c_char, mname);
+            msg(
+                b"the %s appears confused\0" as *const u8 as *const libc::c_char,
+                mname,
+            );
         }
         return 1 as libc::c_int != 0;
     }
@@ -254,8 +247,7 @@ pub unsafe extern "C" fn fight(
     } else {
         miss(0 as *mut libc::c_char, mname);
     }
-    if (*tp)._t._t_type as libc::c_int == 'S' as i32
-        && rnd(100 as libc::c_int) > 25 as libc::c_int
+    if (*tp)._t._t_type as libc::c_int == 'S' as i32 && rnd(100 as libc::c_int) > 25 as libc::c_int
     {
         slime_split(tp);
     }
@@ -275,7 +267,7 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
     mname = (*monsters
         .as_mut_ptr()
         .offset(((*mp)._t._t_type as libc::c_int - 'A' as i32) as isize))
-        .m_name;
+    .m_name;
     if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int {
         mname = it;
     }
@@ -284,41 +276,28 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
         if player._t._t_stats.s_hpt <= 0 as libc::c_int {
             death((*mp)._t._t_type);
         }
-        if !((*mp)._t._t_flags as libc::c_int & 0x1000 as libc::c_int
-            != 0 as libc::c_int)
-        {
+        if !((*mp)._t._t_flags as libc::c_int & 0x1000 as libc::c_int != 0 as libc::c_int) {
             match (*mp)._t._t_type as libc::c_int {
                 65 => {
                     if !cur_armor.is_null()
                         && ((*cur_armor)._o._o_ac as libc::c_int) < 9 as libc::c_int
                         && (*cur_armor)._o._o_which != 0 as libc::c_int
                     {
-                        if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
-                            .is_null()
-                            && (**cur_ring
-                                .as_mut_ptr()
-                                .offset(0 as libc::c_int as isize))
+                        if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
+                            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                                 ._o
-                                ._o_which == 13 as libc::c_int
-                            || !(*cur_ring
-                                .as_mut_ptr()
-                                .offset(1 as libc::c_int as isize))
-                                .is_null()
-                                && (**cur_ring
-                                    .as_mut_ptr()
-                                    .offset(1 as libc::c_int as isize))
+                                ._o_which
+                                == 13 as libc::c_int
+                            || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
+                                && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                                     ._o
-                                    ._o_which == 13 as libc::c_int
+                                    ._o_which
+                                    == 13 as libc::c_int
                         {
-                            msg(
-                                b"the rust vanishes instantly\0" as *const u8
-                                    as *const libc::c_char,
-                            );
+                            msg(b"the rust vanishes instantly\0" as *const u8
+                                as *const libc::c_char);
                         } else {
-                            msg(
-                                b"your armor weakens, oh my!\0" as *const u8
-                                    as *const libc::c_char,
-                            );
+                            msg(b"your armor weakens, oh my!\0" as *const u8 as *const libc::c_char);
                             (*cur_armor)._o._o_ac += 1;
                         }
                     }
@@ -330,37 +309,30 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
                 }
                 82 => {
                     if !save(0 as libc::c_int) {
-                        if !(!(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
-                            .is_null()
-                            && (**cur_ring
-                                .as_mut_ptr()
-                                .offset(0 as libc::c_int as isize))
+                        if !(!(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
+                            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                                 ._o
-                                ._o_which == 2 as libc::c_int
-                            || !(*cur_ring
-                                .as_mut_ptr()
-                                .offset(1 as libc::c_int as isize))
+                                ._o_which
+                                == 2 as libc::c_int
+                            || !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                                 .is_null()
-                                && (**cur_ring
-                                    .as_mut_ptr()
-                                    .offset(1 as libc::c_int as isize))
+                                && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                                     ._o
-                                    ._o_which == 2 as libc::c_int)
+                                    ._o_which
+                                    == 2 as libc::c_int)
                         {
                             chg_str(-(1 as libc::c_int));
                             msg(
                                 b"you feel a bite in your leg%s\0" as *const u8
                                     as *const libc::c_char,
                                 noterse(
-                                    b" and now feel weaker\0" as *const u8
-                                        as *const libc::c_char as *mut libc::c_char,
+                                    b" and now feel weaker\0" as *const u8 as *const libc::c_char
+                                        as *mut libc::c_char,
                                 ),
                             );
                         } else {
-                            msg(
-                                b"a bite momentarily weakens you\0" as *const u8
-                                    as *const libc::c_char,
-                            );
+                            msg(b"a bite momentarily weakens you\0" as *const u8
+                                as *const libc::c_char);
                         }
                     }
                 }
@@ -374,9 +346,7 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
                     {
                         let mut fewer: libc::c_int = 0;
                         if (*mp)._t._t_type as libc::c_int == 'W' as i32 {
-                            if player._t._t_stats.s_exp
-                                == 0 as libc::c_int as libc::c_long
-                            {
+                            if player._t._t_stats.s_exp == 0 as libc::c_int as libc::c_long {
                                 death('W' as i32 as libc::c_char);
                             }
                             player._t._t_stats.s_lvl -= 1;
@@ -384,13 +354,9 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
                                 player._t._t_stats.s_exp = 0 as libc::c_int as libc::c_long;
                                 player._t._t_stats.s_lvl = 1 as libc::c_int;
                             } else {
-                                player
-                                    ._t
-                                    ._t_stats
-                                    .s_exp = *e_levels
-                                    .offset(
-                                        (player._t._t_stats.s_lvl - 1 as libc::c_int) as isize,
-                                    ) + 1 as libc::c_int as libc::c_long;
+                                player._t._t_stats.s_exp = *e_levels
+                                    .offset((player._t._t_stats.s_lvl - 1 as libc::c_int) as isize)
+                                    + 1 as libc::c_int as libc::c_long;
                             }
                             fewer = roll(1 as libc::c_int, 10 as libc::c_int);
                         } else {
@@ -404,17 +370,12 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
                         if player._t._t_stats.s_maxhp < 1 as libc::c_int {
                             death((*mp)._t._t_type);
                         }
-                        msg(
-                            b"you suddenly feel weaker\0" as *const u8
-                                as *const libc::c_char,
-                        );
+                        msg(b"you suddenly feel weaker\0" as *const u8 as *const libc::c_char);
                     }
                 }
                 70 => {
-                    player
-                        ._t
-                        ._t_flags = (player._t._t_flags as libc::c_int
-                        | 0x80 as libc::c_int) as libc::c_short;
+                    player._t._t_flags =
+                        (player._t._t_flags as libc::c_int | 0x80 as libc::c_int) as libc::c_short;
                     fung_hit += 1;
                     sprintf(
                         (*mp)._t._t_stats.s_dmg,
@@ -425,46 +386,39 @@ pub unsafe extern "C" fn attack(mut mp: *mut THING) {
                 76 => {
                     let mut lastpurse: libc::c_long = 0;
                     lastpurse = purse as libc::c_long;
-                    purse
-                        -= rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                            + 2 as libc::c_int;
+                    purse -= rnd(50 as libc::c_int + 10 as libc::c_int * level) + 2 as libc::c_int;
                     if !save(0o3 as libc::c_int) {
-                        purse
-                            -= rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                                + 2 as libc::c_int
-                                + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                                    + 2 as libc::c_int)
-                                + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                                    + 2 as libc::c_int)
-                                + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                                    + 2 as libc::c_int);
+                        purse -= rnd(50 as libc::c_int + 10 as libc::c_int * level)
+                            + 2 as libc::c_int
+                            + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
+                                + 2 as libc::c_int)
+                            + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
+                                + 2 as libc::c_int)
+                            + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
+                                + 2 as libc::c_int);
                     }
                     if purse < 0 as libc::c_int {
                         purse = 0 as libc::c_int;
                     }
                     remove_monster(&mut (*mp)._t._t_pos, mp, 0 as libc::c_int != 0);
                     if purse as libc::c_long != lastpurse {
-                        msg(
-                            b"your purse feels lighter\0" as *const u8
-                                as *const libc::c_char,
-                        );
+                        msg(b"your purse feels lighter\0" as *const u8 as *const libc::c_char);
                     }
                 }
                 78 => {
                     let mut obj: *mut THING = 0 as *mut THING;
                     let mut steal: *mut THING = 0 as *mut THING;
                     let mut nobj: libc::c_int = 0;
-                    let mut she_stole: *mut libc::c_char = b"she stole %s!\0"
-                        as *const u8 as *const libc::c_char as *mut libc::c_char;
+                    let mut she_stole: *mut libc::c_char =
+                        b"she stole %s!\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
                     steal = 0 as *mut THING;
                     nobj = 0 as libc::c_int;
                     obj = player._t._t_pack;
                     while !obj.is_null() {
-                        if obj != cur_armor && obj != cur_weapon
-                            && obj
-                                != *cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)
-                            && obj
-                                != *cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)
+                        if obj != cur_armor
+                            && obj != cur_weapon
+                            && obj != *cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)
+                            && obj != *cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)
                             && is_magic(obj) as libc::c_int != 0
                             && {
                                 nobj += 1;
@@ -583,42 +537,40 @@ pub unsafe extern "C" fn roll_em(
             if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                     ._o
-                    ._o_which == 8 as libc::c_int
+                    ._o_which
+                    == 8 as libc::c_int
             {
-                dplus
-                    += (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
-                        ._o
-                        ._o_ac as libc::c_int;
-            } else if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
-                .is_null()
+                dplus += (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                    ._o
+                    ._o_ac as libc::c_int;
+            } else if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
                     ._o
-                    ._o_which == 7 as libc::c_int
+                    ._o_which
+                    == 7 as libc::c_int
             {
-                hplus
-                    += (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
-                        ._o
-                        ._o_ac as libc::c_int;
+                hplus += (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                    ._o
+                    ._o_ac as libc::c_int;
             }
             if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                     ._o
-                    ._o_which == 8 as libc::c_int
+                    ._o_which
+                    == 8 as libc::c_int
             {
-                dplus
-                    += (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
-                        ._o
-                        ._o_ac as libc::c_int;
-            } else if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
-                .is_null()
+                dplus += (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                    ._o
+                    ._o_ac as libc::c_int;
+            } else if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
                 && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
                     ._o
-                    ._o_which == 7 as libc::c_int
+                    ._o_which
+                    == 7 as libc::c_int
             {
-                hplus
-                    += (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
-                        ._o
-                        ._o_ac as libc::c_int;
+                hplus += (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                    ._o
+                    ._o_ac as libc::c_int;
             }
         }
         cp = (*weap)._o._o_damage;
@@ -631,17 +583,12 @@ pub unsafe extern "C" fn roll_em(
             hplus += (*cur_weapon)._o._o_hplus;
             dplus += (*cur_weapon)._o._o_dplus;
         }
-        if (*weap)._o._o_type == 0xe7 as libc::c_int
-            && (*weap)._o._o_which == 1 as libc::c_int
-            && {
-                (*weap)._o._o_ac -= 1;
-                ((*weap)._o._o_ac as libc::c_int) < 0 as libc::c_int
-            }
-        {
-            (*weap)
-                ._o
-                ._o_damage = b"0d0\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+        if (*weap)._o._o_type == 0xe7 as libc::c_int && (*weap)._o._o_which == 1 as libc::c_int && {
+            (*weap)._o._o_ac -= 1;
+            ((*weap)._o._o_ac as libc::c_int) < 0 as libc::c_int
+        } {
+            (*weap)._o._o_damage =
+                b"0d0\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
             cp = (*weap)._o._o_damage;
             (*weap)._o._o_dplus = 0 as libc::c_int;
             (*weap)._o._o_hplus = (*weap)._o._o_dplus;
@@ -660,20 +607,24 @@ pub unsafe extern "C" fn roll_em(
             def_arm = (*cur_armor)._o._o_ac as libc::c_int;
         }
         if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 0 as libc::c_int
         {
-            def_arm
-                -= (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_ac
-                    as libc::c_int;
+            def_arm -= (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int;
         }
         if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 0 as libc::c_int
         {
-            def_arm
-                -= (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_ac
-                    as libc::c_int;
+            def_arm -= (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int;
         }
     }
     loop {
@@ -694,8 +645,11 @@ pub unsafe extern "C" fn roll_em(
             if thdef == &mut player as *mut THING {
                 damage *= hit_mul;
             }
-            (*def).s_hpt
-                -= if 0 as libc::c_int > damage { 0 as libc::c_int } else { damage };
+            (*def).s_hpt -= if 0 as libc::c_int > damage {
+                0 as libc::c_int
+            } else {
+                damage
+            };
             did_hit = 1 as libc::c_int != 0;
         }
         cp = strchr(cp, '/' as i32);
@@ -707,15 +661,11 @@ pub unsafe extern "C" fn roll_em(
     return did_hit;
 }
 #[no_mangle]
-pub unsafe extern "C" fn prname(
-    mut who: *mut libc::c_char,
-    mut upper: bool,
-) -> *mut libc::c_char {
+pub unsafe extern "C" fn prname(mut who: *mut libc::c_char, mut upper: bool) -> *mut libc::c_char {
     *tbuf = '\0' as i32 as libc::c_char;
     if who.is_null() {
         strcpy(tbuf, you);
-    } else if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int
-    {
+    } else if player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int {
         strcpy(tbuf, it);
     } else {
         strcpy(tbuf, b"the \0" as *const u8 as *const libc::c_char);
@@ -747,8 +697,7 @@ pub unsafe extern "C" fn prname(
 }
 #[no_mangle]
 pub unsafe extern "C" fn hit(mut er: *mut libc::c_char, mut ee: *mut libc::c_char) {
-    let mut s: *mut libc::c_char = b"\0" as *const u8 as *const libc::c_char
-        as *mut libc::c_char;
+    let mut s: *mut libc::c_char = b"\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     addmsg(prname(er, 1 as libc::c_int != 0));
     match if terse as libc::c_int != 0 || expert as libc::c_int != 0 {
         1 as libc::c_int
@@ -786,8 +735,7 @@ pub unsafe extern "C" fn hit(mut er: *mut libc::c_char, mut ee: *mut libc::c_cha
 }
 #[no_mangle]
 pub unsafe extern "C" fn miss(mut er: *mut libc::c_char, mut ee: *mut libc::c_char) {
-    let mut s: *mut libc::c_char = b"\0" as *const u8 as *const libc::c_char
-        as *mut libc::c_char;
+    let mut s: *mut libc::c_char = b"\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
     addmsg(prname(er, 1 as libc::c_int != 0));
     match if terse as libc::c_int != 0 || expert as libc::c_int != 0 {
         1 as libc::c_int
@@ -840,20 +788,24 @@ pub unsafe extern "C" fn save_throw(mut which: libc::c_int, mut tp: *mut THING) 
 pub unsafe extern "C" fn save(mut which: libc::c_int) -> bool {
     if which == 0o3 as libc::c_int {
         if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 0 as libc::c_int
         {
-            which
-                -= (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_ac
-                    as libc::c_int;
+            which -= (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int;
         }
         if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 0 as libc::c_int
         {
-            which
-                -= (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_ac
-                    as libc::c_int;
+            which -= (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int;
         }
     }
     return save_throw(which, &mut player);
@@ -906,10 +858,8 @@ pub unsafe extern "C" fn add_dam(mut str: str_t) -> libc::c_int {
 }
 #[no_mangle]
 pub unsafe extern "C" fn raise_level() {
-    player
-        ._t
-        ._t_stats
-        .s_exp = *e_levels.offset((player._t._t_stats.s_lvl - 1 as libc::c_int) as isize)
+    player._t._t_stats.s_exp = *e_levels
+        .offset((player._t._t_stats.s_lvl - 1 as libc::c_int) as isize)
         + 1 as libc::c_long;
     check_level();
 }
@@ -936,11 +886,7 @@ pub unsafe extern "C" fn thunk(
     };
 }
 #[no_mangle]
-pub unsafe extern "C" fn remove_monster(
-    mut mp: *mut coord,
-    mut tp: *mut THING,
-    mut waskill: bool,
-) {
+pub unsafe extern "C" fn remove_monster(mut mp: *mut coord, mut tp: *mut THING, mut waskill: bool) {
     let mut obj: *mut THING = 0 as *mut THING;
     let mut nexti: *mut THING = 0 as *mut THING;
     if tp.is_null() {
@@ -962,14 +908,10 @@ pub unsafe extern "C" fn remove_monster(
         }
         obj = nexti;
     }
-    if *_level.offset(INDEX((*mp).y, (*mp).x) as isize) as libc::c_int
-        == 0xb1 as libc::c_int
-    {
+    if *_level.offset(INDEX((*mp).y, (*mp).x) as isize) as libc::c_int == 0xb1 as libc::c_int {
         set_attr(14 as libc::c_int);
     }
-    if (*tp)._t._t_oldch as libc::c_int == 0xfa as libc::c_int
-        && !cansee((*mp).y, (*mp).x)
-    {
+    if (*tp)._t._t_oldch as libc::c_int == 0xfa as libc::c_int && !cansee((*mp).y, (*mp).x) {
         cur_mvaddch((*mp).y, (*mp).x, ' ' as i32 as byte);
     } else if (*tp)._t._t_oldch as libc::c_int != '@' as i32 {
         cur_mvaddch((*mp).y, (*mp).x, (*tp)._t._t_oldch);
@@ -999,10 +941,8 @@ pub unsafe extern "C" fn killed(mut tp: *mut THING, mut pr: bool) {
     player._t._t_stats.s_exp += (*tp)._t._t_stats.s_exp;
     match (*tp)._t._t_type as libc::c_int {
         70 => {
-            player
-                ._t
-                ._t_flags = (player._t._t_flags as libc::c_int & !(0x80 as libc::c_int))
-                as libc::c_short;
+            player._t._t_flags =
+                (player._t._t_flags as libc::c_int & !(0x80 as libc::c_int)) as libc::c_short;
             f_restor();
         }
         76 => {
@@ -1012,22 +952,16 @@ pub unsafe extern "C" fn killed(mut tp: *mut THING, mut pr: bool) {
                 return;
             }
             (*gold)._o._o_type = 0xf as libc::c_int;
-            (*gold)
-                ._o
-                ._o_ac = (rnd(50 as libc::c_int + 10 as libc::c_int * level)
+            (*gold)._o._o_ac = (rnd(50 as libc::c_int + 10 as libc::c_int * level)
                 + 2 as libc::c_int) as libc::c_short;
             if save(0o3 as libc::c_int) {
-                (*gold)
-                    ._o
-                    ._o_ac = ((*gold)._o._o_ac as libc::c_int
+                (*gold)._o._o_ac = ((*gold)._o._o_ac as libc::c_int
                     + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
                         + 2 as libc::c_int
-                        + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                            + 2 as libc::c_int)
-                        + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                            + 2 as libc::c_int)
-                        + (rnd(50 as libc::c_int + 10 as libc::c_int * level)
-                            + 2 as libc::c_int))) as libc::c_short;
+                        + (rnd(50 as libc::c_int + 10 as libc::c_int * level) + 2 as libc::c_int)
+                        + (rnd(50 as libc::c_int + 10 as libc::c_int * level) + 2 as libc::c_int)
+                        + (rnd(50 as libc::c_int + 10 as libc::c_int * level) + 2 as libc::c_int)))
+                    as libc::c_short;
             }
             list_attach(&mut (*tp)._t._t_pack, gold);
         }
@@ -1044,7 +978,7 @@ pub unsafe extern "C" fn killed(mut tp: *mut THING, mut pr: bool) {
                 (*monsters
                     .as_mut_ptr()
                     .offset(((*tp)._t._t_type as libc::c_int - 'A' as i32) as isize))
-                    .m_name,
+                .m_name,
             );
         }
     }

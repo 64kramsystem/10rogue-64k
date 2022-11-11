@@ -93,12 +93,10 @@ static mut slimy: coord = coord { x: 0, y: 0 };
 #[no_mangle]
 pub unsafe extern "C" fn slime_split(mut tp: *mut THING) {
     let mut nslime: *mut THING = 0 as *mut THING;
-    if !new_slime(tp)
-        || {
-            nslime = new_item();
-            nslime.is_null()
-        }
-    {
+    if !new_slime(tp) || {
+        nslime = new_item();
+        nslime.is_null()
+    } {
         return;
     }
     msg(b"The slime divides.  Ick!\0" as *const u8 as *const libc::c_char);
@@ -118,10 +116,7 @@ unsafe extern "C" fn new_slime(mut tp: *mut THING) -> bool {
     let mut ntp: *mut THING = 0 as *mut THING;
     let mut sp: coord = coord { x: 0, y: 0 };
     ret = 0 as libc::c_int != 0;
-    (*tp)
-        ._t
-        ._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x8000 as libc::c_int)
-        as libc::c_short;
+    (*tp)._t._t_flags = ((*tp)._t._t_flags as libc::c_int | 0x8000 as libc::c_int) as libc::c_short;
     ty = (*tp)._t._t_pos.y;
     tx = (*tp)._t._t_pos.x;
     if !plop_monster(ty, tx, &mut sp) {
@@ -129,14 +124,11 @@ unsafe extern "C" fn new_slime(mut tp: *mut THING) -> bool {
         while y <= ty + 1 as libc::c_int {
             x = tx - 1 as libc::c_int;
             while x <= tx + 1 as libc::c_int {
-                if winat(y, x) as libc::c_int == 'S' as i32
-                    && {
-                        ntp = moat(y, x);
-                        !ntp.is_null()
-                    }
-                {
-                    if !((*ntp)._t._t_flags as libc::c_int & 0x8000 as libc::c_int != 0)
-                    {
+                if winat(y, x) as libc::c_int == 'S' as i32 && {
+                    ntp = moat(y, x);
+                    !ntp.is_null()
+                } {
+                    if !((*ntp)._t._t_flags as libc::c_int & 0x8000 as libc::c_int != 0) {
                         if new_slime(ntp) {
                             y = ty + 2 as libc::c_int;
                             x = tx + 2 as libc::c_int;
@@ -151,10 +143,8 @@ unsafe extern "C" fn new_slime(mut tp: *mut THING) -> bool {
         ret = 1 as libc::c_int != 0;
         slimy = sp;
     }
-    (*tp)
-        ._t
-        ._t_flags = ((*tp)._t._t_flags as libc::c_int & !(0x8000 as libc::c_int))
-        as libc::c_short;
+    (*tp)._t._t_flags =
+        ((*tp)._t._t_flags as libc::c_int & !(0x8000 as libc::c_int)) as libc::c_short;
     return ret;
 }
 #[no_mangle]

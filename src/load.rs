@@ -11,11 +11,7 @@ extern "C" {
         _: libc::c_ulong,
         _: *mut FILE,
     ) -> libc::c_ulong;
-    fn fseek(
-        __stream: *mut FILE,
-        __off: libc::c_long,
-        __whence: libc::c_int,
-    ) -> libc::c_int;
+    fn fseek(__stream: *mut FILE, __off: libc::c_long, __whence: libc::c_int) -> libc::c_int;
     fn malloc(_: libc::c_ulong) -> *mut libc::c_void;
     fn free(_: *mut libc::c_void);
     // Rust port: Fixed missing parameters
@@ -79,15 +75,13 @@ static mut file: *mut FILE = 0 as *const FILE as *mut FILE;
 #[no_mangle]
 pub unsafe extern "C" fn epyx_yuck() {
     let mut type_0: libc::c_int = get_mode() as libc::c_int;
-    if type_0 == 7 as libc::c_int
-        || {
-            file = fopen(
-                b"rogue.pic\0" as *const u8 as *const libc::c_char,
-                b"r\0" as *const u8 as *const libc::c_char,
-            );
-            file.is_null()
-        }
-    {
+    if type_0 == 7 as libc::c_int || {
+        file = fopen(
+            b"rogue.pic\0" as *const u8 as *const libc::c_char,
+            b"r\0" as *const u8 as *const libc::c_char,
+        );
+        file.is_null()
+    } {
         return;
     }
     loop {
@@ -140,8 +134,7 @@ unsafe extern "C" fn scr_load() {
         _ => {}
     }
     out(0x3d9 as libc::c_int, background);
-    mode = peekb(0x65 as libc::c_int, 0x40 as libc::c_int) as libc::c_int
-        & !(0x4 as libc::c_int);
+    mode = peekb(0x65 as libc::c_int, 0x40 as libc::c_int) as libc::c_int & !(0x4 as libc::c_int);
     if burst == 1 as libc::c_int {
         mode = mode | 0x4 as libc::c_int;
     }
@@ -180,7 +173,7 @@ unsafe extern "C" fn bload(mut segment: libc::c_uint) {
         if offset >= 16384 as libc::c_int as libc::c_uint {
             break;
         }
-    };
+    }
 }
 #[no_mangle]
 pub unsafe extern "C" fn find_drive() -> libc::c_int {

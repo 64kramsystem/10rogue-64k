@@ -174,10 +174,7 @@ pub unsafe extern "C" fn ifterse(
     };
 }
 #[no_mangle]
-pub unsafe extern "C" fn vmsg(
-    mut fmt: *const libc::c_char,
-    mut argp: ::core::ffi::VaList,
-) {
+pub unsafe extern "C" fn vmsg(mut fmt: *const libc::c_char, mut argp: ::core::ffi::VaList) {
     if *fmt as libc::c_int == '\0' as i32 {
         cur_move(0 as libc::c_int, 0 as libc::c_int);
         cur_clrtoeol();
@@ -212,32 +209,25 @@ pub unsafe extern "C" fn endmsg() {
     if is_lower(*msgbuf.offset(0 as libc::c_int as isize)) as libc::c_int != 0
         && *msgbuf.offset(1 as libc::c_int as isize) as libc::c_int != ')' as i32
     {
-        *msgbuf
-            .offset(
-                0 as libc::c_int as isize,
-            ) = ({
+        *msgbuf.offset(0 as libc::c_int as isize) = ({
             let mut __res: libc::c_int = 0;
             if ::core::mem::size_of::<libc::c_char>() as libc::c_ulong
                 > 1 as libc::c_int as libc::c_ulong
             {
                 if 0 != 0 {
-                    let mut __c: libc::c_int = *msgbuf.offset(0 as libc::c_int as isize)
-                        as libc::c_int;
+                    let mut __c: libc::c_int =
+                        *msgbuf.offset(0 as libc::c_int as isize) as libc::c_int;
                     __res = if __c < -(128 as libc::c_int) || __c > 255 as libc::c_int {
                         __c
                     } else {
                         *(*__ctype_toupper_loc()).offset(__c as isize)
                     };
                 } else {
-                    __res = toupper(
-                        *msgbuf.offset(0 as libc::c_int as isize) as libc::c_int,
-                    );
+                    __res = toupper(*msgbuf.offset(0 as libc::c_int as isize) as libc::c_int);
                 }
             } else {
                 __res = *(*__ctype_toupper_loc())
-                    .offset(
-                        *msgbuf.offset(0 as libc::c_int as isize) as libc::c_int as isize,
-                    );
+                    .offset(*msgbuf.offset(0 as libc::c_int as isize) as libc::c_int as isize);
             }
             __res
         }) as libc::c_char;
@@ -296,10 +286,7 @@ pub unsafe extern "C" fn more(mut msg_0: *mut libc::c_char) {
     cur_addstr(mbuf.as_mut_ptr());
 }
 #[no_mangle]
-pub unsafe extern "C" fn doadd(
-    mut fmt: *const libc::c_char,
-    mut argp: ::core::ffi::VaList,
-) {
+pub unsafe extern "C" fn doadd(mut fmt: *const libc::c_char, mut argp: ::core::ffi::VaList) {
     vsnprintf(
         &mut *msgbuf.offset(newpos as isize),
         (128 as libc::c_int - newpos) as libc::c_ulong,
@@ -325,8 +312,7 @@ pub unsafe extern "C" fn putmsg(mut msgline: libc::c_int, mut msg_0: *mut libc::
             loop {
                 tmpmsg = strpbrk(curmsg, b" \0" as *const u8 as *const libc::c_char);
                 if (tmpmsg.is_null()
-                    || tmpmsg
-                        >= &mut *lastmsg.offset(COLS as isize) as *mut libc::c_char)
+                    || tmpmsg >= &mut *lastmsg.offset(COLS as isize) as *mut libc::c_char)
                     && lastmsg == curmsg
                 {
                     curmsg = &mut *lastmsg.offset(COLS as isize) as *mut libc::c_char;
@@ -344,7 +330,7 @@ pub unsafe extern "C" fn putmsg(mut msgline: libc::c_int, mut msg_0: *mut libc::
         if !(curlen > COLS) {
             break;
         }
-    };
+    }
 }
 #[no_mangle]
 pub unsafe extern "C" fn scrlmsg(
@@ -380,7 +366,10 @@ pub unsafe extern "C" fn scrlmsg(
 pub unsafe extern "C" fn io_unctrl(mut ch: byte) -> *mut libc::c_char {
     static mut chstr: [libc::c_char; 9] = [0; 9];
     if is_space(ch as libc::c_char) {
-        strcpy(chstr.as_mut_ptr(), b" \0" as *const u8 as *const libc::c_char);
+        strcpy(
+            chstr.as_mut_ptr(),
+            b" \0" as *const u8 as *const libc::c_char,
+        );
     } else if !is_print(ch as libc::c_char) {
         if (ch as libc::c_int) < ' ' as i32 {
             sprintf(
@@ -475,7 +464,11 @@ pub unsafe extern "C" fn status() {
         s_pur = purse;
         cur_move(
             23 as libc::c_int,
-            if COLS == 40 as libc::c_int { 0 as libc::c_int } else { 40 as libc::c_int },
+            if COLS == 40 as libc::c_int {
+                0 as libc::c_int
+            } else {
+                40 as libc::c_int
+            },
         );
         cur_printw(b"Gold:%-5u\0" as *const u8 as *const libc::c_char, purse);
     }
@@ -492,24 +485,32 @@ pub unsafe extern "C" fn status() {
             player._t._t_stats.s_arm
         };
         if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 0 as libc::c_int
         {
-            s_ac
-                -= (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_ac
-                    as libc::c_int;
+            s_ac -= (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int;
         }
         if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
-            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_which
+            && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_which
                 == 0 as libc::c_int
         {
-            s_ac
-                -= (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_ac
-                    as libc::c_int;
+            s_ac -= (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int;
         }
         cur_move(
             23 as libc::c_int,
-            if COLS == 40 as libc::c_int { 12 as libc::c_int } else { 52 as libc::c_int },
+            if COLS == 40 as libc::c_int {
+                12 as libc::c_int
+            } else {
+                52 as libc::c_int
+            },
         );
         cur_printw(
             b"Armor:%-2d\0" as *const u8 as *const libc::c_char,
@@ -524,23 +525,37 @@ pub unsafe extern "C" fn status() {
         s_elvl = player._t._t_stats.s_lvl;
         cur_move(
             23 as libc::c_int,
-            if COLS == 40 as libc::c_int { 22 as libc::c_int } else { 62 as libc::c_int },
+            if COLS == 40 as libc::c_int {
+                22 as libc::c_int
+            } else {
+                62 as libc::c_int
+            },
         );
         cur_printw(
             b"%-12s\0" as *const u8 as *const libc::c_char,
-            *he_man.as_mut_ptr().offset((s_elvl - 1 as libc::c_int) as isize),
+            *he_man
+                .as_mut_ptr()
+                .offset((s_elvl - 1 as libc::c_int) as isize),
         );
     }
     if s_hungry != hungry_state {
         s_hungry = hungry_state;
         cur_move(
             24 as libc::c_int,
-            if COLS == 40 as libc::c_int { 28 as libc::c_int } else { 58 as libc::c_int },
+            if COLS == 40 as libc::c_int {
+                28 as libc::c_int
+            } else {
+                58 as libc::c_int
+            },
         );
         cur_addstr(state_name[0 as libc::c_int as usize]);
         cur_move(
             24 as libc::c_int,
-            if COLS == 40 as libc::c_int { 28 as libc::c_int } else { 58 as libc::c_int },
+            if COLS == 40 as libc::c_int {
+                28 as libc::c_int
+            } else {
+                58 as libc::c_int
+            },
         );
         if hungry_state != 0 {
             set_attr(16 as libc::c_int);
@@ -563,7 +578,10 @@ pub unsafe extern "C" fn wait_msg(mut msg_0: *const libc::c_char) {
     cur_move(LINES - 1 as libc::c_int, 0 as libc::c_int);
     cursor(1 as libc::c_int != 0);
     if *msg_0 != 0 {
-        cur_printw(b"[Press Enter to %s]\0" as *const u8 as *const libc::c_char, msg_0);
+        cur_printw(
+            b"[Press Enter to %s]\0" as *const u8 as *const libc::c_char,
+            msg_0,
+        );
     } else {
         cur_printw(b"[Press Enter]\0" as *const u8 as *const libc::c_char);
     }
@@ -649,14 +667,10 @@ pub unsafe extern "C" fn SIG2() {
         cur_move(LINES - 1 as libc::c_int, 0 as libc::c_int);
         if faststate {
             set_attr(16 as libc::c_int);
-            cur_addstr(
-                b"Fast Play\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            );
+            cur_addstr(b"Fast Play\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
             set_attr(0 as libc::c_int);
         } else {
-            cur_addstr(
-                b"         \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            );
+            cur_addstr(b"         \0" as *const u8 as *const libc::c_char as *mut libc::c_char);
         }
     }
     if numl != new_numl {
@@ -667,14 +681,10 @@ pub unsafe extern "C" fn SIG2() {
         cur_move(24 as libc::c_int, nspot);
         if numl != 0 {
             set_attr(16 as libc::c_int);
-            cur_addstr(
-                b"NUM LOCK\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            );
+            cur_addstr(b"NUM LOCK\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
             set_attr(0 as libc::c_int);
         } else {
-            cur_addstr(
-                b"        \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            );
+            cur_addstr(b"        \0" as *const u8 as *const libc::c_char as *mut libc::c_char);
         }
     }
     if capsl != new_capsl {
@@ -682,14 +692,10 @@ pub unsafe extern "C" fn SIG2() {
         cur_move(24 as libc::c_int, cspot);
         if capsl != 0 {
             set_attr(16 as libc::c_int);
-            cur_addstr(
-                b"CAP LOCK\0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            );
+            cur_addstr(b"CAP LOCK\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
             set_attr(0 as libc::c_int);
         } else {
-            cur_addstr(
-                b"        \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
-            );
+            cur_addstr(b"        \0" as *const u8 as *const libc::c_char as *mut libc::c_char);
         }
     }
     if showtime != 0 {
@@ -699,7 +705,11 @@ pub unsafe extern "C" fn SIG2() {
         set_attr(16 as libc::c_int);
         cur_printw(
             b"%2d:%1d%1d\0" as *const u8 as *const libc::c_char,
-            if bighand != 0 { bighand } else { 12 as libc::c_int },
+            if bighand != 0 {
+                bighand
+            } else {
+                12 as libc::c_int
+            },
             littlehand / 10 as libc::c_int,
             spare,
         );

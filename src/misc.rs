@@ -47,8 +47,8 @@ extern "C" {
     static mut _flags: *mut byte;
     fn start_run(runner: *mut coord);
     fn see_monst(mp: *mut THING) -> bool;
-    fn fuse(func: Option::<unsafe extern "C" fn() -> ()>, time: libc::c_int);
-    fn extinguish(func: Option::<unsafe extern "C" fn() -> ()>);
+    fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
+    fn extinguish(func: Option<unsafe extern "C" fn() -> ()>);
     fn nohaste();
     fn check_level();
     fn msg(fmt: *const libc::c_char, _: ...);
@@ -162,24 +162,20 @@ pub type THING = thing;
 pub unsafe extern "C" fn tr_name(mut type_0: byte) -> *mut libc::c_char {
     match type_0 as libc::c_int {
         0 => {
-            return b"a trapdoor\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            return b"a trapdoor\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         3 => {
-            return b"a beartrap\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            return b"a beartrap\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         2 => {
             return b"a sleeping gas trap\0" as *const u8 as *const libc::c_char
                 as *mut libc::c_char;
         }
         1 => {
-            return b"an arrow trap\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            return b"an arrow trap\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         4 => {
-            return b"a teleport trap\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            return b"a teleport trap\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
         5 => {
             return b"a poison dart trap\0" as *const u8 as *const libc::c_char
@@ -187,7 +183,10 @@ pub unsafe extern "C" fn tr_name(mut type_0: byte) -> *mut libc::c_char {
         }
         _ => {}
     }
-    msg(b"wierd trap: %d\0" as *const u8 as *const libc::c_char, type_0 as libc::c_int);
+    msg(
+        b"wierd trap: %d\0" as *const u8 as *const libc::c_char,
+        type_0 as libc::c_int,
+    );
     return 0 as *mut libc::c_char;
 }
 #[no_mangle]
@@ -213,8 +212,7 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
     pfl = *_flags.offset(index as isize);
     pch = *_level.offset(index as isize);
     if !_ce(&mut oldpos, &mut player._t._t_pos) {
-        if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int)
-        {
+        if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int) {
             x = oldpos.x - 1 as libc::c_int;
             while x <= oldpos.x + 1 as libc::c_int {
                 y = oldpos.y - 1 as libc::c_int;
@@ -232,14 +230,10 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
                                 cur_addch(' ' as i32 as byte);
                             }
                         } else {
-                            fp = &mut *_flags
-                                .offset(
-                                    (INDEX
-                                        as unsafe extern "C" fn(
-                                            libc::c_int,
-                                            libc::c_int,
-                                        ) -> libc::c_int)(y, x) as isize,
-                                ) as *mut byte;
+                            fp = &mut *_flags.offset((INDEX
+                                as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(
+                                y, x,
+                            ) as isize) as *mut byte;
                             if (*fp as libc::c_int & 0x20 as libc::c_int != 0
                                 || *fp as libc::c_int & 0x40 as libc::c_int != 0)
                                 && ch as libc::c_int != 0xb1 as libc::c_int
@@ -274,8 +268,7 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
             x = sx;
             while x <= ex {
                 if !(x <= 0 as libc::c_int || x >= COLS) {
-                    if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int
-                        != 0 as libc::c_int)
+                    if !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int != 0 as libc::c_int)
                     {
                         if y == player._t._t_pos.y && x == player._t._t_pos.x {
                             current_block_57 = 18377268871191777778;
@@ -324,7 +317,8 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
                                     if !tp.is_null() {
                                         if player._t._t_flags as libc::c_int & 0x2 as libc::c_int
                                             != 0 as libc::c_int
-                                            && (*tp)._t._t_flags as libc::c_int & 0x10 as libc::c_int
+                                            && (*tp)._t._t_flags as libc::c_int
+                                                & 0x10 as libc::c_int
                                                 != 0 as libc::c_int
                                         {
                                             if door_stop as libc::c_int != 0 && !firstmove {
@@ -336,8 +330,10 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
                                                 wake_monster(y, x);
                                             }
                                             if (*tp)._t._t_oldch as libc::c_int != ' ' as i32
-                                                || (*rp).r_flags as libc::c_int & 0x1 as libc::c_int == 0
-                                                    && !(player._t._t_flags as libc::c_int & 0x1 as libc::c_int
+                                                || (*rp).r_flags as libc::c_int & 0x1 as libc::c_int
+                                                    == 0
+                                                    && !(player._t._t_flags as libc::c_int
+                                                        & 0x1 as libc::c_int
                                                         != 0 as libc::c_int)
                                             {
                                                 (*tp)._t._t_oldch = *_level.offset(index as isize);
@@ -355,7 +351,8 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
                                         _ => {
                                             if ch as libc::c_int != 0xb1 as libc::c_int
                                                 && *fp as libc::c_int
-                                                    & (0x40 as libc::c_int | 0x20 as libc::c_int) != 0
+                                                    & (0x40 as libc::c_int | 0x20 as libc::c_int)
+                                                    != 0
                                             {
                                                 if ch as libc::c_int != 0x8 as libc::c_int {
                                                     set_attr(14 as libc::c_int);
@@ -364,7 +361,8 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
                                             cur_move(y, x);
                                             cur_addch(ch);
                                             set_attr(0 as libc::c_int);
-                                            if door_stop as libc::c_int != 0 && !firstmove
+                                            if door_stop as libc::c_int != 0
+                                                && !firstmove
                                                 && running as libc::c_int != 0
                                             {
                                                 match runch as libc::c_int {
@@ -430,24 +428,27 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
                                                 }
                                                 match current_block_57 {
                                                     18377268871191777778 => {}
-                                                    _ => {
-                                                        match ch as libc::c_int {
-                                                            206 => {
-                                                                if x == player._t._t_pos.x || y == player._t._t_pos.y {
-                                                                    running = 0 as libc::c_int != 0;
-                                                                }
-                                                            }
-                                                            177 => {
-                                                                if x == player._t._t_pos.x || y == player._t._t_pos.y {
-                                                                    passcount += 1;
-                                                                }
-                                                            }
-                                                            250 | 186 | 205 | 201 | 187 | 200 | 188 | 32 => {}
-                                                            _ => {
+                                                    _ => match ch as libc::c_int {
+                                                        206 => {
+                                                            if x == player._t._t_pos.x
+                                                                || y == player._t._t_pos.y
+                                                            {
                                                                 running = 0 as libc::c_int != 0;
                                                             }
                                                         }
-                                                    }
+                                                        177 => {
+                                                            if x == player._t._t_pos.x
+                                                                || y == player._t._t_pos.y
+                                                            {
+                                                                passcount += 1;
+                                                            }
+                                                        }
+                                                        250 | 186 | 205 | 201 | 187 | 200 | 188
+                                                        | 32 => {}
+                                                        _ => {
+                                                            running = 0 as libc::c_int != 0;
+                                                        }
+                                                    },
                                                 }
                                             }
                                         }
@@ -466,11 +467,13 @@ pub unsafe extern "C" fn look(mut wakeup: bool) {
         running = 0 as libc::c_int != 0;
     }
     cur_move(player._t._t_pos.y, player._t._t_pos.x);
-    if *_flags.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
-        as libc::c_int & 0x40 as libc::c_int != 0
+    if *_flags.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) as libc::c_int
+        & 0x40 as libc::c_int
+        != 0
         || was_trapped as libc::c_int > 1 as libc::c_int
-        || *_flags.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
-            as libc::c_int & 0x20 as libc::c_int != 0
+        || *_flags.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) as libc::c_int
+            & 0x20 as libc::c_int
+            != 0
     {
         set_attr(14 as libc::c_int);
     }
@@ -504,10 +507,7 @@ pub unsafe extern "C" fn eat() {
         return;
     }
     if (*obj)._o._o_type != 0x5 as libc::c_int {
-        msg(
-            b"ugh, you would get ill if you ate that\0" as *const u8
-                as *const libc::c_char,
-        );
+        msg(b"ugh, you would get ill if you ate that\0" as *const u8 as *const libc::c_char);
         return;
     }
     inpack -= 1;
@@ -522,8 +522,7 @@ pub unsafe extern "C" fn eat() {
     if food_left > 2000 as libc::c_int - 20 as libc::c_int {
         no_command += 2 as libc::c_int + rnd(5 as libc::c_int);
     }
-    food_left
-        += spread(1300 as libc::c_int) - 200 as libc::c_int + rnd(400 as libc::c_int);
+    food_left += spread(1300 as libc::c_int) - 200 as libc::c_int + rnd(400 as libc::c_int);
     if food_left > 2000 as libc::c_int {
         food_left = 2000 as libc::c_int;
     }
@@ -556,23 +555,29 @@ pub unsafe extern "C" fn chg_str(mut amt: libc::c_int) {
     add_str(&mut player._t._t_stats.s_str, amt);
     comp = player._t._t_stats.s_str;
     if !(*cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)).is_null()
-        && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_which
+        && (**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+            ._o
+            ._o_which
             == 1 as libc::c_int
     {
         add_str(
             &mut comp,
-            -((**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))._o._o_ac
-                as libc::c_int),
+            -((**cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int),
         );
     }
     if !(*cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)).is_null()
-        && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_which
+        && (**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+            ._o
+            ._o_which
             == 1 as libc::c_int
     {
         add_str(
             &mut comp,
-            -((**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))._o._o_ac
-                as libc::c_int),
+            -((**cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize))
+                ._o
+                ._o_ac as libc::c_int),
         );
     }
     if comp > max_stats.s_str {
@@ -592,32 +597,24 @@ pub unsafe extern "C" fn add_str(mut sp: *mut str_t, mut amt: libc::c_int) {
 pub unsafe extern "C" fn add_haste(mut potion: bool) -> bool {
     if player._t._t_flags as libc::c_int & 0x4000 as libc::c_int != 0 as libc::c_int {
         no_command += rnd(8 as libc::c_int);
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int))
-            as libc::c_short;
-        extinguish(
-            ::core::mem::transmute::<
-                Option::<unsafe extern "C" fn() -> ()>,
-                Option::<unsafe extern "C" fn() -> ()>,
-            >(Some(nohaste as unsafe extern "C" fn() -> ())),
-        );
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int & !(0x4000 as libc::c_int))
-            as libc::c_short;
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int & !(0x4 as libc::c_int)) as libc::c_short;
+        extinguish(::core::mem::transmute::<
+            Option<unsafe extern "C" fn() -> ()>,
+            Option<unsafe extern "C" fn() -> ()>,
+        >(Some(nohaste as unsafe extern "C" fn() -> ())));
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int & !(0x4000 as libc::c_int)) as libc::c_short;
         msg(b"you faint from exhaustion\0" as *const u8 as *const libc::c_char);
         return 0 as libc::c_int != 0;
     } else {
-        player
-            ._t
-            ._t_flags = (player._t._t_flags as libc::c_int | 0x4000 as libc::c_int)
-            as libc::c_short;
+        player._t._t_flags =
+            (player._t._t_flags as libc::c_int | 0x4000 as libc::c_int) as libc::c_short;
         if potion {
             fuse(
                 ::core::mem::transmute::<
-                    Option::<unsafe extern "C" fn() -> ()>,
-                    Option::<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
+                    Option<unsafe extern "C" fn() -> ()>,
                 >(Some(nohaste as unsafe extern "C" fn() -> ())),
                 rnd(4 as libc::c_int) + 10 as libc::c_int,
             );
@@ -648,7 +645,8 @@ pub unsafe extern "C" fn is_current(mut obj: *mut THING) -> bool {
     if obj.is_null() {
         return 0 as libc::c_int != 0;
     }
-    if obj == cur_armor || obj == cur_weapon
+    if obj == cur_armor
+        || obj == cur_weapon
         || obj == *cur_ring.as_mut_ptr().offset(0 as libc::c_int as isize)
         || obj == *cur_ring.as_mut_ptr().offset(1 as libc::c_int as isize)
     {
@@ -734,9 +732,9 @@ pub unsafe extern "C" fn find_dir(mut ch: byte, mut cp: *mut coord) -> bool {
 #[no_mangle]
 pub unsafe extern "C" fn sign(mut nm: libc::c_int) -> libc::c_int {
     if nm < 0 as libc::c_int {
-        return -(1 as libc::c_int)
+        return -(1 as libc::c_int);
     } else {
-        return (nm > 0 as libc::c_int) as libc::c_int
+        return (nm > 0 as libc::c_int) as libc::c_int;
     };
 }
 #[no_mangle]
@@ -751,8 +749,7 @@ pub unsafe extern "C" fn call_it(mut know: bool, mut guess: *mut *mut libc::c_ch
         msg(
             b"%scall it? \0" as *const u8 as *const libc::c_char,
             noterse(
-                b"what do you want to \0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
+                b"what do you want to \0" as *const u8 as *const libc::c_char as *mut libc::c_char,
             ),
         );
         getinfo(prbuf, 20 as libc::c_int);
@@ -784,49 +781,39 @@ pub unsafe extern "C" fn goodch(mut obj: *mut THING) -> libc::c_char {
             }
         }
         24 => {
-            if (*obj)._o._o_hplus < 0 as libc::c_int
-                || (*obj)._o._o_dplus < 0 as libc::c_int
-            {
+            if (*obj)._o._o_hplus < 0 as libc::c_int || (*obj)._o._o_dplus < 0 as libc::c_int {
                 ch = '~' as i32 as libc::c_char;
             }
         }
-        13 => {
-            match (*obj)._o._o_which {
-                3 | 10 | 12 => {
+        13 => match (*obj)._o._o_which {
+            3 | 10 | 12 => {
+                ch = '~' as i32 as libc::c_char;
+            }
+            _ => {}
+        },
+        173 => match (*obj)._o._o_which {
+            0 | 1 | 2 | 12 => {
+                ch = '~' as i32 as libc::c_char;
+            }
+            _ => {}
+        },
+        231 => match (*obj)._o._o_which {
+            7 | 12 => {
+                ch = '~' as i32 as libc::c_char;
+            }
+            _ => {}
+        },
+        9 => match (*obj)._o._o_which {
+            0 | 1 | 8 | 7 => {
+                if ((*obj)._o._o_ac as libc::c_int) < 0 as libc::c_int {
                     ch = '~' as i32 as libc::c_char;
                 }
-                _ => {}
             }
-        }
-        173 => {
-            match (*obj)._o._o_which {
-                0 | 1 | 2 | 12 => {
-                    ch = '~' as i32 as libc::c_char;
-                }
-                _ => {}
+            6 | 11 => {
+                ch = '~' as i32 as libc::c_char;
             }
-        }
-        231 => {
-            match (*obj)._o._o_which {
-                7 | 12 => {
-                    ch = '~' as i32 as libc::c_char;
-                }
-                _ => {}
-            }
-        }
-        9 => {
-            match (*obj)._o._o_which {
-                0 | 1 | 8 | 7 => {
-                    if ((*obj)._o._o_ac as libc::c_int) < 0 as libc::c_int {
-                        ch = '~' as i32 as libc::c_char;
-                    }
-                }
-                6 | 11 => {
-                    ch = '~' as i32 as libc::c_char;
-                }
-                _ => {}
-            }
-        }
+            _ => {}
+        },
         _ => {}
     }
     return ch;
@@ -839,16 +826,15 @@ pub unsafe extern "C" fn help(mut helpscr: *mut h_list) {
     let mut isfull: libc::c_int = 0;
     let mut answer: byte = 0 as libc::c_int as byte;
     wdump();
-    while *(*helpscr).h_desc as libc::c_int != 0
-        && answer as libc::c_int != 27 as libc::c_int
-    {
+    while *(*helpscr).h_desc as libc::c_int != 0 && answer as libc::c_int != 27 as libc::c_int {
         isfull = 0 as libc::c_int;
         if hcount
             % (if terse as libc::c_int != 0 {
                 23 as libc::c_int
             } else {
                 46 as libc::c_int
-            }) == 0 as libc::c_int
+            })
+            == 0 as libc::c_int
         {
             cur_clear();
         }
@@ -883,8 +869,8 @@ pub unsafe extern "C" fn help(mut helpscr: *mut h_list) {
                 cur_mvaddstr(
                     24 as libc::c_int,
                     0 as libc::c_int,
-                    b"--Space for more, Esc to continue--\0" as *const u8
-                        as *const libc::c_char as *mut libc::c_char,
+                    b"--Space for more, Esc to continue--\0" as *const u8 as *const libc::c_char
+                        as *mut libc::c_char,
                 );
             } else {
                 cur_mvaddstr(
@@ -965,8 +951,7 @@ pub unsafe extern "C" fn search() {
                     match *_level.offset(INDEX(y, x) as isize) as libc::c_int {
                         186 | 205 | 201 | 187 | 200 | 188 => {
                             if !(rnd(5 as libc::c_int) != 0 as libc::c_int) {
-                                *_level
-                                    .offset(INDEX(y, x) as isize) = 0xce as libc::c_int as byte;
+                                *_level.offset(INDEX(y, x) as isize) = 0xce as libc::c_int as byte;
                                 *fp = (*fp as libc::c_int | 0x10 as libc::c_int) as byte;
                                 running = 0 as libc::c_int != 0;
                                 count = running as libc::c_int;
@@ -974,8 +959,7 @@ pub unsafe extern "C" fn search() {
                         }
                         250 => {
                             if !(rnd(2 as libc::c_int) != 0 as libc::c_int) {
-                                *_level
-                                    .offset(INDEX(y, x) as isize) = 0x4 as libc::c_int as byte;
+                                *_level.offset(INDEX(y, x) as isize) = 0x4 as libc::c_int as byte;
                                 *fp = (*fp as libc::c_int | 0x10 as libc::c_int) as byte;
                                 running = 0 as libc::c_int != 0;
                                 count = running as libc::c_int;
@@ -996,8 +980,8 @@ pub unsafe extern "C" fn search() {
 }
 #[no_mangle]
 pub unsafe extern "C" fn d_level() {
-    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
-        as libc::c_int != 0xf0 as libc::c_int
+    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) as libc::c_int
+        != 0xf0 as libc::c_int
     {
         msg(b"I see no way down\0" as *const u8 as *const libc::c_char);
     } else {
@@ -1007,8 +991,8 @@ pub unsafe extern "C" fn d_level() {
 }
 #[no_mangle]
 pub unsafe extern "C" fn u_level() {
-    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize)
-        as libc::c_int == 0xf0 as libc::c_int
+    if *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) as libc::c_int
+        == 0xf0 as libc::c_int
     {
         if amulet {
             level -= 1;
@@ -1016,10 +1000,7 @@ pub unsafe extern "C" fn u_level() {
                 total_winner();
             }
             new_level();
-            msg(
-                b"you feel a wrenching sensation in your gut\0" as *const u8
-                    as *const libc::c_char,
-            );
+            msg(b"you feel a wrenching sensation in your gut\0" as *const u8 as *const libc::c_char);
         } else {
             msg(b"your way is magically blocked\0" as *const u8 as *const libc::c_char);
         }
@@ -1044,8 +1025,7 @@ pub unsafe extern "C" fn call() {
         9 => {
             guess = r_guess.as_mut_ptr();
             know = r_know.as_mut_ptr();
-            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int
-                != '\0' as i32
+            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int != '\0' as i32
             {
                 *guess.offset((*obj)._o._o_which as isize)
             } else {
@@ -1055,8 +1035,7 @@ pub unsafe extern "C" fn call() {
         173 => {
             guess = p_guess.as_mut_ptr();
             know = p_know.as_mut_ptr();
-            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int
-                != '\0' as i32
+            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int != '\0' as i32
             {
                 *guess.offset((*obj)._o._o_which as isize)
             } else {
@@ -1066,20 +1045,17 @@ pub unsafe extern "C" fn call() {
         13 => {
             guess = s_guess.as_mut_ptr();
             know = s_know.as_mut_ptr();
-            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int
-                != '\0' as i32
+            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int != '\0' as i32
             {
                 *guess.offset((*obj)._o._o_which as isize)
             } else {
-                ((*s_names.as_mut_ptr().offset((*obj)._o._o_which as isize)).storage)
-                    .as_mut_ptr()
+                ((*s_names.as_mut_ptr().offset((*obj)._o._o_which as isize)).storage).as_mut_ptr()
             };
         }
         231 => {
             guess = ws_guess.as_mut_ptr();
             know = ws_know.as_mut_ptr();
-            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int
-                != '\0' as i32
+            elsewise = if **guess.offset((*obj)._o._o_which as isize) as libc::c_int != '\0' as i32
             {
                 *guess.offset((*obj)._o._o_which as isize)
             } else {
@@ -1095,7 +1071,10 @@ pub unsafe extern "C" fn call() {
         msg(b"that has already been identified\0" as *const u8 as *const libc::c_char);
         return;
     }
-    msg(b"Was called \"%s\"\0" as *const u8 as *const libc::c_char, elsewise);
+    msg(
+        b"Was called \"%s\"\0" as *const u8 as *const libc::c_char,
+        elsewise,
+    );
     msg(b"what do you want to call it? \0" as *const u8 as *const libc::c_char);
     getinfo(prbuf, 20 as libc::c_int);
     if *prbuf as libc::c_int != 0 && *prbuf as libc::c_int != 27 as libc::c_int {
@@ -1106,7 +1085,10 @@ pub unsafe extern "C" fn call() {
 #[no_mangle]
 pub unsafe extern "C" fn do_macro(mut buf: *mut libc::c_char, mut sz: libc::c_int) {
     let mut cp: *mut libc::c_char = prbuf;
-    msg(b"F9 was %s, enter new macro: \0" as *const u8 as *const libc::c_char, buf);
+    msg(
+        b"F9 was %s, enter new macro: \0" as *const u8 as *const libc::c_char,
+        buf,
+    );
     if getinfo(prbuf, sz - 1 as libc::c_int) != 27 as libc::c_int {
         loop {
             if *cp as libc::c_int != 'F' as i32 & 0o37 as libc::c_int {

@@ -12,12 +12,7 @@ extern "C" {
     static mut bwflag: libc::c_int;
     fn fatal(msg: *const libc::c_char, _: ...);
     fn md_nanosleep(nanoseconds: libc::c_long);
-    fn swap_bits(
-        data: byte,
-        i: libc::c_uint,
-        j: libc::c_uint,
-        width: libc::c_uint,
-    ) -> byte;
+    fn swap_bits(data: byte, i: libc::c_uint, j: libc::c_uint, width: libc::c_uint) -> byte;
     // Rust port: Fixed missing parameters.
     fn swint(p0: libc::c_int, p1: &mut sw_regs) -> libc::c_int;
     fn setenv(
@@ -230,9 +225,8 @@ static mut cctemp: cchar_t = cchar_t {
     ext_color: 0,
 };
 static mut KEY_MASK: libc::c_int = 0;
-static mut ccunicode: [wchar_t; 2] = unsafe {
-    *::core::mem::transmute::<&[u8; 8], &mut [wchar_t; 2]>(b" \0\0\0\0\0\0\0")
-};
+static mut ccunicode: [wchar_t; 2] =
+    unsafe { *::core::mem::transmute::<&[u8; 8], &mut [wchar_t; 2]>(b" \0\0\0\0\0\0\0") };
 static mut ccode: CCODE = unsafe {
     {
         let mut init = charcode {
@@ -283,14 +277,11 @@ static mut monoc_attr: [byte; 18] = [
     0x7 as libc::c_int as byte,
     0x7 as libc::c_int as byte,
     0x7 as libc::c_int as byte,
-    (1 as libc::c_int | (1 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int)
-        as byte,
+    (1 as libc::c_int | (1 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int) as byte,
     0x7 as libc::c_int as byte,
-    ((0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int | 0x8 as libc::c_int)
-        as byte,
+    ((0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int | 0x8 as libc::c_int) as byte,
     0x7 as libc::c_int as byte,
-    ((0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int | 0x8 as libc::c_int)
-        as byte,
+    ((0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int | 0x8 as libc::c_int) as byte,
     0 as libc::c_int as byte,
 ];
 static mut at_table: *mut byte = 0 as *const byte as *mut byte;
@@ -299,10 +290,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '@' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b":&\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b":&\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0x1 as libc::c_int as byte,
             };
@@ -311,10 +299,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '^' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"f&\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"f&\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0x4 as libc::c_int as byte,
             };
@@ -323,10 +308,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: ':' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"c&\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"c&\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0x5 as libc::c_int as byte,
             };
@@ -335,11 +317,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: ']' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\xD8%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\xD8%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x8 as libc::c_int as byte,
             };
             init
@@ -347,11 +328,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '=' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\xCB%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\xCB%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x9 as libc::c_int as byte,
             };
             init
@@ -359,10 +339,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '&' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"@&\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"@&\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xc as libc::c_int as byte,
             };
@@ -371,10 +348,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '?' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"j&\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"j&\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xd as libc::c_int as byte,
             };
@@ -383,10 +357,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '*' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"<&\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"<&\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xf as libc::c_int as byte,
             };
@@ -395,11 +366,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: ')' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x91!\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x91!\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x18 as libc::c_int as byte,
             };
             init
@@ -407,11 +377,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '!' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\xA1\0\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\xA1\0\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xad as libc::c_int as byte,
             };
             init
@@ -419,11 +388,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x92%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x92%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xb1 as libc::c_int as byte,
             };
             init
@@ -431,10 +399,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '+' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"l%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"l%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xce as libc::c_int as byte,
             };
@@ -443,11 +408,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '/' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\xC4\x03\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\xC4\x03\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xe7 as libc::c_int as byte,
             };
             init
@@ -455,11 +419,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '.' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\xB7\0\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\xB7\0\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xfa as libc::c_int as byte,
             };
             init
@@ -467,11 +430,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '%' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"a\"\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"a\"\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xf0 as libc::c_int as byte,
             };
             init
@@ -479,10 +441,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '|' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"Q%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"Q%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xba as libc::c_int as byte,
             };
@@ -491,10 +450,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '-' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"P%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"P%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xcd as libc::c_int as byte,
             };
@@ -503,10 +459,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '-' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"T%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"T%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xc9 as libc::c_int as byte,
             };
@@ -515,10 +468,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '-' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"W%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"W%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xbb as libc::c_int as byte,
             };
@@ -527,10 +477,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '-' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"Z%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"Z%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xc8 as libc::c_int as byte,
             };
@@ -539,10 +486,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '-' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"]%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"]%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xbc as libc::c_int as byte,
             };
@@ -551,10 +495,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: 'X' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"c%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"c%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xb9 as libc::c_int as byte,
             };
@@ -563,10 +504,7 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: 'X' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"`%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"`%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xcc as libc::c_int as byte,
             };
@@ -575,11 +513,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '<' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\xC4%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\xC4%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x11 as libc::c_int as byte,
             };
             init
@@ -587,11 +524,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '/' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x18%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x18%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xd9 as libc::c_int as byte,
             };
             init
@@ -599,11 +535,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '^' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x91!\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x91!\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x18 as libc::c_int as byte,
             };
             init
@@ -611,11 +546,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: 'v' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x93!\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x93!\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x19 as libc::c_int as byte,
             };
             init
@@ -623,11 +557,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '>' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x92!\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x92!\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x1a as libc::c_int as byte,
             };
             init
@@ -635,11 +568,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '<' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x90!\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x90!\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0x1b as libc::c_int as byte,
             };
             init
@@ -647,11 +579,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x93%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x93%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xb2 as libc::c_int as byte,
             };
             init
@@ -659,11 +590,10 @@ static mut ctab: [CCODE; 31] = unsafe {
         {
             let mut init = charcode {
                 ascii: '`' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"`\0\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"`\0\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0 as libc::c_int as byte,
             };
             init
@@ -675,11 +605,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '|' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x02%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x02%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xb3 as libc::c_int as byte,
             };
             init
@@ -687,11 +616,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '-' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\0%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\0%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xc4 as libc::c_int as byte,
             };
             init
@@ -699,11 +627,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '.' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x0C%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x0C%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xda as libc::c_int as byte,
             };
             init
@@ -711,11 +638,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '.' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x10%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x10%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xbf as libc::c_int as byte,
             };
             init
@@ -723,11 +649,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '`' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x14%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x14%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xc0 as libc::c_int as byte,
             };
             init
@@ -735,11 +660,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '\'' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x18%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x18%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xd9 as libc::c_int as byte,
             };
             init
@@ -747,10 +671,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: 'H' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"Q%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"Q%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xba as libc::c_int as byte,
             };
@@ -759,10 +680,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '=' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"P%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"P%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xcd as libc::c_int as byte,
             };
@@ -771,10 +689,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"T%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"T%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xc9 as libc::c_int as byte,
             };
@@ -783,10 +698,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"W%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"W%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xbb as libc::c_int as byte,
             };
@@ -795,10 +707,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"Z%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"Z%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xc8 as libc::c_int as byte,
             };
@@ -807,10 +716,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"]%\0\0\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(b"]%\0\0\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0xbc as libc::c_int as byte,
             };
@@ -819,11 +725,10 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '#' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 8],
-                    &[libc::c_int; 2],
-                >(b"\x92%\0\0\0\0\0\0"))
-                    .as_ptr() as *mut wchar_t,
+                unicode: (*::core::mem::transmute::<&[u8; 8], &[libc::c_int; 2]>(
+                    b"\x92%\0\0\0\0\0\0",
+                ))
+                .as_ptr() as *mut wchar_t,
                 dos: 0xb1 as libc::c_int as byte,
             };
             init
@@ -831,10 +736,7 @@ static mut btab: [CCODE; 14] = unsafe {
         {
             let mut init = charcode {
                 ascii: '\0' as i32 as byte,
-                unicode: (*::core::mem::transmute::<
-                    &[u8; 4],
-                    &[libc::c_int; 1],
-                >(b"\0\0\0\0"))
+                unicode: (*::core::mem::transmute::<&[u8; 4], &[libc::c_int; 1]>(b"\0\0\0\0"))
                     .as_ptr() as *mut wchar_t,
                 dos: 0 as libc::c_int as byte,
             };
@@ -1152,8 +1054,7 @@ pub unsafe extern "C" fn cur_getch_timeout(mut msdelay: libc::c_int) -> libc::c_
     ret = wget_wch(stdscr, &mut wchi);
     if ret == -(1 as libc::c_int)
         || ret == 0 as libc::c_int
-            && !(wchi & !(0x7f as libc::c_int) as libc::c_uint
-                == 0 as libc::c_int as libc::c_uint)
+            && !(wchi & !(0x7f as libc::c_int) as libc::c_uint == 0 as libc::c_int as libc::c_uint)
     {
         ch = -(1 as libc::c_int);
     } else {
@@ -1173,15 +1074,10 @@ pub unsafe extern "C" fn cur_getch_timeout(mut msdelay: libc::c_int) -> libc::c_
 pub unsafe extern "C" fn xlate_ch(mut ch: libc::c_int) -> byte {
     let mut x: *mut xlate = 0 as *mut xlate;
     x = xtab.as_mut_ptr();
-    while x
-        < xtab
-            .as_mut_ptr()
-            .offset(
-                (::core::mem::size_of::<[xlate; 29]>() as libc::c_ulong)
-                    .wrapping_div(::core::mem::size_of::<xlate>() as libc::c_ulong)
-                    as isize,
-            )
-    {
+    while x < xtab.as_mut_ptr().offset(
+        (::core::mem::size_of::<[xlate; 29]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<xlate>() as libc::c_ulong) as isize,
+    ) {
         if ch == (*x).keycode {
             ch = (*x).keyis as libc::c_int;
             break;
@@ -1192,10 +1088,7 @@ pub unsafe extern "C" fn xlate_ch(mut ch: libc::c_int) -> byte {
     return ch as byte;
 }
 #[no_mangle]
-pub unsafe extern "C" fn cur_move(
-    mut row: libc::c_int,
-    mut col: libc::c_int,
-) -> libc::c_int {
+pub unsafe extern "C" fn cur_move(mut row: libc::c_int, mut col: libc::c_int) -> libc::c_int {
     return wmove(stdscr, row, col);
 }
 #[no_mangle]
@@ -1255,9 +1148,9 @@ pub unsafe extern "C" fn cur_clear() {
 pub unsafe extern "C" fn cursor(mut ison: bool) -> bool {
     let mut oldstate: libc::c_int = curs_set(ison as libc::c_int);
     if oldstate == 0 as libc::c_int || oldstate == -(1 as libc::c_int) {
-        return 0 as libc::c_int != 0
+        return 0 as libc::c_int != 0;
     } else {
-        return 1 as libc::c_int != 0
+        return 1 as libc::c_int != 0;
     };
 }
 #[no_mangle]
@@ -1291,11 +1184,7 @@ pub unsafe extern "C" fn cur_mvaddstr(
     cur_addstr(s);
 }
 #[no_mangle]
-pub unsafe extern "C" fn cur_mvaddch(
-    mut r: libc::c_int,
-    mut c: libc::c_int,
-    mut chr: byte,
-) {
+pub unsafe extern "C" fn cur_mvaddch(mut r: libc::c_int, mut c: libc::c_int, mut chr: byte) {
     cur_move(r, c);
     cur_addch(chr);
 }
@@ -1326,8 +1215,7 @@ pub unsafe extern "C" fn cur_addch(mut chr: byte) {
                     ch_attr = 0x1 as libc::c_int | 0x4 as libc::c_int;
                 }
                 15 | 1 => {
-                    ch_attr = 0x2 as libc::c_int | 0x4 as libc::c_int
-                        | 0x8 as libc::c_int;
+                    ch_attr = 0x2 as libc::c_int | 0x4 as libc::c_int | 0x8 as libc::c_int;
                 }
                 173 | 13 | 231 | 8 | 12 | 9 | 24 => {
                     ch_attr = 0x1 as libc::c_int | 0x8 as libc::c_int;
@@ -1337,15 +1225,15 @@ pub unsafe extern "C" fn cur_addch(mut chr: byte) {
                 }
                 _ => {}
             }
-        } else if ch_attr == (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
-        {
+        } else if ch_attr == (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int {
             match chr as libc::c_int {
                 5 => {
                     ch_attr = 0x4 as libc::c_int
                         | (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int;
                 }
                 15 | 1 => {
-                    ch_attr = 0x2 as libc::c_int | 0x4 as libc::c_int
+                    ch_attr = 0x2 as libc::c_int
+                        | 0x4 as libc::c_int
                         | 0x8 as libc::c_int
                         | (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int;
                 }
@@ -1369,7 +1257,10 @@ pub unsafe extern "C" fn cur_addch(mut chr: byte) {
             current_block_23 = 10686804971910976035;
         }
         3 => {
-            wadd_wch(stdscr, unicode_from_dos(chr, ch_attr as byte, ctab.as_mut_ptr()));
+            wadd_wch(
+                stdscr,
+                unicode_from_dos(chr, ch_attr as byte, ctab.as_mut_ptr()),
+            );
             current_block_23 = 15597372965620363352;
         }
         1 | _ => {
@@ -1403,7 +1294,13 @@ pub unsafe extern "C" fn unicode_from_dos(
     let mut attrs: attr_t = 0;
     let mut ccp: *mut CCODE = charcode_from_dos(chd, mapping);
     attrw_from_dos(dos_attr, &mut attrs, &mut color);
-    setcchar(&mut cctemp, (*ccp).unicode, attrs, color, 0 as *const libc::c_void);
+    setcchar(
+        &mut cctemp,
+        (*ccp).unicode,
+        attrs,
+        color,
+        0 as *const libc::c_void,
+    );
     return &mut cctemp;
 }
 #[no_mangle]
@@ -1424,12 +1321,10 @@ pub unsafe extern "C" fn define_keys() {
     KEY_MASK = ((1 as libc::c_int) << shift) - 1 as libc::c_int;
     i = 8 as libc::c_int;
     ptr = ttymap.as_mut_ptr();
-    max = ttymap
-        .as_mut_ptr()
-        .offset(
-            (::core::mem::size_of::<[TTYSEQ; 9]>() as libc::c_ulong)
-                .wrapping_div(::core::mem::size_of::<TTYSEQ>() as libc::c_ulong) as isize,
-        );
+    max = ttymap.as_mut_ptr().offset(
+        (::core::mem::size_of::<[TTYSEQ; 9]>() as libc::c_ulong)
+            .wrapping_div(::core::mem::size_of::<TTYSEQ>() as libc::c_ulong) as isize,
+    );
     while ptr < max {
         if key_defined((*ptr).def) == 0 {
             let fresh1 = i;
@@ -1444,15 +1339,14 @@ pub unsafe extern "C" fn ascii_from_dos(mut chd: byte, mut mapping: *mut CCODE) 
     return (*charcode_from_dos(chd, mapping)).ascii;
 }
 #[no_mangle]
-pub unsafe extern "C" fn charcode_from_dos(
-    mut chd: byte,
-    mut mapping: *mut CCODE,
-) -> *mut CCODE {
+pub unsafe extern "C" fn charcode_from_dos(mut chd: byte, mut mapping: *mut CCODE) -> *mut CCODE {
     let mut ccp: *mut CCODE = 0 as *mut CCODE;
-    if chd as libc::c_int == '\0' as i32 || chd as libc::c_int == '\n' as i32
+    if chd as libc::c_int == '\0' as i32
+        || chd as libc::c_int == '\n' as i32
         || chd as libc::c_int & !(0x7f as libc::c_int) == 0 as libc::c_int
             && *(*__ctype_b_loc()).offset(chd as libc::c_int as isize) as libc::c_int
-                & _ISprint as libc::c_int as libc::c_ushort as libc::c_int != 0
+                & _ISprint as libc::c_int as libc::c_ushort as libc::c_int
+                != 0
     {
         *ccode.unicode = chd as wchar_t;
         ccode.dos = *ccode.unicode as byte;
@@ -1469,12 +1363,13 @@ pub unsafe extern "C" fn charcode_from_dos(
     return ccp;
 }
 #[no_mangle]
-pub unsafe extern "C" fn color_from_dos(
-    mut dos_attr: byte,
-    mut fg: bool,
-) -> libc::c_short {
+pub unsafe extern "C" fn color_from_dos(mut dos_attr: byte, mut fg: bool) -> libc::c_short {
     let mut color: byte = (dos_attr as libc::c_int
-        >> (if fg as libc::c_int != 0 { 0 as libc::c_int } else { 4 as libc::c_int })
+        >> (if fg as libc::c_int != 0 {
+            0 as libc::c_int
+        } else {
+            4 as libc::c_int
+        })
         & 7 as libc::c_int) as byte;
     return swap_bits(
         color,
@@ -1506,10 +1401,10 @@ pub unsafe extern "C" fn attr_from_dos(mut dos_attr: byte) -> chtype {
             fg = (fg as libc::c_int + 8 as libc::c_int) as libc::c_short;
         }
     }
-    if dos_attr as libc::c_int
-        & (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
+    if dos_attr as libc::c_int & (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
         == (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
-        && colors != 8 as libc::c_int && use_terminal_fgbg as libc::c_int != 0
+        && colors != 8 as libc::c_int
+        && use_terminal_fgbg as libc::c_int != 0
     {
         attr |= (1 as libc::c_uint) << 10 as libc::c_int + 8 as libc::c_int;
         let mut tmp: libc::c_short = bg;
@@ -1517,12 +1412,10 @@ pub unsafe extern "C" fn attr_from_dos(mut dos_attr: byte) -> chtype {
         fg = tmp;
     }
     if colors > 0 as libc::c_int {
-        attr
-            |= ((bg as libc::c_int * colors + fg as libc::c_int + 1 as libc::c_int)
-                as chtype) << 0 as libc::c_int + 8 as libc::c_int
-                & ((1 as libc::c_uint) << 8 as libc::c_int)
-                    .wrapping_sub(1 as libc::c_uint)
-                    << 0 as libc::c_int + 8 as libc::c_int;
+        attr |= ((bg as libc::c_int * colors + fg as libc::c_int + 1 as libc::c_int) as chtype)
+            << 0 as libc::c_int + 8 as libc::c_int
+            & ((1 as libc::c_uint) << 8 as libc::c_int).wrapping_sub(1 as libc::c_uint)
+                << 0 as libc::c_int + 8 as libc::c_int;
     }
     return attr;
 }
@@ -1551,10 +1444,10 @@ pub unsafe extern "C" fn attrw_from_dos(
             fg = (fg as libc::c_int + 8 as libc::c_int) as libc::c_short;
         }
     }
-    if dos_attr as libc::c_int
-        & (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
+    if dos_attr as libc::c_int & (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
         == (0x7 as libc::c_int & 7 as libc::c_int) << 4 as libc::c_int
-        && colors != 8 as libc::c_int && use_terminal_fgbg as libc::c_int != 0
+        && colors != 8 as libc::c_int
+        && use_terminal_fgbg as libc::c_int != 0
     {
         *attrs |= (1 as libc::c_uint) << 10 as libc::c_int + 8 as libc::c_int;
         let mut tmp: libc::c_short = bg;
@@ -1562,8 +1455,8 @@ pub unsafe extern "C" fn attrw_from_dos(
         fg = tmp;
     }
     if colors > 0 as libc::c_int {
-        *color_pair = (bg as libc::c_int * colors + fg as libc::c_int + 1 as libc::c_int)
-            as libc::c_short;
+        *color_pair =
+            (bg as libc::c_int * colors + fg as libc::c_int + 1 as libc::c_int) as libc::c_short;
     }
 }
 #[no_mangle]
@@ -1599,9 +1492,7 @@ pub unsafe extern "C" fn init_curses_colors() {
     match colormode {
         8 | 16 => {
             cube = 0 as libc::c_int;
-            if can_change_color() as libc::c_int != 0
-                && change_colors as libc::c_int != 0
-            {
+            if can_change_color() as libc::c_int != 0 && change_colors as libc::c_int != 0 {
                 colors_changed = 1 as libc::c_int != 0;
             }
         }
@@ -1618,14 +1509,18 @@ pub unsafe extern "C" fn init_curses_colors() {
         while i < colors {
             r = ((cube - 1 as libc::c_int) as libc::c_double
                 * (((i & 1 as libc::c_int != 0) as libc::c_int * 2 as libc::c_int)
-                    as libc::c_double / 3.0f64
+                    as libc::c_double
+                    / 3.0f64
                     + ((i & 8 as libc::c_int != 0) as libc::c_int * 1 as libc::c_int)
-                        as libc::c_double / 3.0f64)) as libc::c_int;
+                        as libc::c_double
+                        / 3.0f64)) as libc::c_int;
             g = ((cube - 1 as libc::c_int) as libc::c_double
                 * ((((i & 2 as libc::c_int != 0) as libc::c_int * 2 as libc::c_int)
-                    as libc::c_double / 3.0f64
+                    as libc::c_double
+                    / 3.0f64
                     + ((i & 8 as libc::c_int != 0) as libc::c_int * 1 as libc::c_int)
-                        as libc::c_double / 3.0f64)
+                        as libc::c_double
+                        / 3.0f64)
                     / (if i == 3 as libc::c_int {
                         2 as libc::c_int
                     } else {
@@ -1633,9 +1528,11 @@ pub unsafe extern "C" fn init_curses_colors() {
                     }) as libc::c_double)) as libc::c_int;
             b = ((cube - 1 as libc::c_int) as libc::c_double
                 * (((i & 4 as libc::c_int != 0) as libc::c_int * 2 as libc::c_int)
-                    as libc::c_double / 3.0f64
+                    as libc::c_double
+                    / 3.0f64
                     + ((i & 8 as libc::c_int != 0) as libc::c_int * 1 as libc::c_int)
-                        as libc::c_double / 3.0f64)) as libc::c_int;
+                        as libc::c_double
+                        / 3.0f64)) as libc::c_int;
             cmap[i as usize] = 16 as libc::c_int + cube * cube * r + cube * g + b;
             i += 1;
         }
@@ -1646,14 +1543,18 @@ pub unsafe extern "C" fn init_curses_colors() {
                 i as libc::c_short,
                 (1000 as libc::c_int as libc::c_double
                     * (((i & 1 as libc::c_int != 0) as libc::c_int * 2 as libc::c_int)
-                        as libc::c_double / 3.0f64
+                        as libc::c_double
+                        / 3.0f64
                         + ((i & 8 as libc::c_int != 0) as libc::c_int * 1 as libc::c_int)
-                            as libc::c_double / 3.0f64)) as libc::c_short,
+                            as libc::c_double
+                            / 3.0f64)) as libc::c_short,
                 (1000 as libc::c_int as libc::c_double
                     * ((((i & 2 as libc::c_int != 0) as libc::c_int * 2 as libc::c_int)
-                        as libc::c_double / 3.0f64
+                        as libc::c_double
+                        / 3.0f64
                         + ((i & 8 as libc::c_int != 0) as libc::c_int * 1 as libc::c_int)
-                            as libc::c_double / 3.0f64)
+                            as libc::c_double
+                            / 3.0f64)
                         / (if i == 3 as libc::c_int {
                             2 as libc::c_int
                         } else {
@@ -1661,9 +1562,11 @@ pub unsafe extern "C" fn init_curses_colors() {
                         }) as libc::c_double)) as libc::c_short,
                 (1000 as libc::c_int as libc::c_double
                     * (((i & 4 as libc::c_int != 0) as libc::c_int * 2 as libc::c_int)
-                        as libc::c_double / 3.0f64
+                        as libc::c_double
+                        / 3.0f64
                         + ((i & 8 as libc::c_int != 0) as libc::c_int * 1 as libc::c_int)
-                            as libc::c_double / 3.0f64)) as libc::c_short,
+                            as libc::c_double
+                            / 3.0f64)) as libc::c_short,
             );
             cmap[i as usize] = i;
             i += 1;
@@ -1675,10 +1578,8 @@ pub unsafe extern "C" fn init_curses_colors() {
             i += 1;
         }
     }
-    dos_fg = color_from_dos(0x7 as libc::c_int as byte, 1 as libc::c_int != 0)
-        as libc::c_int;
-    dos_bg = color_from_dos(0x7 as libc::c_int as byte, 0 as libc::c_int != 0)
-        as libc::c_int;
+    dos_fg = color_from_dos(0x7 as libc::c_int as byte, 1 as libc::c_int != 0) as libc::c_int;
+    dos_bg = color_from_dos(0x7 as libc::c_int as byte, 0 as libc::c_int != 0) as libc::c_int;
     if 0x7 as libc::c_int & 0x8 as libc::c_int != 0 && colors > 8 as libc::c_int {
         dos_fg += 8 as libc::c_int;
     }
@@ -1691,7 +1592,12 @@ pub unsafe extern "C" fn init_curses_colors() {
     }
     bg = 0 as libc::c_int;
     while bg < colors {
-        fg = colors - (if bg != 0 { 2 as libc::c_int } else { 1 as libc::c_int });
+        fg = colors
+            - (if bg != 0 {
+                2 as libc::c_int
+            } else {
+                1 as libc::c_int
+            });
         while fg >= 0 as libc::c_int {
             init_pair(
                 (bg * colors + fg + 1 as libc::c_int) as libc::c_short,
@@ -1785,7 +1691,8 @@ pub unsafe extern "C" fn wdump() {
     });
     line = 0 as libc::c_int;
     while line < LINES {
-        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {} else {
+        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {
+        } else {
             win_wchnstr(stdscr, (savewin[line as usize]).as_mut_ptr(), COLS);
         };
         line += 1;
@@ -1810,7 +1717,8 @@ pub unsafe extern "C" fn wrestor() {
     });
     line = 0 as libc::c_int;
     while line < LINES {
-        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {} else {
+        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {
+        } else {
             wadd_wchnstr(stdscr, (savewin[line as usize]).as_mut_ptr(), COLS);
         };
         line += 1;
@@ -1897,41 +1805,65 @@ pub unsafe extern "C" fn vbox(
     wason = cursor(0 as libc::c_int != 0);
     getrc(&mut r, &mut c);
     i = lr_c - ul_c - 1 as libc::c_int;
-    if cur_move(ul_r, ul_c + 1 as libc::c_int) == -(1 as libc::c_int) {} else {
-        cur_line(*box_0.offset(5 as libc::c_int as isize), i, 1 as libc::c_int != 0);
+    if cur_move(ul_r, ul_c + 1 as libc::c_int) == -(1 as libc::c_int) {
+    } else {
+        cur_line(
+            *box_0.offset(5 as libc::c_int as isize),
+            i,
+            1 as libc::c_int != 0,
+        );
     };
-    if cur_move(lr_r, ul_c + 1 as libc::c_int) == -(1 as libc::c_int) {} else {
-        cur_line(*box_0.offset(6 as libc::c_int as isize), i, 1 as libc::c_int != 0);
+    if cur_move(lr_r, ul_c + 1 as libc::c_int) == -(1 as libc::c_int) {
+    } else {
+        cur_line(
+            *box_0.offset(6 as libc::c_int as isize),
+            i,
+            1 as libc::c_int != 0,
+        );
     };
     i = lr_r - ul_r - 1 as libc::c_int;
-    if cur_move(ul_r + 1 as libc::c_int, ul_c) == -(1 as libc::c_int) {} else {
-        cur_line(*box_0.offset(4 as libc::c_int as isize), i, 0 as libc::c_int != 0);
+    if cur_move(ul_r + 1 as libc::c_int, ul_c) == -(1 as libc::c_int) {
+    } else {
+        cur_line(
+            *box_0.offset(4 as libc::c_int as isize),
+            i,
+            0 as libc::c_int != 0,
+        );
     };
-    if cur_move(ul_r + 1 as libc::c_int, lr_c) == -(1 as libc::c_int) {} else {
-        cur_line(*box_0.offset(4 as libc::c_int as isize), i, 0 as libc::c_int != 0);
+    if cur_move(ul_r + 1 as libc::c_int, lr_c) == -(1 as libc::c_int) {
+    } else {
+        cur_line(
+            *box_0.offset(4 as libc::c_int as isize),
+            i,
+            0 as libc::c_int != 0,
+        );
     };
-    if cur_move(ul_r, ul_c) == -(1 as libc::c_int) {} else {
+    if cur_move(ul_r, ul_c) == -(1 as libc::c_int) {
+    } else {
         cur_line(
             *box_0.offset(0 as libc::c_int as isize),
             1 as libc::c_int,
             1 as libc::c_int != 0,
         );
     };
-    if cur_move(ul_r, lr_c) == -(1 as libc::c_int) {} else {
+    if cur_move(ul_r, lr_c) == -(1 as libc::c_int) {
+    } else {
         cur_line(
             *box_0.offset(1 as libc::c_int as isize),
             1 as libc::c_int,
             1 as libc::c_int != 0,
         );
     };
-    if cur_move(lr_r, ul_c) == -(1 as libc::c_int) {} else {
+    if cur_move(lr_r, ul_c) == -(1 as libc::c_int) {
+    } else {
         cur_line(
             *box_0.offset(2 as libc::c_int as isize),
             1 as libc::c_int,
             1 as libc::c_int != 0,
         );
     };
-    if cur_move(lr_r, lr_c) == -(1 as libc::c_int) {} else {
+    if cur_move(lr_r, lr_c) == -(1 as libc::c_int) {
+    } else {
         cur_line(
             *box_0.offset(3 as libc::c_int as isize),
             1 as libc::c_int,
@@ -2005,14 +1937,16 @@ pub unsafe extern "C" fn implode() {
         md_nanosleep(1000000 as libc::c_long * delay as libc::c_long);
         j = r + 1 as libc::c_int;
         while j <= er - 1 as libc::c_int {
-            if cur_move(j, c + 1 as libc::c_int) == -(1 as libc::c_int) {} else {
+            if cur_move(j, c + 1 as libc::c_int) == -(1 as libc::c_int) {
+            } else {
                 cur_line(
                     ' ' as i32 as byte,
                     cinc - 1 as libc::c_int,
                     1 as libc::c_int != 0,
                 );
             };
-            if cur_move(j, ec - cinc + 1 as libc::c_int) == -(1 as libc::c_int) {} else {
+            if cur_move(j, ec - cinc + 1 as libc::c_int) == -(1 as libc::c_int) {
+            } else {
                 cur_line(
                     ' ' as i32 as byte,
                     cinc - 1 as libc::c_int,
@@ -2042,30 +1976,37 @@ pub unsafe extern "C" fn drop_curtain() {
         LINES - 1 as libc::c_int,
         COLS - 1 as libc::c_int,
     );
-    if wmove(stdscr, 0 as libc::c_int, 0 as libc::c_int) == -(1 as libc::c_int) {} else {
-        win_wchnstr(stdscr, (curtain[0 as libc::c_int as usize]).as_mut_ptr(), COLS);
+    if wmove(stdscr, 0 as libc::c_int, 0 as libc::c_int) == -(1 as libc::c_int) {
+    } else {
+        win_wchnstr(
+            stdscr,
+            (curtain[0 as libc::c_int as usize]).as_mut_ptr(),
+            COLS,
+        );
     };
     wrefresh(stdscr);
     md_nanosleep(1000000 as libc::c_long * delay as libc::c_long);
     set_attr(11 as libc::c_int);
     r = 1 as libc::c_int;
     while r < LINES - 1 as libc::c_int {
-        if cur_move(r, 1 as libc::c_int) == -(1 as libc::c_int) {} else {
+        if cur_move(r, 1 as libc::c_int) == -(1 as libc::c_int) {
+        } else {
             cur_line(
                 0xb1 as libc::c_int as byte,
                 COLS - 2 as libc::c_int,
                 1 as libc::c_int != 0,
             );
         };
-        if wmove(stdscr, r, 0 as libc::c_int) == -(1 as libc::c_int) {} else {
+        if wmove(stdscr, r, 0 as libc::c_int) == -(1 as libc::c_int) {
+        } else {
             win_wchnstr(stdscr, (curtain[r as usize]).as_mut_ptr(), COLS);
         };
         wrefresh(stdscr);
         md_nanosleep(1000000 as libc::c_long * delay as libc::c_long);
         r += 1;
     }
-    if wmove(stdscr, LINES - 1 as libc::c_int, 0 as libc::c_int) == -(1 as libc::c_int)
-    {} else {
+    if wmove(stdscr, LINES - 1 as libc::c_int, 0 as libc::c_int) == -(1 as libc::c_int) {
+    } else {
         win_wchnstr(
             stdscr,
             (curtain[(LINES - 1 as libc::c_int) as usize]).as_mut_ptr(),
@@ -2096,14 +2037,16 @@ pub unsafe extern "C" fn raise_curtain() {
     wdump();
     line = 0 as libc::c_int;
     while line < LINES {
-        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {} else {
+        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {
+        } else {
             wadd_wchnstr(stdscr, (curtain[line as usize]).as_mut_ptr(), COLS);
         };
         line += 1;
     }
     line = LINES - 1 as libc::c_int;
     while line >= 0 as libc::c_int {
-        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {} else {
+        if wmove(stdscr, line, 0 as libc::c_int) == -(1 as libc::c_int) {
+        } else {
             wadd_wchnstr(stdscr, (savewin[line as usize]).as_mut_ptr(), COLS);
         };
         wrefresh(stdscr);
@@ -2146,10 +2089,7 @@ pub unsafe extern "C" fn video_mode(mut type_0: libc::c_int) -> byte {
     return regs.ax as byte;
 }
 #[no_mangle]
-pub unsafe extern "C" fn getinfo(
-    mut str: *mut libc::c_char,
-    mut size: libc::c_int,
-) -> libc::c_int {
+pub unsafe extern "C" fn getinfo(mut str: *mut libc::c_char, mut size: libc::c_int) -> libc::c_int {
     let mut retstr: *mut libc::c_char = 0 as *mut libc::c_char;
     let mut ch: libc::c_int = 0;
     let mut readcnt: libc::c_int = 0 as libc::c_int;
@@ -2201,7 +2141,8 @@ pub unsafe extern "C" fn getinfo(
                 if readcnt >= size {
                     beep();
                 } else if !(*(*__ctype_b_loc()).offset(ch as isize) as libc::c_int
-                    & _ISprint as libc::c_int as libc::c_ushort as libc::c_int == 0)
+                    & _ISprint as libc::c_int as libc::c_ushort as libc::c_int
+                    == 0)
                 {
                     readcnt += 1;
                     waddch(stdscr, ch as chtype);

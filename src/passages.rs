@@ -77,12 +77,8 @@ pub unsafe extern "C" fn conn(mut r1: libc::c_int, mut r2: libc::c_int) {
         {
             spos.y = (*rpf).r_pos.y + (*rpf).r_max.y - 1 as libc::c_int;
             loop {
-                spos
-                    .x = (*rpf).r_pos.x + rnd((*rpf).r_max.x - 2 as libc::c_int)
-                    + 1 as libc::c_int;
-                if !(*_level.offset(INDEX(spos.y, spos.x) as isize) as libc::c_int
-                    == ' ' as i32)
-                {
+                spos.x = (*rpf).r_pos.x + rnd((*rpf).r_max.x - 2 as libc::c_int) + 1 as libc::c_int;
+                if !(*_level.offset(INDEX(spos.y, spos.x) as isize) as libc::c_int == ' ' as i32) {
                     break;
                 }
             }
@@ -95,12 +91,8 @@ pub unsafe extern "C" fn conn(mut r1: libc::c_int, mut r2: libc::c_int) {
             || (*rpt).r_flags as libc::c_int & 0x4 as libc::c_int != 0
         {
             loop {
-                epos
-                    .x = (*rpt).r_pos.x + rnd((*rpt).r_max.x - 2 as libc::c_int)
-                    + 1 as libc::c_int;
-                if !(*_level.offset(INDEX(epos.y, epos.x) as isize) as libc::c_int
-                    == ' ' as i32)
-                {
+                epos.x = (*rpt).r_pos.x + rnd((*rpt).r_max.x - 2 as libc::c_int) + 1 as libc::c_int;
+                if !(*_level.offset(INDEX(epos.y, epos.x) as isize) as libc::c_int == ' ' as i32) {
                     break;
                 }
             }
@@ -109,8 +101,11 @@ pub unsafe extern "C" fn conn(mut r1: libc::c_int, mut r2: libc::c_int) {
         }
         distance = abs(spos.y - epos.y) - 1 as libc::c_int;
         turn_delta.y = 0 as libc::c_int;
-        turn_delta
-            .x = if spos.x < epos.x { 1 as libc::c_int } else { -(1 as libc::c_int) };
+        turn_delta.x = if spos.x < epos.x {
+            1 as libc::c_int
+        } else {
+            -(1 as libc::c_int)
+        };
         turn_distance = abs(spos.x - epos.x);
     } else if direc == 'r' as i32 {
         rmt = rm + 1 as libc::c_int;
@@ -122,12 +117,8 @@ pub unsafe extern "C" fn conn(mut r1: libc::c_int, mut r2: libc::c_int) {
         {
             spos.x = (*rpf).r_pos.x + (*rpf).r_max.x - 1 as libc::c_int;
             loop {
-                spos
-                    .y = (*rpf).r_pos.y + rnd((*rpf).r_max.y - 2 as libc::c_int)
-                    + 1 as libc::c_int;
-                if !(*_level.offset(INDEX(spos.y, spos.x) as isize) as libc::c_int
-                    == ' ' as i32)
-                {
+                spos.y = (*rpf).r_pos.y + rnd((*rpf).r_max.y - 2 as libc::c_int) + 1 as libc::c_int;
+                if !(*_level.offset(INDEX(spos.y, spos.x) as isize) as libc::c_int == ' ' as i32) {
                     break;
                 }
             }
@@ -140,12 +131,8 @@ pub unsafe extern "C" fn conn(mut r1: libc::c_int, mut r2: libc::c_int) {
             || (*rpt).r_flags as libc::c_int & 0x4 as libc::c_int != 0
         {
             loop {
-                epos
-                    .y = (*rpt).r_pos.y + rnd((*rpt).r_max.y - 2 as libc::c_int)
-                    + 1 as libc::c_int;
-                if !(*_level.offset(INDEX(epos.y, epos.x) as isize) as libc::c_int
-                    == ' ' as i32)
-                {
+                epos.y = (*rpt).r_pos.y + rnd((*rpt).r_max.y - 2 as libc::c_int) + 1 as libc::c_int;
+                if !(*_level.offset(INDEX(epos.y, epos.x) as isize) as libc::c_int == ' ' as i32) {
                     break;
                 }
             }
@@ -153,8 +140,11 @@ pub unsafe extern "C" fn conn(mut r1: libc::c_int, mut r2: libc::c_int) {
             epos.y = (*rpt).r_pos.y;
         }
         distance = abs(spos.x - epos.x) - 1 as libc::c_int;
-        turn_delta
-            .y = if spos.y < epos.y { 1 as libc::c_int } else { -(1 as libc::c_int) };
+        turn_delta.y = if spos.y < epos.y {
+            1 as libc::c_int
+        } else {
+            -(1 as libc::c_int)
+        };
         turn_delta.x = 0 as libc::c_int;
         turn_distance = abs(spos.y - epos.y);
     }
@@ -469,38 +459,34 @@ pub unsafe extern "C" fn do_passages() {
         r1 = r1.offset(1);
     }
     roomcount = 1 as libc::c_int;
-    r1 = &mut *rdes_0
-        .as_mut_ptr()
-        .offset(
-            (rnd as unsafe extern "C" fn(libc::c_int) -> libc::c_int)(9 as libc::c_int)
-                as isize,
-        ) as *mut rdes;
+    r1 =
+        &mut *rdes_0
+            .as_mut_ptr()
+            .offset(
+                (rnd as unsafe extern "C" fn(libc::c_int) -> libc::c_int)(9 as libc::c_int)
+                    as isize,
+            ) as *mut rdes;
     (*r1).ingraph = 1 as libc::c_int as libc::c_char;
     loop {
         j = 0 as libc::c_int;
         i = 0 as libc::c_int;
         while i < 9 as libc::c_int {
-            if (*r1).conn[i as usize] as libc::c_int != 0
-                && rdes_0[i as usize].ingraph == 0
-                && {
-                    j += 1;
-                    rnd(j) == 0 as libc::c_int
-                }
-            {
+            if (*r1).conn[i as usize] as libc::c_int != 0 && rdes_0[i as usize].ingraph == 0 && {
+                j += 1;
+                rnd(j) == 0 as libc::c_int
+            } {
                 r2 = &mut *rdes_0.as_mut_ptr().offset(i as isize) as *mut rdes;
             }
             i += 1;
         }
         if j == 0 as libc::c_int {
             loop {
-                r1 = &mut *rdes_0
-                    .as_mut_ptr()
-                    .offset(
-                        (rnd
-                            as unsafe extern "C" fn(
-                                libc::c_int,
-                            ) -> libc::c_int)(9 as libc::c_int) as isize,
-                    ) as *mut rdes;
+                r1 = &mut *rdes_0.as_mut_ptr().offset((rnd as unsafe extern "C" fn(
+                    libc::c_int,
+                )
+                    -> libc::c_int)(
+                    9 as libc::c_int
+                ) as isize) as *mut rdes;
                 if !((*r1).ingraph == 0) {
                     break;
                 }
@@ -520,24 +506,16 @@ pub unsafe extern "C" fn do_passages() {
     }
     roomcount = rnd(5 as libc::c_int);
     while roomcount > 0 as libc::c_int {
-        r1 = &mut *rdes_0
-            .as_mut_ptr()
-            .offset(
-                (rnd
-                    as unsafe extern "C" fn(
-                        libc::c_int,
-                    ) -> libc::c_int)(9 as libc::c_int) as isize,
-            ) as *mut rdes;
+        r1 = &mut *rdes_0.as_mut_ptr().offset((rnd as unsafe extern "C" fn(
+            libc::c_int,
+        ) -> libc::c_int)(9 as libc::c_int) as isize) as *mut rdes;
         j = 0 as libc::c_int;
         i = 0 as libc::c_int;
         while i < 9 as libc::c_int {
-            if (*r1).conn[i as usize] as libc::c_int != 0
-                && (*r1).isconn[i as usize] == 0
-                && {
-                    j += 1;
-                    rnd(j) == 0 as libc::c_int
-                }
-            {
+            if (*r1).conn[i as usize] as libc::c_int != 0 && (*r1).isconn[i as usize] == 0 && {
+                j += 1;
+                rnd(j) == 0 as libc::c_int
+            } {
                 r2 = &mut *rdes_0.as_mut_ptr().offset(i as isize) as *mut rdes;
             }
             i += 1;
@@ -561,10 +539,7 @@ pub unsafe extern "C" fn door(mut rm: *mut room, mut cp: *mut coord) {
     if (rnd(10 as libc::c_int) + 1 as libc::c_int) < level
         && rnd(5 as libc::c_int) == 0 as libc::c_int
     {
-        *_level
-            .offset(
-                index as isize,
-            ) = (if (*cp).y == (*rm).r_pos.y
+        *_level.offset(index as isize) = (if (*cp).y == (*rm).r_pos.y
             || (*cp).y == (*rm).r_pos.y + (*rm).r_max.y - 1 as libc::c_int
         {
             0xcd as libc::c_int
@@ -591,9 +566,7 @@ pub unsafe extern "C" fn passnum() {
     pnum = 0 as libc::c_int;
     newpnum = 0 as libc::c_int as byte;
     rp = passages.as_mut_ptr();
-    while rp
-        < &mut *passages.as_mut_ptr().offset(13 as libc::c_int as isize) as *mut room
-    {
+    while rp < &mut *passages.as_mut_ptr().offset(13 as libc::c_int as isize) as *mut room {
         (*rp).r_nexits = 0 as libc::c_int;
         rp = rp.offset(1);
     }
@@ -618,9 +591,7 @@ pub unsafe extern "C" fn numpass(mut y: libc::c_int, mut x: libc::c_int) {
     }
     fp = &mut *_flags
         .offset(
-            (INDEX
-                as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(y, x)
-                as isize,
+            (INDEX as unsafe extern "C" fn(libc::c_int, libc::c_int) -> libc::c_int)(y, x) as isize,
         ) as *mut byte;
     if *fp as libc::c_int & 0xf as libc::c_int != 0 {
         return;
@@ -631,8 +602,7 @@ pub unsafe extern "C" fn numpass(mut y: libc::c_int, mut x: libc::c_int) {
     }
     ch = *_level.offset(INDEX(y, x) as isize);
     if ch as libc::c_int == 0xce as libc::c_int
-        || *fp as libc::c_int & 0x10 as libc::c_int == 0
-            && ch as libc::c_int != 0xfa as libc::c_int
+        || *fp as libc::c_int & 0x10 as libc::c_int == 0 && ch as libc::c_int != 0xfa as libc::c_int
     {
         rp = &mut *passages.as_mut_ptr().offset(pnum as isize) as *mut room;
         (*rp).r_exit[(*rp).r_nexits as usize].y = y;
@@ -640,7 +610,7 @@ pub unsafe extern "C" fn numpass(mut y: libc::c_int, mut x: libc::c_int) {
         (*rp).r_nexits = (*rp).r_nexits + 1;
         (*rp).r_exit[fresh3 as usize].x = x;
     } else if *fp as libc::c_int & 0x40 as libc::c_int == 0 {
-        return
+        return;
     }
     *fp = (*fp as libc::c_int | pnum) as byte;
     numpass(y + 1 as libc::c_int, x);

@@ -1,10 +1,7 @@
 use ::libc;
 extern "C" {
-    fn memmove(
-        _: *mut libc::c_void,
-        _: *const libc::c_void,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
+        -> *mut libc::c_void;
     fn strchr(_: *const libc::c_char, _: libc::c_int) -> *mut libc::c_char;
     fn strlen(_: *const libc::c_char) -> libc::c_ulong;
     fn sprintf(_: *mut libc::c_char, _: *const libc::c_char, _: ...) -> libc::c_int;
@@ -241,10 +238,7 @@ pub unsafe extern "C" fn missile(mut ydelta: libc::c_int, mut xdelta: libc::c_in
             nitem = new_item();
             if nitem.is_null() {
                 (*obj)._o._o_count = 1 as libc::c_int;
-                msg(
-                    b"something in your pack explodes!!!\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"something in your pack explodes!!!\0" as *const u8 as *const libc::c_char);
             } else {
                 (*obj)._o._o_count -= 1;
                 if (*obj)._o._o_group == 0 as libc::c_int {
@@ -295,8 +289,7 @@ pub unsafe extern "C" fn do_motion(
             break;
         }
         if cansee((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) {
-            under = *_level
-                .offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize);
+            under = *_level.offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize);
             cur_mvaddch(
                 (*obj)._o._o_pos.y,
                 (*obj)._o._o_pos.x,
@@ -306,7 +299,7 @@ pub unsafe extern "C" fn do_motion(
         } else {
             under = '@' as i32 as byte;
         }
-    };
+    }
 }
 unsafe extern "C" fn short_name(mut obj: *mut THING) -> *mut libc::c_char {
     match (*obj)._o._o_type {
@@ -318,8 +311,7 @@ unsafe extern "C" fn short_name(mut obj: *mut THING) -> *mut libc::c_char {
                 .offset(1 as libc::c_int as isize);
         }
         _ => {
-            return b"bizzare thing\0" as *const u8 as *const libc::c_char
-                as *mut libc::c_char;
+            return b"bizzare thing\0" as *const u8 as *const libc::c_char as *mut libc::c_char;
         }
     };
 }
@@ -338,10 +330,13 @@ pub unsafe extern "C" fn fall(mut obj: *mut THING, mut pr: bool) {
             );
             if cansee(fpos.y, fpos.x) {
                 if *_flags.offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize)
-                    as libc::c_int & 0x40 as libc::c_int != 0
-                    || *_flags
-                        .offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize)
-                        as libc::c_int & 0x20 as libc::c_int != 0
+                    as libc::c_int
+                    & 0x40 as libc::c_int
+                    != 0
+                    || *_flags.offset(INDEX((*obj)._o._o_pos.y, (*obj)._o._o_pos.x) as isize)
+                        as libc::c_int
+                        & 0x20 as libc::c_int
+                        != 0
                 {
                     set_attr(14 as libc::c_int);
                 }
@@ -422,14 +417,10 @@ pub unsafe extern "C" fn num(
     );
     if type_0 as libc::c_int == 0x18 as libc::c_int {
         sprintf(
-            &mut *numbuf
-                .as_mut_ptr()
-                .offset(
-                    (strlen
-                        as unsafe extern "C" fn(
-                            *const libc::c_char,
-                        ) -> libc::c_ulong)(numbuf.as_mut_ptr()) as isize,
-                ) as *mut libc::c_char,
+            &mut *numbuf.as_mut_ptr().offset((strlen
+                as unsafe extern "C" fn(*const libc::c_char) -> libc::c_ulong)(
+                numbuf.as_mut_ptr()
+            ) as isize) as *mut libc::c_char,
             b",%s%d\0" as *const u8 as *const libc::c_char,
             if n2 < 0 as libc::c_int {
                 b"\0" as *const u8 as *const libc::c_char
@@ -473,10 +464,7 @@ pub unsafe extern "C" fn wield() {
     }
     after = 0 as libc::c_int != 0;
 }
-unsafe extern "C" fn fallpos(
-    mut obj: *mut THING,
-    mut newpos: *mut coord,
-) -> libc::c_int {
+unsafe extern "C" fn fallpos(mut obj: *mut THING, mut newpos: *mut coord) -> libc::c_int {
     let mut y: libc::c_int = 0;
     let mut x: libc::c_int = 0;
     let mut cnt: libc::c_int = 0 as libc::c_int;
@@ -500,7 +488,8 @@ unsafe extern "C" fn fallpos(
                     && {
                         onfloor = find_obj(y, x);
                         !onfloor.is_null()
-                    } && (*onfloor)._o._o_type == (*obj)._o._o_type
+                    }
+                    && (*onfloor)._o._o_type == (*obj)._o._o_type
                     && (*onfloor)._o._o_group != 0
                     && (*onfloor)._o._o_group == (*obj)._o._o_group
                 {

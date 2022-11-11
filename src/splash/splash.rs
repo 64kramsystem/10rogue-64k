@@ -71,8 +71,7 @@ pub struct _IO_FILE {
 }
 pub type _IO_lock_t = ();
 pub type FILE = _IO_FILE;
-static mut PICFILE: *const libc::c_char = b"../rogue.pic\0" as *const u8
-    as *const libc::c_char;
+static mut PICFILE: *const libc::c_char = b"../rogue.pic\0" as *const u8 as *const libc::c_char;
 static mut PROGNAME: *const libc::c_char = 0 as *const libc::c_char;
 #[no_mangle]
 pub unsafe extern "C" fn usage(mut stream: *mut FILE) {
@@ -103,10 +102,7 @@ unsafe extern "C" fn fatal(mut fmt: *const libc::c_char, mut args: ...) {
     usage(stderr);
     exit(1 as libc::c_int);
 }
-unsafe fn main_0(
-    mut argc: libc::c_int,
-    mut argv: *mut *mut libc::c_char,
-) -> libc::c_int {
+unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> libc::c_int {
     let mut arg: *mut libc::c_char = 0 as *mut libc::c_char;
     let mut path: *const libc::c_char = 0 as *const libc::c_char;
     PROGNAME = *argv.offset(0 as libc::c_int as isize);
@@ -125,8 +121,8 @@ unsafe fn main_0(
                     as *const libc::c_char,
             );
             printf(
-                b"With CGA colors, palette 1i (Black / Cyan / Magenta / White)\n\0"
-                    as *const u8 as *const libc::c_char,
+                b"With CGA colors, palette 1i (Black / Cyan / Magenta / White)\n\0" as *const u8
+                    as *const libc::c_char,
             );
             printf(
                 b"Default image path: %s\n\0" as *const u8 as *const libc::c_char,
@@ -140,7 +136,10 @@ unsafe fn main_0(
             break;
         } else {
             if *arg.offset(0 as libc::c_int as isize) as libc::c_int == '-' as i32 {
-                fatal(b"invalid option: %s\0" as *const u8 as *const libc::c_char, arg);
+                fatal(
+                    b"invalid option: %s\0" as *const u8 as *const libc::c_char,
+                    arg,
+                );
             }
             if !path.is_null() {
                 fatal(
@@ -162,18 +161,21 @@ unsafe fn main_0(
     }
     if argc != 0 {
         argv = argv.offset(1);
-        fatal(b"too many arguments: %s\0" as *const u8 as *const libc::c_char, *argv);
+        fatal(
+            b"too many arguments: %s\0" as *const u8 as *const libc::c_char,
+            *argv,
+        );
     }
-    if argc == 0 && !path.is_null() {} else {
+    if argc == 0 && !path.is_null() {
+    } else {
         __assert_fail(
             b"!argc && path\0" as *const u8 as *const libc::c_char,
             b"splash.c\0" as *const u8 as *const libc::c_char,
             74 as libc::c_int as libc::c_uint,
-            (*::core::mem::transmute::<
-                &[u8; 23],
-                &[libc::c_char; 23],
-            >(b"int main(int, char **)\0"))
-                .as_ptr(),
+            (*::core::mem::transmute::<&[u8; 23], &[libc::c_char; 23]>(
+                b"int main(int, char **)\0",
+            ))
+            .as_ptr(),
         );
     };
     if epyx_yeah(path) == 0 {
@@ -182,7 +184,7 @@ unsafe fn main_0(
     return 0;
 }
 pub fn main() {
-    let mut args: Vec::<*mut libc::c_char> = Vec::new();
+    let mut args: Vec<*mut libc::c_char> = Vec::new();
     for arg in ::std::env::args() {
         args.push(
             (::std::ffi::CString::new(arg))
@@ -192,11 +194,9 @@ pub fn main() {
     }
     args.push(::core::ptr::null_mut());
     unsafe {
-        ::std::process::exit(
-            main_0(
-                (args.len() - 1) as libc::c_int,
-                args.as_mut_ptr() as *mut *mut libc::c_char,
-            ) as i32,
-        )
+        ::std::process::exit(main_0(
+            (args.len() - 1) as libc::c_int,
+            args.as_mut_ptr() as *mut *mut libc::c_char,
+        ) as i32)
     }
 }

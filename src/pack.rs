@@ -1,11 +1,7 @@
 use ::libc;
 extern "C" {
     fn strcmp(_: *const libc::c_char, _: *const libc::c_char) -> libc::c_int;
-    fn strncmp(
-        _: *const libc::c_char,
-        _: *const libc::c_char,
-        _: libc::c_ulong,
-    ) -> libc::c_int;
+    fn strncmp(_: *const libc::c_char, _: *const libc::c_char, _: libc::c_ulong) -> libc::c_int;
     fn sprintf(_: *mut libc::c_char, _: *const libc::c_char, _: ...) -> libc::c_int;
     fn readchar() -> byte;
     static mut amulet: bool;
@@ -32,11 +28,7 @@ extern "C" {
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;
     fn end_line(use_0: *mut libc::c_char) -> byte;
     fn inv_name(obj: *mut THING, drop_0: bool) -> *mut libc::c_char;
-    fn add_line(
-        use_0: *mut libc::c_char,
-        fmt: *mut libc::c_char,
-        arg: *mut libc::c_char,
-    ) -> byte;
+    fn add_line(use_0: *mut libc::c_char, fmt: *mut libc::c_char, arg: *mut libc::c_char) -> byte;
     fn cur_mvaddch(r: libc::c_int, c: libc::c_int, chr: byte);
 }
 pub type byte = libc::c_uchar;
@@ -163,10 +155,7 @@ pub unsafe extern "C" fn add_pack(mut obj: *mut THING, mut silent: bool) {
                 if from_floor {
                     list_detach(&mut lvl_obj, obj);
                     cur_mvaddch(player._t._t_pos.y, player._t._t_pos.x, floor);
-                    *_level
-                        .offset(
-                            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                        ) = floor;
+                    *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) = floor;
                 }
                 discard(obj);
                 obj = op;
@@ -182,25 +171,16 @@ pub unsafe extern "C" fn add_pack(mut obj: *mut THING, mut silent: bool) {
     match current_block {
         15976848397966268834 => {
             if inpack >= 23 as libc::c_int - 1 as libc::c_int {
-                msg(
-                    b"you can't carry anything else\0" as *const u8
-                        as *const libc::c_char,
-                );
+                msg(b"you can't carry anything else\0" as *const u8 as *const libc::c_char);
                 return;
             }
-            if (*obj)._o._o_type == 0xd as libc::c_int
-                && (*obj)._o._o_which == 6 as libc::c_int
-            {
+            if (*obj)._o._o_type == 0xd as libc::c_int && (*obj)._o._o_which == 6 as libc::c_int {
                 if (*obj)._o._o_flags as libc::c_int & 0x8 as libc::c_int != 0 {
                     list_detach(&mut lvl_obj, obj);
                     cur_mvaddch(player._t._t_pos.y, player._t._t_pos.x, floor);
-                    *_level
-                        .offset(
-                            INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                        ) = floor;
+                    *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) = floor;
                     msg(
-                        b"the scroll turns to dust%s.\0" as *const u8
-                            as *const libc::c_char,
+                        b"the scroll turns to dust%s.\0" as *const u8 as *const libc::c_char,
                         noterse(
                             b" as you pick it up\0" as *const u8 as *const libc::c_char
                                 as *mut libc::c_char,
@@ -208,20 +188,15 @@ pub unsafe extern "C" fn add_pack(mut obj: *mut THING, mut silent: bool) {
                     );
                     return;
                 } else {
-                    (*obj)
-                        ._o
-                        ._o_flags = ((*obj)._o._o_flags as libc::c_int
-                        | 0x8 as libc::c_int) as libc::c_short;
+                    (*obj)._o._o_flags =
+                        ((*obj)._o._o_flags as libc::c_int | 0x8 as libc::c_int) as libc::c_short;
                 }
             }
             inpack += 1;
             if from_floor {
                 list_detach(&mut lvl_obj, obj);
                 cur_mvaddch(player._t._t_pos.y, player._t._t_pos.x, floor);
-                *_level
-                    .offset(
-                        INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize,
-                    ) = floor;
+                *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) = floor;
             }
             exact = 0 as libc::c_int != 0;
             op = player._t._t_pack;
@@ -286,7 +261,8 @@ pub unsafe extern "C" fn add_pack(mut obj: *mut THING, mut silent: bool) {
     }
     op = mlist;
     while !op.is_null() {
-        if !((*op)._t._t_dest).is_null() && (*(*op)._t._t_dest).x == (*obj)._o._o_pos.x
+        if !((*op)._t._t_dest).is_null()
+            && (*(*op)._t._t_dest).x == (*obj)._o._o_pos.x
             && (*(*op)._t._t_dest).y == (*obj)._o._o_pos.y
         {
             (*op)._t._t_dest = &mut player._t._t_pos;
@@ -300,10 +276,7 @@ pub unsafe extern "C" fn add_pack(mut obj: *mut THING, mut silent: bool) {
     if !silent {
         msg(
             b"%s%s (%c)\0" as *const u8 as *const libc::c_char,
-            noterse(
-                b"you now have \0" as *const u8 as *const libc::c_char
-                    as *mut libc::c_char,
-            ),
+            noterse(b"you now have \0" as *const u8 as *const libc::c_char as *mut libc::c_char),
             inv_name(obj, 1 as libc::c_int != 0),
             pack_char(obj) as libc::c_int,
         );
@@ -321,15 +294,16 @@ pub unsafe extern "C" fn inventory(
     n_objs = 0 as libc::c_int;
     ch = 'a' as i32 as byte;
     while !list.is_null() {
-        if !(type_0 != 0 && type_0 != (*list)._o._o_type
+        if !(type_0 != 0
+            && type_0 != (*list)._o._o_type
             && !(type_0 == -(1 as libc::c_int)
                 && ((*list)._o._o_type == 0xd as libc::c_int
                     || (*list)._o._o_type == 0xad as libc::c_int
                     || (*list)._o._o_type == 0x9 as libc::c_int
                     || (*list)._o._o_type == 0xe7 as libc::c_int))
-            && !(type_0 == 0x18 as libc::c_int
-                && (*list)._o._o_type == 0xad as libc::c_int)
-            && !(type_0 == 0xe7 as libc::c_int && (*list)._o._o_enemy as libc::c_int != 0
+            && !(type_0 == 0x18 as libc::c_int && (*list)._o._o_type == 0xad as libc::c_int)
+            && !(type_0 == 0xe7 as libc::c_int
+                && (*list)._o._o_enemy as libc::c_int != 0
                 && (*list)._o._o_ac as libc::c_int != 0))
         {
             n_objs += 1;
@@ -338,20 +312,21 @@ pub unsafe extern "C" fn inventory(
                 b"%c) %%s\0" as *const u8 as *const libc::c_char,
                 ch as libc::c_int,
             );
-            add_line(lstr, inv_temp.as_mut_ptr(), inv_name(list, 0 as libc::c_int != 0));
+            add_line(
+                lstr,
+                inv_temp.as_mut_ptr(),
+                inv_name(list, 0 as libc::c_int != 0),
+            );
         }
         ch = ch.wrapping_add(1);
         list = (*list)._t._l_next;
     }
     if n_objs == 0 as libc::c_int {
-        msg(
-            if type_0 == 0 as libc::c_int {
-                b"you are empty handed\0" as *const u8 as *const libc::c_char
-            } else {
-                b"you don't have anything appropriate\0" as *const u8
-                    as *const libc::c_char
-            },
-        );
+        msg(if type_0 == 0 as libc::c_int {
+            b"you are empty handed\0" as *const u8 as *const libc::c_char
+        } else {
+            b"you don't have anything appropriate\0" as *const u8 as *const libc::c_char
+        });
         return 0 as libc::c_int as byte;
     }
     return end_line(lstr);
@@ -391,9 +366,13 @@ pub unsafe extern "C" fn get_item(
         s_menu.as_mut_ptr(),
         b"sel\0" as *const u8 as *const libc::c_char,
         3 as libc::c_int as libc::c_ulong,
-    ) == 0 && strcmp(purpose, b"eat\0" as *const u8 as *const libc::c_char) != 0
+    ) == 0
+        && strcmp(purpose, b"eat\0" as *const u8 as *const libc::c_char) != 0
         && strcmp(purpose, b"drop\0" as *const u8 as *const libc::c_char) != 0
-        || strcmp(s_menu.as_mut_ptr(), b"on\0" as *const u8 as *const libc::c_char) == 0
+        || strcmp(
+            s_menu.as_mut_ptr(),
+            b"on\0" as *const u8 as *const libc::c_char,
+        ) == 0
     {
         once_only = 1 as libc::c_int;
     }
@@ -410,8 +389,7 @@ pub unsafe extern "C" fn get_item(
                 } else {
                     if !terse && !expert {
                         addmsg(
-                            b"which object do you want to \0" as *const u8
-                                as *const libc::c_char,
+                            b"which object do you want to \0" as *const u8 as *const libc::c_char,
                         );
                     }
                     msg(
@@ -449,9 +427,7 @@ pub unsafe extern "C" fn get_item(
                     och as libc::c_int - 1 as libc::c_int,
                 );
             } else {
-                if strcmp(purpose, b"identify\0" as *const u8 as *const libc::c_char)
-                    != 0
-                {
+                if strcmp(purpose, b"identify\0" as *const u8 as *const libc::c_char) != 0 {
                     lch = ch;
                     wasthing = obj;
                 }
@@ -468,7 +444,7 @@ pub unsafe extern "C" fn pack_char(mut obj: *mut THING) -> byte {
     item = player._t._t_pack;
     while !item.is_null() {
         if item == obj {
-            return c
+            return c;
         } else {
             c = c.wrapping_add(1);
         }
@@ -488,6 +464,9 @@ pub unsafe extern "C" fn money(mut value: libc::c_int) {
     cur_mvaddch(player._t._t_pos.y, player._t._t_pos.x, floor);
     *_level.offset(INDEX(player._t._t_pos.y, player._t._t_pos.x) as isize) = floor;
     if value > 0 as libc::c_int {
-        msg(b"you found %d gold pieces\0" as *const u8 as *const libc::c_char, value);
+        msg(
+            b"you found %d gold pieces\0" as *const u8 as *const libc::c_char,
+            value,
+        );
     }
 }

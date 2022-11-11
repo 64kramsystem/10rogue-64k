@@ -1,10 +1,6 @@
 use ::libc;
 extern "C" {
-    fn memset(
-        _: *mut libc::c_void,
-        _: libc::c_int,
-        _: libc::c_ulong,
-    ) -> *mut libc::c_void;
+    fn memset(_: *mut libc::c_void, _: libc::c_int, _: libc::c_ulong) -> *mut libc::c_void;
     static mut maxitems: libc::c_int;
     static mut total: libc::c_int;
     static mut _things: *mut THING;
