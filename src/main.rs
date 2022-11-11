@@ -7,6 +7,7 @@
     unused_assignments,
     unused_mut
 )]
+#![allow(clippy::missing_safety_doc)]
 
 // Rust port: Watch out! Clippy removes this, which causes the build to fail.
 #[allow(unused_imports)]
