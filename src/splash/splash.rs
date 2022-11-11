@@ -82,8 +82,9 @@ pub unsafe extern "C" fn usage(mut stream: *mut FILE) {
         PROGNAME,
     );
 }
-#[no_mangle]
-pub unsafe extern "C" fn fatal(mut fmt: *const libc::c_char, mut args: ...) {
+// Rust port: This is not public, but C2Rust marks it so, causing clashing with other fns with the
+// same name
+unsafe extern "C" fn fatal(mut fmt: *const libc::c_char, mut args: ...) {
     let mut msg: [libc::c_char; 1000] = [0; 1000];
     let mut argp: ::core::ffi::VaListImpl;
     argp = args.clone();

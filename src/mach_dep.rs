@@ -600,8 +600,9 @@ pub unsafe extern "C" fn sysint(
     (*outregs).es = (*inregs).es;
     return 0xf22a as libc::c_int;
 }
+// Rust port: Fixed parameter, which was a weakly typed bool.
 #[no_mangle]
-pub unsafe extern "C" fn set_ctrlb(mut state: bool) -> bool {
+pub unsafe extern "C" fn set_ctrlb(mut state: libc::c_int) -> bool {
     let mut rg: sw_regs = sw_regs {
         ax: 0,
         bx: 0,

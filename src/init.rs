@@ -14,7 +14,8 @@ extern "C" {
     fn strlen(_: *const libc::c_char) -> libc::c_ulong;
     fn free(_: *mut libc::c_void);
     static mut s_names: [array; 0];
-    fn newmem() -> *mut libc::c_char;
+    // Rust port: Fixed missing parameter
+    fn newmem(p0: u64) -> *mut libc::c_char;
     static mut iguess: libc::c_int;
     static mut s_guess: [*mut libc::c_char; 0];
     static mut p_guess: [*mut libc::c_char; 0];
@@ -809,9 +810,9 @@ pub static mut _flags: *mut byte = 0 as *const byte as *mut byte;
 #[no_mangle]
 pub unsafe extern "C" fn init_ds() {
     let mut ep: *mut libc::c_long = 0 as *mut libc::c_long;
-    _flags = newmem((25 as libc::c_int - 3 as libc::c_int) * 80 as libc::c_int)
+    _flags = newmem((25 - 3) * 80)
         as *mut byte;
-    _level = newmem((25 as libc::c_int - 3 as libc::c_int) * 80 as libc::c_int)
+    _level = newmem((25 - 3) * 80)
         as *mut byte;
     _things = newmem(
         (::core::mem::size_of::<THING>() as libc::c_ulong)
@@ -821,10 +822,10 @@ pub unsafe extern "C" fn init_ds() {
         (83 as libc::c_int as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<libc::c_int>() as libc::c_ulong),
     ) as *mut libc::c_int;
-    tbuf = newmem(80 as libc::c_int);
-    msgbuf = newmem(128 as libc::c_int);
-    prbuf = newmem(80 as libc::c_int);
-    ring_buf = newmem(6 as libc::c_int);
+    tbuf = newmem(80);
+    msgbuf = newmem(128);
+    prbuf = newmem(80);
+    ring_buf = newmem(6);
     e_levels = newmem(
         (20 as libc::c_int as libc::c_ulong)
             .wrapping_mul(::core::mem::size_of::<libc::c_long>() as libc::c_ulong),
