@@ -155,7 +155,7 @@ pub type THING = thing;
 #[no_mangle]
 pub static mut bwflag: libc::c_int = 0 as libc::c_int;
 fn main() {
-    let mut args: Vec<*mut libc::c_char> = Vec::new();
+    let mut args = Vec::new();
     for arg in ::std::env::args() {
         args.push(
             (::std::ffi::CString::new(arg))
@@ -169,9 +169,9 @@ fn main() {
     let mut argv = args.as_mut_ptr() as *mut *mut libc::c_char;
 
     unsafe {
-        let mut curarg: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
-        let mut savfile: *mut libc::c_char = std::ptr::null_mut::<libc::c_char>();
-        setlocale(6 as libc::c_int, b"\0" as *const u8 as *const libc::c_char);
+        let mut curarg = std::ptr::null_mut::<libc::c_char>();
+        let mut savfile = std::ptr::null_mut::<libc::c_char>();
+        setlocale(6, b"\0" as *const u8 as *const libc::c_char);
         epyx_yeah(b"rogue.pic\0" as *const u8 as *const libc::c_char);
         init_ds();
         setenv_from_file(b"rogue.opt\0" as *const u8 as *const libc::c_char as *mut libc::c_char);
@@ -179,12 +179,12 @@ fn main() {
         if strncmp(
             s_screen.as_mut_ptr(),
             b"bw\0" as *const u8 as *const libc::c_char,
-            2 as libc::c_int as libc::c_ulong,
-        ) == 0 as libc::c_int
+            2,
+        ) == 0
         {
-            bwflag = 1 as libc::c_int;
+            bwflag = 1;
         }
-        dnum = 0 as libc::c_int;
+        dnum = 0;
         loop {
             argc -= 1;
             if !(argc != 0 && goodchk == 0xd0d as libc::c_int) {
@@ -193,19 +193,15 @@ fn main() {
             argv = argv.offset(1);
             curarg = *argv;
             if *curarg as libc::c_int == '-' as i32 || *curarg as libc::c_int == '/' as i32 {
-                match *curarg.offset(1 as libc::c_int as isize) as libc::c_int {
+                match *curarg.offset(1) as libc::c_int {
                     82 | 114 => {
                         savfile = s_save.as_mut_ptr();
                     }
                     115 | 83 => {
                         winit();
-                        noscore = 1 as libc::c_int != 0;
-                        is_saved = 1 as libc::c_int;
-                        score(
-                            0 as libc::c_int,
-                            0 as libc::c_int,
-                            0 as libc::c_int as libc::c_char,
-                        );
+                        noscore = 1 != 0;
+                        is_saved = 1;
+                        score(0, 0, 0);
                         fatal(b"\0" as *const u8 as *const libc::c_char);
                     }
                     _ => {}
@@ -218,7 +214,7 @@ fn main() {
             savfile = std::ptr::null_mut::<libc::c_char>();
             winit();
             credits();
-            if dnum == 0 as libc::c_int {
+            if dnum == 0 {
                 dnum = md_srand();
             }
             seed = dnum as libc::c_long;
@@ -232,10 +228,7 @@ fn main() {
             drop_curtain();
             new_level();
             start_daemon(Some(doctor as unsafe extern "C" fn() -> ()));
-            fuse(
-                Some(swander as unsafe extern "C" fn() -> ()),
-                spread(70 as libc::c_int),
-            );
+            fuse(Some(swander as unsafe extern "C" fn() -> ()), spread(70));
             start_daemon(Some(stomach as unsafe extern "C" fn() -> ()));
             start_daemon(Some(runners as unsafe extern "C" fn() -> ()));
             msg(
