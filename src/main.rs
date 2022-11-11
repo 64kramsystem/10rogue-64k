@@ -215,25 +215,13 @@ unsafe fn main_0(mut argc: libc::c_int, mut argv: *mut *mut libc::c_char) -> lib
         setup();
         drop_curtain();
         new_level();
-        start_daemon(::core::mem::transmute::<
-            Option<unsafe extern "C" fn() -> ()>,
-            Option<unsafe extern "C" fn() -> ()>,
-        >(Some(doctor as unsafe extern "C" fn() -> ())));
+        start_daemon(Some(doctor as unsafe extern "C" fn() -> ()));
         fuse(
-            ::core::mem::transmute::<
-                Option<unsafe extern "C" fn() -> ()>,
-                Option<unsafe extern "C" fn() -> ()>,
-            >(Some(swander as unsafe extern "C" fn() -> ())),
+            Some(swander as unsafe extern "C" fn() -> ()),
             spread(70 as libc::c_int),
         );
-        start_daemon(::core::mem::transmute::<
-            Option<unsafe extern "C" fn() -> ()>,
-            Option<unsafe extern "C" fn() -> ()>,
-        >(Some(stomach as unsafe extern "C" fn() -> ())));
-        start_daemon(::core::mem::transmute::<
-            Option<unsafe extern "C" fn() -> ()>,
-            Option<unsafe extern "C" fn() -> ()>,
-        >(Some(runners as unsafe extern "C" fn() -> ())));
+        start_daemon(Some(stomach as unsafe extern "C" fn() -> ()));
+        start_daemon(Some(runners as unsafe extern "C" fn() -> ()));
         msg(
             b"Hello %s%s.\0" as *const u8 as *const libc::c_char,
             whoami.as_mut_ptr(),
