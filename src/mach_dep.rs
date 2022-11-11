@@ -252,7 +252,11 @@ pub unsafe extern "C" fn csum() -> libc::c_int {
     return -(1632 as libc::c_int);
 }
 #[no_mangle]
-pub unsafe extern "C" fn pokeb(mut _offset: libc::c_int, mut _segment: libc::c_int, mut _value: byte) {
+pub unsafe extern "C" fn pokeb(
+    mut _offset: libc::c_int,
+    mut _segment: libc::c_int,
+    mut _value: byte,
+) {
 }
 #[no_mangle]
 pub unsafe extern "C" fn peekb(mut _offset: libc::c_int, mut _segment: libc::c_int) -> byte {
