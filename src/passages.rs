@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn abs(_: libc::c_int) -> libc::c_int;
@@ -6,7 +7,6 @@ extern "C" {
     static mut rooms: [room; 0];
     static mut _level: *mut byte;
     static mut _flags: *mut byte;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn _ce(a: *mut coord, b: *mut coord) -> bool;
     fn offmap(y: libc::c_int, x: libc::c_int) -> bool;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;
@@ -459,13 +459,7 @@ pub unsafe extern "C" fn do_passages() {
         r1 = r1.offset(1);
     }
     roomcount = 1 as libc::c_int;
-    r1 =
-        &mut *rdes_0
-            .as_mut_ptr()
-            .offset(
-                (rnd as unsafe extern "C" fn(libc::c_int) -> libc::c_int)(9 as libc::c_int)
-                    as isize,
-            ) as *mut rdes;
+    r1 = &mut *rdes_0.as_mut_ptr().offset(rnd(9) as isize) as *mut rdes;
     (*r1).ingraph = 1 as libc::c_int as libc::c_char;
     loop {
         j = 0 as libc::c_int;
@@ -481,12 +475,7 @@ pub unsafe extern "C" fn do_passages() {
         }
         if j == 0 as libc::c_int {
             loop {
-                r1 = &mut *rdes_0.as_mut_ptr().offset((rnd as unsafe extern "C" fn(
-                    libc::c_int,
-                )
-                    -> libc::c_int)(
-                    9 as libc::c_int
-                ) as isize) as *mut rdes;
+                r1 = &mut *rdes_0.as_mut_ptr().offset(rnd(9) as isize) as *mut rdes;
                 if !((*r1).ingraph == 0) {
                     break;
                 }
@@ -506,9 +495,7 @@ pub unsafe extern "C" fn do_passages() {
     }
     roomcount = rnd(5 as libc::c_int);
     while roomcount > 0 as libc::c_int {
-        r1 = &mut *rdes_0.as_mut_ptr().offset((rnd as unsafe extern "C" fn(
-            libc::c_int,
-        ) -> libc::c_int)(9 as libc::c_int) as isize) as *mut rdes;
+        r1 = &mut *rdes_0.as_mut_ptr().offset(rnd(9) as isize) as *mut rdes;
         j = 0 as libc::c_int;
         i = 0 as libc::c_int;
         while i < 9 as libc::c_int {

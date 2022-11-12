@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     static mut running: bool;
@@ -14,7 +15,6 @@ extern "C" {
     fn start_daemon(func: Option<unsafe extern "C" fn() -> ()>);
     fn fuse(func: Option<unsafe extern "C" fn() -> ()>, time: libc::c_int);
     fn extinguish(func: Option<unsafe extern "C" fn() -> ()>);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn spread(nm: libc::c_int) -> libc::c_int;
     fn wanderer();
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;

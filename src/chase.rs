@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn abs(_: libc::c_int) -> libc::c_int;
@@ -21,7 +22,6 @@ extern "C" {
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;
     fn msg(fmt: *const libc::c_char, _: ...);
     fn DISTANCE(y1: libc::c_int, x1: libc::c_int, y2: libc::c_int, x2: libc::c_int) -> libc::c_int;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn _ce(a: *mut coord, b: *mut coord) -> bool;
     fn list_attach(list: *mut *mut THING, item: *mut THING);
     fn list_detach(list: *mut *mut THING, item: *mut THING);

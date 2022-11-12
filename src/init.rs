@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
@@ -37,7 +38,6 @@ extern "C" {
     static mut _guesses: [array; 0];
     fn add_pack(obj: *mut THING, silent: bool);
     fn new_item() -> *mut THING;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn init_weapon(weap: *mut THING, type_0: byte);
     fn spread(nm: libc::c_int) -> libc::c_int;
 }

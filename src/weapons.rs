@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
@@ -25,7 +26,6 @@ extern "C" {
     fn list_detach(list: *mut *mut THING, item: *mut THING);
     fn list_attach(list: *mut *mut THING, item: *mut THING);
     fn discard(item: *mut THING) -> libc::c_int;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn find_obj(y: libc::c_int, x: libc::c_int) -> *mut THING;
     fn is_current(obj: *mut THING) -> bool;
     fn step_ok(ch: byte) -> bool;

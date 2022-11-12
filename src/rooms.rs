@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
@@ -17,7 +18,6 @@ extern "C" {
     fn roomin(cp: *mut coord) -> *mut room;
     fn new_item() -> *mut THING;
     fn list_attach(list: *mut *mut THING, item: *mut THING);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn draw_maze(rp: *mut room);
     fn winat(y: libc::c_int, x: libc::c_int) -> byte;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;

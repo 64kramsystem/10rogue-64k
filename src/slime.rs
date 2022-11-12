@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     static mut player: THING;
@@ -6,7 +7,6 @@ extern "C" {
     fn cansee(y: libc::c_int, x: libc::c_int) -> bool;
     fn msg(fmt: *const libc::c_char, _: ...);
     fn new_item() -> *mut THING;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn find_obj(y: libc::c_int, x: libc::c_int) -> *mut THING;
     fn step_ok(ch: byte) -> bool;
     fn offmap(y: libc::c_int, x: libc::c_int) -> bool;

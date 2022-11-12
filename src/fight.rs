@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn __ctype_toupper_loc() -> *mut *const __int32_t;
@@ -38,7 +39,6 @@ extern "C" {
     fn start_run(runner: *mut coord);
     fn cansee(y: libc::c_int, x: libc::c_int) -> bool;
     fn slime_split(tp: *mut THING);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn msg(fmt: *const libc::c_char, _: ...);
     fn addmsg(fmt: *const libc::c_char, _: ...);
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;

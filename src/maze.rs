@@ -1,9 +1,9 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     static mut maxrow: libc::c_int;
     static mut _level: *mut byte;
     static mut _flags: *mut byte;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;
     fn offmap(y: libc::c_int, x: libc::c_int) -> bool;
     fn rnd_pos(rp: *mut room, cp: *mut coord);

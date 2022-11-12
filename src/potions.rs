@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     static mut p_guess: [*mut libc::c_char; 0];
@@ -32,7 +33,6 @@ extern "C" {
     fn chg_str(amt: libc::c_int);
     fn look(wakeup: bool);
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn list_detach(list: *mut *mut THING, item: *mut THING);
     fn discard(item: *mut THING) -> libc::c_int;
     fn cur_addch(chr: byte);

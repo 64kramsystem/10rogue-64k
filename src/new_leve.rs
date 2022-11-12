@@ -1,4 +1,7 @@
+use crate::rnd;
 use ::libc;
+
+use crate::r#extern::seed;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
         -> *mut libc::c_void;
@@ -14,7 +17,6 @@ extern "C" {
     static mut no_food: libc::c_int;
     static mut ntraps: libc::c_int;
     static mut total: libc::c_int;
-    static mut seed: libc::c_long;
     static mut cksum: libc::c_int;
     static mut lvl_obj: *mut THING;
     static mut mlist: *mut THING;
@@ -28,7 +30,6 @@ extern "C" {
     fn new_item() -> *mut THING;
     fn list_attach(list: *mut *mut THING, item: *mut THING);
     fn list_free(ptr: *mut *mut THING);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn winat(y: libc::c_int, x: libc::c_int) -> byte;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;
     fn randmonster(wander: bool) -> libc::c_char;
