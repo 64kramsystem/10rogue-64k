@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
@@ -29,7 +30,6 @@ extern "C" {
     fn msg(fmt: *const libc::c_char, _: ...);
     fn noterse(str: *mut libc::c_char) -> *mut libc::c_char;
     fn new_item() -> *mut THING;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;
     fn chg_str(amt: libc::c_int);
     fn step_ok(ch: byte) -> bool;

@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn __ctype_tolower_loc() -> *mut *const __int32_t;
@@ -36,7 +37,6 @@ extern "C" {
     fn wear();
     fn take_off();
     fn teleport() -> libc::c_int;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn search();
     fn do_daemons();
     fn do_fuses();

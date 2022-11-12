@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn strcmp(_: *const libc::c_char, _: *const libc::c_char) -> libc::c_int;
@@ -26,7 +27,6 @@ extern "C" {
     fn new_item() -> *mut THING;
     fn list_detach(list: *mut *mut THING, item: *mut THING);
     fn discard(item: *mut THING) -> libc::c_int;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn look(wakeup: bool);
     fn aggravate();
     fn call_it(know: bool, guess: *mut *mut libc::c_char);

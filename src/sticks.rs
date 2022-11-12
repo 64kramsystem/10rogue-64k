@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn strcmp(_: *const libc::c_char, _: *const libc::c_char) -> libc::c_int;
@@ -25,7 +26,6 @@ extern "C" {
     fn msg(fmt: *const libc::c_char, _: ...);
     fn noterse(str: *mut libc::c_char) -> *mut libc::c_char;
     fn list_detach(list: *mut *mut THING, item: *mut THING);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn roll(number: libc::c_int, sides: libc::c_int) -> libc::c_int;
     fn step_ok(ch: byte) -> bool;
     fn _ce(a: *mut coord, b: *mut coord) -> bool;

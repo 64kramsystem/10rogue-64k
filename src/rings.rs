@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn strcpy(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
@@ -8,7 +9,6 @@ extern "C" {
     static mut ring_buf: *mut libc::c_char;
     fn msg(fmt: *const libc::c_char, _: ...);
     fn noterse(str: *mut libc::c_char) -> *mut libc::c_char;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn chg_str(amt: libc::c_int);
     fn aggravate();
     fn is_current(obj: *mut THING) -> bool;

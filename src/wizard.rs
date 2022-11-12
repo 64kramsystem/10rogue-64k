@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
@@ -20,7 +21,6 @@ extern "C" {
     fn lengthen(func: Option<unsafe extern "C" fn() -> ()>, xtime: libc::c_int);
     fn unconfuse();
     fn msg(fmt: *const libc::c_char, _: ...);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn look(wakeup: bool);
     static mut _level: *mut byte;
     fn step_ok(ch: byte) -> bool;

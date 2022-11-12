@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn abs(_: libc::c_int) -> libc::c_int;
@@ -6,7 +7,6 @@ extern "C" {
     static mut rooms: [room; 0];
     static mut _level: *mut byte;
     static mut _flags: *mut byte;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn _ce(a: *mut coord, b: *mut coord) -> bool;
     fn offmap(y: libc::c_int, x: libc::c_int) -> bool;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;

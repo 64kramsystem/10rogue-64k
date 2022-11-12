@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn __ctype_tolower_loc() -> *mut *const __int32_t;
@@ -62,7 +63,6 @@ extern "C" {
     fn new_item() -> *mut THING;
     fn list_detach(list: *mut *mut THING, item: *mut THING);
     fn list_attach(list: *mut *mut THING, item: *mut THING);
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn chg_str(amt: libc::c_int);
     fn vowelstr(str: *mut libc::c_char) -> *mut libc::c_char;
     fn INDEX(y: libc::c_int, x: libc::c_int) -> libc::c_int;

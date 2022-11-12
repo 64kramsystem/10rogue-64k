@@ -1,3 +1,4 @@
+use crate::rnd;
 use ::libc;
 extern "C" {
     fn strcpy(_: *mut libc::c_char, _: *const libc::c_char) -> *mut libc::c_char;
@@ -55,7 +56,6 @@ extern "C" {
     fn noterse(str: *mut libc::c_char) -> *mut libc::c_char;
     fn list_detach(list: *mut *mut THING, item: *mut THING);
     fn discard(item: *mut THING) -> libc::c_int;
-    fn rnd(range: libc::c_int) -> libc::c_int;
     fn wake_monster(y: libc::c_int, x: libc::c_int) -> *mut THING;
     fn moat(my: libc::c_int, mx: libc::c_int) -> *mut THING;
     fn get_item(purpose: *mut libc::c_char, type_0: libc::c_int) -> *mut THING;
