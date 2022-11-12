@@ -1,4 +1,6 @@
 use ::libc;
+
+use crate::r#extern::seed;
 extern "C" {
     fn memmove(_: *mut libc::c_void, _: *const libc::c_void, _: libc::c_ulong)
         -> *mut libc::c_void;
@@ -14,7 +16,6 @@ extern "C" {
     static mut no_food: libc::c_int;
     static mut ntraps: libc::c_int;
     static mut total: libc::c_int;
-    static mut seed: libc::c_long;
     static mut cksum: libc::c_int;
     static mut lvl_obj: *mut THING;
     static mut mlist: *mut THING;

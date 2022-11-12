@@ -76,6 +76,8 @@ pub mod wizard;
 
 use std::process;
 
+use r#extern::seed;
+
 extern "C" {
     fn strncmp(_: *const libc::c_char, _: *const libc::c_char, _: libc::c_ulong) -> libc::c_int;
     fn setlocale(__category: libc::c_int, __locale: *const libc::c_char) -> *mut libc::c_char;
@@ -91,7 +93,6 @@ extern "C" {
     static mut dnum: libc::c_int;
     static mut mpos: libc::c_int;
     static mut purse: libc::c_int;
-    static mut seed: libc::c_long;
     static mut goodchk: libc::c_int;
     static mut player: THING;
     static mut oldpos: coord;
