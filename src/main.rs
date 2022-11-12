@@ -314,20 +314,40 @@ pub unsafe extern "C" fn endit() {
             as *const libc::c_char,
     );
 }
-#[no_mangle]
-pub unsafe extern "C" fn ran() -> libc::c_long {
-    seed *= 125 as libc::c_int as libc::c_long;
-    seed -= seed / 2796203 as libc::c_int as libc::c_long * 2796203 as libc::c_int as libc::c_long;
-    seed
+
+//@ no need to declare in rogue.h
+/*
+ * Random number generator -
+ * adapted from the FORTRAN version
+ * in "Software Manual for the Elementary Functions"
+ * by W.J. Cody, Jr and William Waite.
+ */
+// Rust port: the original port changes the semantics, since it retains the long data type (64 bits),
+// which was 32 bits in the original (16-bit DOS) program.
+fn ran() -> i64 {
+    unsafe {
+        seed *= 125;
+        seed -= seed / 2796203 * 2796203;
+        seed
+    }
 }
-#[no_mangle]
-pub unsafe extern "C" fn rnd(mut range: libc::c_int) -> libc::c_int {
-    (if range < 1 as libc::c_int {
-        0 as libc::c_int as libc::c_long
+
+/*
+ * rnd:
+ *	Pick a very random number.
+ */
+pub fn rnd(mut range: i32) -> i32 {
+    /*@
+     * range size was expected to be 16 bit
+     * function will return the seed itself if range value is >= 2^31 - 1
+     */
+    if range < 1 {
+        0
     } else {
-        ((ran() + ran()) & 0x7fffffff as libc::c_long) % range as libc::c_long
-    }) as libc::c_int
+        ((ran() + ran()) & 0x7fffffff) as i32 % range
+    }
 }
+
 #[no_mangle]
 pub unsafe extern "C" fn roll(mut number: libc::c_int, mut sides: libc::c_int) -> libc::c_int {
     let mut dtotal: libc::c_int = 0 as libc::c_int;
