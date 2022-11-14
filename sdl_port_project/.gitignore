@@ -9,3 +9,4 @@ refdoc/susv4-2018.tar.bz2
 *.sav
 *.opt
 *.scr
+src/compile_commands.json
